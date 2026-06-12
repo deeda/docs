@@ -12,6 +12,25 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 — model/turn/budget fields on `agent`, provider knobs under
 `harness_config.sdk_settings.local`, and tool/sandbox policy at top level.
 
+## How to read this page
+
+Decision rules per capability state — what YOU (the reader/agent) should do:
+
+| State badge | Meaning | Your action |
+|---|---|---|
+| *(none)* = implemented | Wired end-to-end through deeda primitives and live-probed. | Use freely. |
+| *model-dependent* | Works only on a documented subset of the provider's models. | Pin a supporting `model` in your workflow; verify against the vendor docs link. |
+| *partial-compatible* | One half of the contract is proven, the other is not (yet). Patterns: request shape accepted but execution unproven at scale; wired in deeda but live probe pending; vendor does it but no deeda knob exists; works on one dispatch path (e.g. CLI) but not another (e.g. raw API). | Usable — but treat the **Parameters table as the entire contract**. Do not assume vendor-parity beyond what is listed. If your task depends on the unproven half, test small first. |
+
+Parameter table columns: **Parameter** is the provider-side path the harness
+maps for you (you set it via workflow fields or `harness_config.sdk_settings.<provider>`
+knobs — see [Runtimes](/harness/runtimes) for which knobs exist). **Default**
+applies when you say nothing. **Allowed** is exhaustive — values outside it
+fail validation. **Risk** is deeda's policy weight: `high` parameters
+generally require elevated `tool_policy`/`sandbox_profile` and may trigger
+human approval on hot-reload.
+
+
 ## Core generation
 
 **Capabilities** (4/4 rows usable):
@@ -131,7 +150,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (1/1 rows usable):
 
-- `local.llamacpp.eval.choice_logit_tasks` (eval.benchmark) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.eval.choice_logit_tasks` (eval.benchmark) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
 
 ## llama.cpp Quant Types
 
@@ -201,13 +220,13 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `local.llamacpp.server.gpu_backend` (provider.gpu_offload) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.grammar` (llm.structured_output) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.health` (provider.health) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
-- `local.llamacpp.server.infill` (llm.fim) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
-- `local.llamacpp.server.lora_adapters` (tuning.lora_runtime) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.infill` (llm.fim) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.lora_adapters` (tuning.lora_runtime) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.metrics` (provider.metrics) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.parallel_batching` (provider.parallel_decoding) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.props` (provider.runtime_config) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.props_post` (provider.runtime_config) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
-- `local.llamacpp.server.reasoning` (llm.reasoning) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.reasoning` (llm.reasoning) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.reranking` (llm.rerank) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.slots` (provider.slots) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - `local.llamacpp.server.slots_save_restore` (provider.slots) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
@@ -245,7 +264,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 **Capabilities** (2/2 rows usable):
 
 - `local.llamacpp.server.responses` (llm.responses) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
-- `local.llamacpp.server.tools` (tool.function_calling) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.tools` (tool.function_calling) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 
 **Parameters** (1):
 
@@ -304,8 +323,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (2/12 rows usable):
 
-- `local.mlx.ex.bert` (llm.embed) · *model-dependent* — [vendor docs](https://github.com/ml-explore/mlx-examples/tree/main/bert)
-- `local.mlx.ex.t5` (llm.complete) · *model-dependent* — [vendor docs](https://github.com/ml-explore/mlx-examples/tree/main/t5)
+- `local.mlx.ex.bert` (llm.embed) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ml-explore/mlx-examples/tree/main/bert)
+- `local.mlx.ex.t5` (llm.complete) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ml-explore/mlx-examples/tree/main/t5)
 
 ## MLX Fast Kernels
 
@@ -343,7 +362,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `local.mlx.lm.cli_generate` (llm.complete) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
 - `local.mlx.lm.cli_lora` (tuning.lora_runtime) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/LORA.md)
 - `local.mlx.lm.cli_manage` (provider.models) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/MANAGE.md)
-- `local.mlx.lm.cli_perplexity` (eval.perplexity) · *model-dependent* — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/perplexity.py)
+- `local.mlx.lm.cli_perplexity` (eval.perplexity) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/perplexity.py)
 - `local.mlx.lm.cli_server` (llm.chat) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/SERVER.md)
 
 ## MLX-LM Python SDK
@@ -457,7 +476,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `local.ollama.generate_keep_alive` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/api/generate)
 - `local.ollama.generate_options_full` (llm.sampling) — [vendor docs](https://docs.ollama.com/modelfile)
 - `local.ollama.generate_raw` (llm.complete) — [vendor docs](https://docs.ollama.com/api/generate)
-- `local.ollama.generate_suffix` (llm.fim) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.generate_suffix` (llm.fim) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/api/generate)
 
 **Parameters** (5):
 
@@ -473,16 +492,16 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (11/11 rows usable):
 
-- `local.ollama.api_create_adapters` (tuning.lora_runtime) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/create)
+- `local.ollama.api_create_adapters` (tuning.lora_runtime) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/api/create)
 - `local.ollama.api_create_quantize` (provider.quantization) — [vendor docs](https://docs.ollama.com/api/create)
-- `local.ollama.api_create_safetensors` (provider.models) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/create)
+- `local.ollama.api_create_safetensors` (provider.models) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/api/create)
 - `local.ollama.api_show` (provider.admin.read) — [vendor docs](https://docs.ollama.com/api/show)
 - `local.ollama.copy` (provider.models) — [vendor docs](https://docs.ollama.com/api/copy)
 - `local.ollama.create` (provider.models) — [vendor docs](https://docs.ollama.com/api/create)
 - `local.ollama.delete` (provider.models) — [vendor docs](https://docs.ollama.com/api/delete)
 - `local.ollama.ps` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/api/ps)
 - `local.ollama.pull` (provider.models) — [vendor docs](https://docs.ollama.com/api/pull)
-- `local.ollama.push` (provider.models) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/push)
+- `local.ollama.push` (provider.models) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/api/push)
 - `local.ollama.tags` (provider.models) — [vendor docs](https://docs.ollama.com/api/tags)
 
 **Parameters** (8):
@@ -519,7 +538,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `local.ollama.openai_chat` (llm.chat) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
 - `local.ollama.openai_completions` (llm.completions) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
 - `local.ollama.openai_embeddings` (llm.embeddings) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
-- `local.ollama.openai_images` (media.image_generation) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+- `local.ollama.openai_images` (media.image_generation) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
 - `local.ollama.openai_models` (provider.models) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
 - `local.ollama.openai_responses` (llm.responses) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
 
@@ -559,6 +578,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Ollama Structured Output
 
+> Concept guide: [Structured Output](/concepts/structured-output) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (1/1 rows usable):
 
 - `local.ollama.structured_outputs` (llm.structured_output) — [vendor docs](https://docs.ollama.com/capabilities/structured-outputs)
@@ -571,16 +592,18 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Ollama Thinking
 
+> Concept guide: [Thinking & Reasoning](/concepts/thinking) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (1/1 rows usable):
 
-- `local.ollama.thinking` (llm.thinking) · *model-dependent* — [vendor docs](https://docs.ollama.com/capabilities/thinking)
+- `local.ollama.thinking` (llm.thinking) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/capabilities/thinking)
 
 ## Ollama Vision
 
 **Capabilities** (2/2 rows usable):
 
-- `local.ollama.generate_image_input` (media.image_input) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/generate)
-- `local.ollama.vision` (media.image_input) · *model-dependent* — [vendor docs](https://docs.ollama.com/capabilities/vision)
+- `local.ollama.generate_image_input` (media.image_input) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.vision` (media.image_input) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/capabilities/vision)
 
 ## ollama-js SDK
 
@@ -648,6 +671,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Tools
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (1/1 rows usable):
 
-- `local.ollama.tools` (tool.call) · *model-dependent* — [vendor docs](https://docs.ollama.com/capabilities/tool-calling)
+- `local.ollama.tools` (tool.call) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.ollama.com/capabilities/tool-calling)

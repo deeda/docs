@@ -1,0 +1,64 @@
+---
+title: "Computer Use"
+description: "Agents driving screens: what's live (OpenAI Operator), what's gated (Anthropic), and why."
+icon: "display"
+---
+
+**ELI5:** computer use lets an agent see a screen and click/type. It is the
+highest-blast-radius capability in the harness, so deeda gates it harder
+than anything else: one path is live, one is deliberately held behind a
+permission UI.
+
+## Status by provider (honest)
+
+| Path | Status | What that means for you |
+|---|---|---|
+| **OpenAI Operator** (`openai-operator`, `method: api`) | **Available** — full `computer_call` action loop with `tool_approval_mode` wiring | Usable from workflows today; approvals are part of the loop |
+| **Anthropic computer use** (raw tool) | **Policy-blocked** — request contract is proven, but deeda holds the high-level loop until the permission UI and auto-approve gates land | Do not plan on it from workflows yet; the desktop bridge exists but is not author-facing |
+
+## Using Operator from a workflow
+
+```yaml
+agent:
+  runtime_key: openai-operator
+  provider: openai
+  role: worker
+  task_template: "Run {{workflow_id}}: complete the web task and record evidence."
+  max_turns: 20
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: openai-operator
+        method: api
+budget:
+  tokens: 80000
+  wall_clock_minutes: 30
+tools:
+  required: [probes.run]
+sandbox:
+  workspace_write: false
+```
+
+Pair with a conservative `tool_policy` and keep approval mode on for anything
+touching credentials, payments, or destructive UI actions.
+
+## Why the gating
+
+A screen-driving agent can do anything a user can. deeda's stance: every
+computer-use action loop runs under explicit approval wiring, and a provider
+path only opens when the permission UX is proven — the same
+"proof over assertion" bar as every other capability.
+
+## When to use
+
+| Task | Route |
+|---|---|
+| Web tasks with no API (forms, dashboards) | `openai-operator` |
+| Anything with an API or MCP connector | The API/MCP — strictly more reliable and auditable |
+| Native desktop automation | Not workflow-exposed today |
+
+## See also
+
+- [OpenAI provider page](/harness/providers/openai#computer-use) — row status
+- [Tools & MCP](/concepts/tools-and-mcp) — prefer connectors when they exist

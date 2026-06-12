@@ -1,0 +1,40 @@
+---
+title: "Start Here: Pick by Task"
+description: "I want to ___ → the runtime, method, and blocks to use. The ELI5 router."
+icon: "signpost"
+---
+
+Find your task, copy the route. Every route links to a complete example.
+(Agents: this page + [Snippets](/harness/snippets) + the
+[Workflow Schema](/harness/workflow-schema) is the full assembly kit.)
+
+| I want to… | Runtime + method | Add these blocks | Example |
+|---|---|---|---|
+| Fix a bug / implement a feature in a repo | `anthropic-agent-sdk` + `sdk` | tools, sandbox(edit), budget | [Minimal single agent](/harness/cookbook#recipe-minimal-single-agent) |
+| Same, but survive outages/rate limits | + ordered fallback to `openai-codex-sdk`, `gemini-antigravity-cli` | selection, retry | [Resilient worker](/harness/cookbook#recipe-ordered-fallback-resilient-single-agent) |
+| Research a topic, then build, then review | `gemini-genai-sdk` → `anthropic-agent-sdk` → `openai-codex-sdk` | pair_profiles | [Pair recipe](/harness/cookbook#recipe-pair-programming-researcher--engineer--reviewer) |
+| Get an unbiased code review | `openai-codex-sdk` + `cli`, `isolate_context: true` | tool_policy(read-only) | [Pair recipe](/harness/cookbook#recipe-pair-programming-researcher--engineer--reviewer) |
+| Gate completion on multi-vendor agreement | any worker + review panel | review_consensus | [Review panel](/harness/cookbook#recipe-provider-diverse-review-panel) |
+| Extract structured data (JSON) | `openai-responses-api` + `api` or any SDK runtime | state_machine + output_schema | [Structured Output](/concepts/structured-output) |
+| Cheap bulk classification/evals | batch surfaces | stage that submits, stage that collects | [Cost, Batch & Cache](/concepts/cost-batch-cache#batching) |
+| Multi-stage pipeline with typed handoffs | any | state_machine | [State machine](/harness/cookbook#recipe-state-machine-workflow) |
+| Hard problem — buy more reasoning | Anthropic thinking / OpenAI reasoning_effort / Antigravity level | agent.thinking | [Thinking](/concepts/thinking) |
+| Do a web task with no API (forms, dashboards) | `openai-operator` + `api` | budget, approval-friendly policy | [Computer Use](/concepts/computer-use) |
+| Voice panel of experts | `roster` with `voice`/`voice_name` | roster | [Voice & Realtime](/concepts/voice-and-realtime) |
+| Keep data on-device / offline | `local-llm` + `api` | budget | [Local provider](/harness/providers/local) |
+| Block specific tool calls deterministically | Claude-native hooks (settings) | tool_policy as backstop | [Hooks](/concepts/hooks) |
+| Plug in external SaaS tools | participant with `mcp_server_config` | tools | [Tools & MCP](/concepts/tools-and-mcp) |
+| Cut spend on repeated context | — | cache_policy, Headroom | [Cost, Batch & Cache](/concepts/cost-batch-cache) |
+
+## The 60-second mental model
+
+1. **Workflow markdown is the only control plane.** Everything an agent may
+   do — runtime, model, tools, network, budget, review — is declared in one
+   file. If a power isn't declared, it doesn't exist at runtime.
+2. **Cadence is the governor.** It validates your file, picks the concrete
+   route, enforces budgets, and only advances stages on typed events.
+3. **States are honest.** Every capability is `implemented`,
+   model-dependent, partial-compatible, policy-blocked, vendor-blocked, or
+   unsupported — each provider page has a [decision-rule legend](/harness/providers/anthropic#how-to-read-this-page).
+4. **Test cheap first.** Validate (`think_workflow_md_validate`), run with a
+   small `budget`, read the session ledger, then scale.

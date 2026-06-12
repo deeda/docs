@@ -1,0 +1,72 @@
+---
+title: "State & Sessions"
+description: "What persists between turns and runs, who threads it, and what you control."
+icon: "database"
+---
+
+**ELI5:** you declare *policy* about state (context budget, stage outputs);
+Cadence threads the *plumbing* (provider session ids, response chaining,
+handoffs) so you never manage raw provider state.
+
+## Who does what
+
+| Aspect | You (workflow author) | Cadence/harness |
+|---|---|---|
+| Provider session/response chaining (e.g. `previous_response_id`) | Nothing — never put these in workflow.md | Threaded automatically per run; handoffs link runs via the event chain |
+| Context carried into a run | `context` block (budgeted brief) | Compiles and injects it |
+| Stage-to-stage outputs | `state_machine` with per-stage `output_schema` | Validates and passes typed outputs between stages |
+| Long-term knowledge | Write to Think (store/canvas/workpad tools) | Persists in your Think vault, queryable later |
+| Run history/audit | Nothing | Session ledger — an append-only projection of every harness event (tokens, costs, tool calls, resumes) |
+
+## The session ledger (read-only truth)
+
+Every run emits typed events; the ledger chains them (`event_id` →
+`parent_event_id`), records usage/cost per event, and links runs across
+handoffs. It is a **projection, never a store**: nothing reads it to make
+dispatch decisions, so you can rebuild it from the event stream at any time.
+Use it for audit ("what did this run cost, which tools fired"), not for
+state.
+
+## Carrying context into a run
+
+```yaml
+context:
+  brief: |
+    Repo uses Cadence workflows; tests live in tests/.
+  budget_tokens: 4000
+```
+
+## Passing typed state between stages
+
+```yaml
+state_machine:
+  start: research
+  stage_order: [research, implement]
+  states:
+    research:
+      output_schema:
+        type: object
+        properties:
+          findings: { type: array, items: { type: string } }
+        required: [findings]
+  on_event:
+    research_completed: implement
+  terminal_states: [done]
+```
+
+The `implement` stage receives `findings` as validated input — no prompt
+glue, no provider state juggling.
+
+## When to use what
+
+| You want | Use |
+|---|---|
+| Agent remembers facts across *runs* | Think store / workpad tools |
+| Stage B consumes stage A's result | `state_machine` + `output_schema` |
+| Seed a run with background | `context` block |
+| Audit cost/usage | Session ledger (read-only) |
+
+## See also
+
+- [Workflow Schema](/harness/workflow-schema#state-machine) — exact shapes
+- [Structured Output](/concepts/structured-output) — `output_schema` details

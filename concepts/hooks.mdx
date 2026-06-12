@@ -1,0 +1,97 @@
+---
+title: "Hooks"
+description: "Intercept and steer an agent's actions: what hook events and decisions are, what works today, and where they live."
+icon: "fish-hook"
+---
+
+**ELI5:** a hook is a tripwire on the agent's loop. Before or after the agent
+does something (use a tool, submit a prompt, start a subagent, stop), a hook
+fires and can **allow it, deny it, ask the human, inject context, or suppress
+output**. Hooks are how you steer an agent without rewriting its prompt.
+
+## The two halves: events and decisions
+
+**Hook events** are *when* the tripwire fires (Claude Agent SDK event union):
+pre-action (`PreToolUse`, `UserPromptSubmit`, `PermissionRequest`),
+post-action (`PostToolUse`, `PostToolUseFailure`), lifecycle (`SessionStart`,
+`SessionEnd`, `Stop`), subagent (`SubagentStart`, `SubagentStop`), plus
+`PreCompact` and `Notification`.
+
+**Hook decisions** are *what the hook says back* — the rows you see on the
+[Anthropic provider page](/harness/providers/anthropic#hook-decisions):
+
+| Decision | Effect |
+|---|---|
+| `allow_tool` | The intercepted tool call proceeds. |
+| `deny_tool` | The tool call is blocked; the agent sees the denial and must adapt. |
+| `ask_user` | Escalate to a human permission prompt before proceeding. |
+| `additional_context` | Inject a string into the agent's context at the hook point. |
+| `suppress_output` | Hide the intercepted output from the transcript. |
+| `continue: false` | Halt the loop entirely. |
+
+## What works today (honest status)
+
+<Note>
+Hooks are currently **runtime-level**, not workflow-level. There are no hook
+fields in `workflow.md` frontmatter yet, and Cadence does not construct hook
+callbacks at dispatch. That is why every hook row carries the
+*partial-compatible* badge: the SDK surface is real and plumbed, the
+deeda-authored policy path is not wired yet.
+</Note>
+
+What you CAN do today:
+
+1. **Native Claude Code harness mode** — shell hooks defined in Claude
+   settings (`settingSources: [project, local]`, i.e. your project's
+   `.claude/settings.json`) fire normally when the harness drives Claude Code
+   natively. This is where hooks are **stored and persisted**: in the
+   project/local settings files, versioned with your repo — not in workflow
+   markdown, not in a deeda database.
+2. **In-band hook steering** — deeda's autopilot workflows instruct agents to
+   treat PreToolUse hook output and Cadence policy blocks as authoritative:
+   stop the unsafe action, record the policy-block text in the workpad,
+   correct, retry. The *reaction policy* lives in workflow markdown prose;
+   the *enforcement* lives in the hook.
+
+What you CANNOT do yet: declare `hooks:` in workflow frontmatter and have
+Cadence enforce it per-run across providers. When that lands it will appear
+in the [Workflow Schema](/harness/workflow-schema) — if the field is not
+there, it is not real.
+
+## Example: a project hook (works today, native mode)
+
+`.claude/settings.json` in your repo:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "./scripts/guard-shell.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+The guard script exits non-zero (with a reason on stdout) to deny the tool
+call; the agent sees the denial text and adapts. Pair it with workflow prose
+telling the agent how to react (see the autopilot pattern above).
+
+## When to use hooks vs alternatives
+
+| You want | Use |
+|---|---|
+| Block/allow specific tool calls deterministically | Hook (`PreToolUse` + deny) |
+| Bound what a whole run may touch | `tool_policy` / `sandbox_profile` in frontmatter — see [Workflow Schema](/harness/workflow-schema) |
+| Cross-provider, per-run policy | Cadence frontmatter (budgets, sandbox, review) — hooks are Anthropic-runtime today |
+| Human sign-off on risky steps | `review_consensus` or hook `ask_user` |
+
+## See also
+
+- Vendor reference: [Claude Agent SDK hooks](https://code.claude.com/docs/en/agent-sdk/hooks)
+- [Anthropic capability rows](/harness/providers/anthropic#hook-events) — per-event status
+- [Workflow Schema](/harness/workflow-schema) — the authoritative field list

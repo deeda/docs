@@ -12,6 +12,25 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 — model/turn/budget fields on `agent`, provider knobs under
 `harness_config.sdk_settings.gemini`, and tool/sandbox policy at top level.
 
+## How to read this page
+
+Decision rules per capability state — what YOU (the reader/agent) should do:
+
+| State badge | Meaning | Your action |
+|---|---|---|
+| *(none)* = implemented | Wired end-to-end through deeda primitives and live-probed. | Use freely. |
+| *model-dependent* | Works only on a documented subset of the provider's models. | Pin a supporting `model` in your workflow; verify against the vendor docs link. |
+| *partial-compatible* | One half of the contract is proven, the other is not (yet). Patterns: request shape accepted but execution unproven at scale; wired in deeda but live probe pending; vendor does it but no deeda knob exists; works on one dispatch path (e.g. CLI) but not another (e.g. raw API). | Usable — but treat the **Parameters table as the entire contract**. Do not assume vendor-parity beyond what is listed. If your task depends on the unproven half, test small first. |
+
+Parameter table columns: **Parameter** is the provider-side path the harness
+maps for you (you set it via workflow fields or `harness_config.sdk_settings.<provider>`
+knobs — see [Runtimes](/harness/runtimes) for which knobs exist). **Default**
+applies when you say nothing. **Allowed** is exhaustive — values outside it
+fail validation. **Risk** is deeda's policy weight: `high` parameters
+generally require elevated `tool_policy`/`sandbox_profile` and may trigger
+human approval on hot-reload.
+
+
 ## Agent Development Kit
 
 **Capabilities** (46/55 rows usable):
@@ -134,6 +153,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Antigravity Built-in Tools
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (8/12 rows usable):
 
 - `gemini.antigravity.tool.custom_python` (tool.custom.python) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
@@ -225,6 +246,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Antigravity Hooks
 
+> Concept guide: [Hooks](/concepts/hooks) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (7/9 rows usable):
 
 - `gemini.antigravity.hook.on_session_end` (agent.hook.session_end) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
@@ -248,6 +271,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `option` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
 
 ## Antigravity MCP
+
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (3/4 rows usable):
 
@@ -415,6 +440,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Audio generation
 
+> Concept guide: [Voice & Realtime](/concepts/voice-and-realtime) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (18/21 rows usable):
 
 - `gemini.chirp.chirp_3` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/chirp3-hd)
@@ -473,6 +500,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Batch
 
+> Concept guide: [Cost, Batch & Cache](/concepts/cost-batch-cache) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (8/8 rows usable):
 
 - `gemini.batch` (batch.run) — [vendor docs](https://ai.google.dev/gemini-api/docs/batch-mode)
@@ -499,6 +528,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Caching
 
+> Concept guide: [Cost, Batch & Cache](/concepts/cost-batch-cache) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (10/10 rows usable):
 
 - `gemini.caches.create` (llm.cache.create) — [vendor docs](https://ai.google.dev/api/caching)
@@ -509,7 +540,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `gemini.caches.tools` (llm.cache.create) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
 - `gemini.caches.ttl` (llm.cache.update) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
 - `gemini.caches.update` (llm.cache.update) — [vendor docs](https://ai.google.dev/api/caching)
-- `gemini.context_caching` (llm.complete) · *partial-compatible* — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
+- `gemini.context_caching` (llm.complete) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
 - `gemini.context_caching.implicit` (llm.implicit_cache) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
 
 **Parameters** (9):
@@ -548,7 +579,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `gemini.generate_content.stream` (llm.stream) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation#streaming-responses)
 - `gemini.generate_content.system_instruction` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation#system-instructions)
 - `gemini.interactions` (llm.interactions) — [vendor docs](https://ai.google.dev/api/interactions-api)
-- `gemini.openai_compat` (llm.complete) · *partial-compatible* — [vendor docs](https://ai.google.dev/gemini-api/docs/openai)
+- `gemini.openai_compat` (llm.complete) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://ai.google.dev/gemini-api/docs/openai)
 - `gemini.priority_inference` (llm.priority_inference) — [vendor docs](https://ai.google.dev/gemini-api/docs)
 
 **Parameters** (9):
@@ -803,7 +834,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `gemini.live.interrupted_event` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
 - `gemini.live.language_code` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
 - `gemini.live.modality.audio` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
-- `gemini.live.modality.text` (realtime.session) · *model-dependent* — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.modality.text` (realtime.session) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
 - `gemini.live.proactive_audio` (realtime.proactive_audio) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
 - `gemini.live.session_management` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-api/session-management)
 - `gemini.live.tools.function_calling` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
@@ -849,6 +880,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## MCP
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (2/6 rows usable):
 
 - `gemini.mcp.adk_toolset_client` (tool.mcp) — [vendor docs](https://google.github.io/adk-docs/tools/mcp-tools/)
@@ -862,6 +895,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `option` | object | — | — | low | [docs](https://googleapis.github.io/genai-toolbox/) |
 
 ## MCP Toolbox
+
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (3/14 rows usable):
 
@@ -1025,6 +1060,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Reasoning/thinking
 
+> Concept guide: [Thinking & Reasoning](/concepts/thinking) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (4/5 rows usable):
 
 - `gemini.thinking` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
@@ -1177,6 +1214,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Structured output
 
+> Concept guide: [Structured Output](/concepts/structured-output) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (3/3 rows usable):
 
 - `gemini.structured_output` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/structured-output)
@@ -1210,6 +1249,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `option` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/tokens) |
 
 ## Tools
+
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (6/9 rows usable):
 

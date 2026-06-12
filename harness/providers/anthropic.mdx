@@ -12,6 +12,25 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 — model/turn/budget fields on `agent`, provider knobs under
 `harness_config.sdk_settings.anthropic`, and tool/sandbox policy at top level.
 
+## How to read this page
+
+Decision rules per capability state — what YOU (the reader/agent) should do:
+
+| State badge | Meaning | Your action |
+|---|---|---|
+| *(none)* = implemented | Wired end-to-end through deeda primitives and live-probed. | Use freely. |
+| *model-dependent* | Works only on a documented subset of the provider's models. | Pin a supporting `model` in your workflow; verify against the vendor docs link. |
+| *partial-compatible* | One half of the contract is proven, the other is not (yet). Patterns: request shape accepted but execution unproven at scale; wired in deeda but live probe pending; vendor does it but no deeda knob exists; works on one dispatch path (e.g. CLI) but not another (e.g. raw API). | Usable — but treat the **Parameters table as the entire contract**. Do not assume vendor-parity beyond what is listed. If your task depends on the unproven half, test small first. |
+
+Parameter table columns: **Parameter** is the provider-side path the harness
+maps for you (you set it via workflow fields or `harness_config.sdk_settings.<provider>`
+knobs — see [Runtimes](/harness/runtimes) for which knobs exist). **Default**
+applies when you say nothing. **Allowed** is exhaustive — values outside it
+fail validation. **Risk** is deeda's policy weight: `high` parameters
+generally require elevated `tool_policy`/`sandbox_profile` and may trigger
+human approval on hot-reload.
+
+
 ## Admin API
 
 **Capabilities** (11/22 rows usable):
@@ -46,6 +65,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Batch/cost/cache
 
+> Concept guide: [Cost, Batch & Cache](/concepts/cost-batch-cache) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (2/2 rows usable):
 
 - `anthropic.batches.create` (batch.run) — [vendor docs](https://platform.claude.com/docs/api/message-batches)
@@ -63,8 +84,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (2/7 rows usable):
 
-- `anthropic.beta.computer_use` (tool.computer) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/models-list)
-- `anthropic.beta.fast_mode` (llm.routing) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/models-list)
+- `anthropic.beta.computer_use` (tool.computer) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/models-list)
+- `anthropic.beta.fast_mode` (llm.routing) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/models-list)
 
 ## Beta headers
 
@@ -120,68 +141,70 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (23/23 rows usable):
 
-- `anthropic.agent_sdk.callback.can_use_tool` (agent.callback) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
-- `anthropic.agent_sdk.callback.hook` (agent.callback) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/hooks)
-- `anthropic.agent_sdk.hooks` (agent.hook) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/hooks)
-- `anthropic.agent_sdk.mcp` (tool.mcp) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
-- `anthropic.agent_sdk.permission_mode.accept_edits` (agent.permission_mode) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
-- `anthropic.agent_sdk.permission_mode.bypass_permissions` (agent.permission_mode) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
-- `anthropic.agent_sdk.permission_mode.default` (agent.permission_mode) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
-- `anthropic.agent_sdk.permission_mode.plan` (agent.permission_mode) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
-- `anthropic.agent_sdk.permissions` (agent.permission) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
-- `anthropic.agent_sdk.plugins` (agent.plugin) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/plugins)
-- `anthropic.agent_sdk.query` (agent.query) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/overview)
-- `anthropic.agent_sdk.sessions` (agent.session) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/sessions)
-- `anthropic.agent_sdk.skills` (agent.skills) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/skills)
-- `anthropic.agent_sdk.slash_commands` (agent.slash) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/slash-commands)
-- `anthropic.agent_sdk.subagents` (agent.subagent) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/subagents)
-- `anthropic.agent_sdk.system_prompt` (agent.prompt) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/modifying-system-prompts)
-- `anthropic.agent_sdk.system_prompt.preset` (agent.prompt) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/modifying-system-prompts)
-- `anthropic.agent_sdk.tool_runner` (agent.tool_runner) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/custom-tools)
-- `anthropic.agent_sdk.transport.http` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
-- `anthropic.agent_sdk.transport.sdk_mcp` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
-- `anthropic.agent_sdk.transport.sse` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
-- `anthropic.agent_sdk.transport.stdio` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
-- `anthropic.agent_sdk.user_input` (tool.ask_user) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/agent-sdk/user-input)
+- `anthropic.agent_sdk.callback.can_use_tool` (agent.callback) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
+- `anthropic.agent_sdk.callback.hook` (agent.callback) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/hooks)
+- `anthropic.agent_sdk.hooks` (agent.hook) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/hooks)
+- `anthropic.agent_sdk.mcp` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
+- `anthropic.agent_sdk.permission_mode.accept_edits` (agent.permission_mode) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
+- `anthropic.agent_sdk.permission_mode.bypass_permissions` (agent.permission_mode) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
+- `anthropic.agent_sdk.permission_mode.default` (agent.permission_mode) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
+- `anthropic.agent_sdk.permission_mode.plan` (agent.permission_mode) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
+- `anthropic.agent_sdk.permissions` (agent.permission) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/permissions)
+- `anthropic.agent_sdk.plugins` (agent.plugin) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/plugins)
+- `anthropic.agent_sdk.query` (agent.query) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/overview)
+- `anthropic.agent_sdk.sessions` (agent.session) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/sessions)
+- `anthropic.agent_sdk.skills` (agent.skills) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/skills)
+- `anthropic.agent_sdk.slash_commands` (agent.slash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/slash-commands)
+- `anthropic.agent_sdk.subagents` (agent.subagent) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/subagents)
+- `anthropic.agent_sdk.system_prompt` (agent.prompt) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/modifying-system-prompts)
+- `anthropic.agent_sdk.system_prompt.preset` (agent.prompt) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/modifying-system-prompts)
+- `anthropic.agent_sdk.tool_runner` (agent.tool_runner) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/custom-tools)
+- `anthropic.agent_sdk.transport.http` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
+- `anthropic.agent_sdk.transport.sdk_mcp` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
+- `anthropic.agent_sdk.transport.sse` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
+- `anthropic.agent_sdk.transport.stdio` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/mcp)
+- `anthropic.agent_sdk.user_input` (tool.ask_user) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/agent-sdk/user-input)
 
 ## Claude Code
 
 **Capabilities** (7/22 rows usable):
 
-- `anthropic.code.cli` (agent.cli) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/overview)
-- `anthropic.code.cli_reference` (agent.cli) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/cli-reference)
-- `anthropic.code.hooks` (agent.hook) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/hooks)
-- `anthropic.code.memory` (agent.memory) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/memory)
-- `anthropic.code.settings` (agent.settings) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/settings)
-- `anthropic.code.skills` (agent.skills) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/skills)
-- `anthropic.code.subagents` (agent.subagent) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/sub-agents)
+- `anthropic.code.cli` (agent.cli) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/overview)
+- `anthropic.code.cli_reference` (agent.cli) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/cli-reference)
+- `anthropic.code.hooks` (agent.hook) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/hooks)
+- `anthropic.code.memory` (agent.memory) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/memory)
+- `anthropic.code.settings` (agent.settings) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/settings)
+- `anthropic.code.skills` (agent.skills) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/skills)
+- `anthropic.code.subagents` (agent.subagent) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/sub-agents)
 
 ## Claude Code built-in tools
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (15/15 rows usable):
 
-- `anthropic.code.tools.bash` (tool.bash) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.bash_output` (tool.bash) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.edit` (tool.fs_write) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.exit_plan_mode` (agent.permission_mode) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.glob` (tool.fs_search) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.grep` (tool.fs_search) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.kill_shell` (tool.bash) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.notebook_edit` (tool.fs_write) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.read` (tool.fs_read) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.skill` (agent.skills) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.task` (agent.subagent) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.todo_write` (agent.todo) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.web_fetch` (tool.web_fetch) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.web_search` (tool.web_search) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
-- `anthropic.code.tools.write` (tool.fs_write) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.bash` (tool.bash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.bash_output` (tool.bash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.edit` (tool.fs_write) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.exit_plan_mode` (agent.permission_mode) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.glob` (tool.fs_search) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.grep` (tool.fs_search) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.kill_shell` (tool.bash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.notebook_edit` (tool.fs_write) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.read` (tool.fs_read) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.skill` (agent.skills) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.task` (agent.subagent) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.todo_write` (agent.todo) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.web_fetch` (tool.web_fetch) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.web_search` (tool.web_search) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
+- `anthropic.code.tools.write` (tool.fs_write) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/cli-reference)
 
 ## Commands discovery
 
 **Capabilities** (2/3 rows usable):
 
-- `anthropic.commands_discovery.plugin` (agent.slash) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/slash-commands)
-- `anthropic.commands_discovery.project` (agent.slash) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/slash-commands)
+- `anthropic.commands_discovery.plugin` (agent.slash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/slash-commands)
+- `anthropic.commands_discovery.project` (agent.slash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/slash-commands)
 
 ## Containers
 
@@ -201,7 +224,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 - `anthropic.content.document` (file.read) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/pdf-support)
 - `anthropic.content.image_base64` (media.image) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/vision)
-- `anthropic.content.redacted_thinking` (llm.reasoning) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
+- `anthropic.content.redacted_thinking` (llm.reasoning) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
 - `anthropic.content.search_result` (provider.tool.server) — [vendor docs](https://docs.claude.com/en/api/messages)
 - `anthropic.content.server_tool_use` (provider.tool.server) — [vendor docs](https://docs.claude.com/en/api/messages)
 - `anthropic.content.text` (llm.content) — [vendor docs](https://docs.claude.com/en/api/messages)
@@ -218,6 +241,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `messages[].content[]` | object | — | — | low | search_result request blocks (source/title/content) under search-results-2025-06-09. |
 
 ## Context management
+
+> Concept guide: [State & Sessions](/concepts/state-and-sessions) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (3/5 rows usable):
 
@@ -252,11 +277,13 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Extended thinking
 
+> Concept guide: [Thinking & Reasoning](/concepts/thinking) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (3/3 rows usable):
 
 - `anthropic.thinking.adaptive` (llm.reasoning) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
 - `anthropic.thinking.interleaved` (llm.reasoning) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
-- `anthropic.thinking.summarized` (llm.reasoning) · *model-dependent* — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
+- `anthropic.thinking.summarized` (llm.reasoning) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/extended-thinking)
 
 **Parameters** (2):
 
@@ -283,67 +310,77 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Hook decisions
 
+> Concept guide: [Hooks](/concepts/hooks) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (6/6 rows usable):
 
-- `anthropic.hooks.decision.additional_context` (agent.hook.decision) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.decision.allow_tool` (agent.hook.decision) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.decision.ask_user` (agent.hook.decision) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.decision.continue` (agent.hook.decision) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.decision.deny_tool` (agent.hook.decision) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.decision.suppress_output` (agent.hook.decision) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.decision.additional_context` (agent.hook.decision) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.decision.allow_tool` (agent.hook.decision) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.decision.ask_user` (agent.hook.decision) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.decision.continue` (agent.hook.decision) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.decision.deny_tool` (agent.hook.decision) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.decision.suppress_output` (agent.hook.decision) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
 
 ## Hook events
 
+> Concept guide: [Hooks](/concepts/hooks) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (12/12 rows usable):
 
-- `anthropic.hooks.events.notification` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.permission_request` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.post_tool_use` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.post_tool_use_failure` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.pre_compact` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.pre_tool_use` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.session_end` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.session_start` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.stop` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.subagent_start` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.subagent_stop` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
-- `anthropic.hooks.events.user_prompt_submit` (agent.hook.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.notification` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.permission_request` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.post_tool_use` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.post_tool_use_failure` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.pre_compact` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.pre_tool_use` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.session_end` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.session_start` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.stop` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.subagent_start` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.subagent_stop` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
+- `anthropic.hooks.events.user_prompt_submit` (agent.hook.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/hooks)
 
 ## Long context
 
 **Capabilities** (1/1 rows usable):
 
-- `anthropic.context.window_1m` (llm.context) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/models-list)
+- `anthropic.context.window_1m` (llm.context) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/models-list)
 
 ## MCP
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (17/22 rows usable):
 
-- `anthropic.mcp.list_changed` (tool.mcp) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/mcp)
-- `anthropic.mcp.oauth` (tool.mcp) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/mcp)
-- `anthropic.mcp.plugin_servers` (agent.plugin) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/plugins)
-- `anthropic.mcp.protocol.cancellation` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/basic/utilities/cancellation)
-- `anthropic.mcp.protocol.completion` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/server/utilities/completion)
-- `anthropic.mcp.protocol.elicitation` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/client/elicitation)
-- `anthropic.mcp.protocol.logging` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/server/utilities/logging)
-- `anthropic.mcp.protocol.progress` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/basic/utilities/progress)
-- `anthropic.mcp.protocol.prompts` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/server/prompts)
-- `anthropic.mcp.protocol.resources` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/server/resources)
-- `anthropic.mcp.protocol.roots` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/server/utilities/roots)
-- `anthropic.mcp.protocol.sampling` (tool.mcp) · *partial-compatible* — [vendor docs](https://modelcontextprotocol.io/specification/client/sampling)
-- `anthropic.mcp.scopes` (tool.mcp) · *partial-compatible* — [vendor docs](https://code.claude.com/docs/en/mcp)
-- `anthropic.mcp.tool_search` (tool.mcp) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
-- `anthropic.mcp.transport.http` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
-- `anthropic.mcp.transport.sse` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
-- `anthropic.mcp.transport.stdio` (tool.mcp_transport) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
+- `anthropic.mcp.list_changed` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/mcp)
+- `anthropic.mcp.oauth` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/mcp)
+- `anthropic.mcp.plugin_servers` (agent.plugin) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/plugins)
+- `anthropic.mcp.protocol.cancellation` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/basic/utilities/cancellation)
+- `anthropic.mcp.protocol.completion` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/server/utilities/completion)
+- `anthropic.mcp.protocol.elicitation` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/client/elicitation)
+- `anthropic.mcp.protocol.logging` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/server/utilities/logging)
+- `anthropic.mcp.protocol.progress` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/basic/utilities/progress)
+- `anthropic.mcp.protocol.prompts` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/server/prompts)
+- `anthropic.mcp.protocol.resources` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/server/resources)
+- `anthropic.mcp.protocol.roots` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/server/utilities/roots)
+- `anthropic.mcp.protocol.sampling` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://modelcontextprotocol.io/specification/client/sampling)
+- `anthropic.mcp.scopes` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://code.claude.com/docs/en/mcp)
+- `anthropic.mcp.tool_search` (tool.mcp) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
+- `anthropic.mcp.transport.http` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
+- `anthropic.mcp.transport.sse` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
+- `anthropic.mcp.transport.stdio` (tool.mcp_transport) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/mcp)
 
 ## Memory hierarchy
 
+> Concept guide: [State & Sessions](/concepts/state-and-sessions) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (1/2 rows usable):
 
-- `anthropic.memory.project_claude_md` (agent.memory) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/memory)
+- `anthropic.memory.project_claude_md` (agent.memory) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/memory)
 
 ## Message Batches
+
+> Concept guide: [Cost, Batch & Cache](/concepts/cost-batch-cache) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (5/5 rows usable):
 
@@ -368,9 +405,9 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 **Capabilities** (4/4 rows usable):
 
 - `anthropic.assistant.prefill` (llm.complete) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response)
-- `anthropic.inference_geo` (provider.geo) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/messages)
-- `anthropic.output.config` (llm.output) · *model-dependent* — [vendor docs](https://platform.claude.com/docs/en/api/messages)
-- `anthropic.service_tier` (provider.tier) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/messages)
+- `anthropic.inference_geo` (provider.geo) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
+- `anthropic.output.config` (llm.output) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
+- `anthropic.service_tier` (provider.tier) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
 
 **Parameters** (3):
 
@@ -384,9 +421,9 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (3/4 rows usable):
 
-- `anthropic.partners.bedrock` (provider.bedrock) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock)
-- `anthropic.partners.foundry` (provider.azure) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry)
-- `anthropic.partners.vertex` (provider.vertex) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai)
+- `anthropic.partners.bedrock` (provider.bedrock) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock)
+- `anthropic.partners.foundry` (provider.azure) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry)
+- `anthropic.partners.vertex` (provider.vertex) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai)
 
 ## Platform data
 
@@ -406,14 +443,16 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (1/2 rows usable):
 
-- `anthropic.plugins_discovery.project` (agent.plugin) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/plugins)
+- `anthropic.plugins_discovery.project` (agent.plugin) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/plugins)
 
 ## Prompt caching
+
+> Concept guide: [Cost, Batch & Cache](/concepts/cost-batch-cache) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (2/3 rows usable):
 
 - `anthropic.cache.extended_ttl` (llm.cache.ttl) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
-- `anthropic.cache.workspace_isolation` (llm.cache.scope) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
+- `anthropic.cache.workspace_isolation` (llm.cache.scope) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)
 
 **Parameters** (1):
 
@@ -425,9 +464,11 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (1/1 rows usable):
 
-- `anthropic.rate_limits.get` (provider.rate_limit) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/rate-limits)
+- `anthropic.rate_limits.get` (provider.rate_limit) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/rate-limits)
 
 ## Reasoning/thinking
+
+> Concept guide: [Thinking & Reasoning](/concepts/thinking) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (1/1 rows usable):
 
@@ -459,10 +500,10 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (4/6 rows usable):
 
-- `anthropic.sampling.metadata_user_id` (llm.sampling) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages)
-- `anthropic.sampling.stop_sequences` (llm.sampling) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages)
-- `anthropic.sampling.top_k` (llm.sampling) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages)
-- `anthropic.sampling.top_p` (llm.sampling) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages)
+- `anthropic.sampling.metadata_user_id` (llm.sampling) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages)
+- `anthropic.sampling.stop_sequences` (llm.sampling) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages)
+- `anthropic.sampling.top_k` (llm.sampling) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages)
+- `anthropic.sampling.top_p` (llm.sampling) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages)
 
 **Parameters** (4):
 
@@ -477,16 +518,18 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (1/2 rows usable):
 
-- `anthropic.agent_sdk` (anthropic.agent.run) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/sdk)
+- `anthropic.agent_sdk` (anthropic.agent.run) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/sdk)
 
 ## Server tools
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (5/5 rows usable):
 
-- `anthropic.tools.bash` (tool.bash) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/messages)
+- `anthropic.tools.bash` (tool.bash) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
 - `anthropic.tools.code_execution` (tool.code_execution) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
-- `anthropic.tools.memory` (tool.memory) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/messages)
-- `anthropic.tools.text_editor` (tool.text_editor) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/en/api/messages)
+- `anthropic.tools.memory` (tool.memory) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
+- `anthropic.tools.text_editor` (tool.text_editor) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
 - `anthropic.tools.web_fetch` (tool.web_fetch) — [vendor docs](https://platform.claude.com/docs/en/api/messages)
 
 **Parameters** (2):
@@ -500,15 +543,15 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (2/3 rows usable):
 
-- `anthropic.settings.local` (agent.settings) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/settings)
-- `anthropic.settings.project` (agent.settings) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/settings)
+- `anthropic.settings.local` (agent.settings) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/settings)
+- `anthropic.settings.project` (agent.settings) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/settings)
 
 ## Skills discovery
 
 **Capabilities** (2/3 rows usable):
 
-- `anthropic.skills_discovery.plugin` (agent.skills) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/skills)
-- `anthropic.skills_discovery.project` (agent.skills) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/claude-code/skills)
+- `anthropic.skills_discovery.plugin` (agent.skills) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/skills)
+- `anthropic.skills_discovery.project` (agent.skills) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/claude-code/skills)
 
 ## Stop reasons
 
@@ -516,8 +559,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 - `anthropic.stop_reason.end_turn` (llm.stop_reason) — [vendor docs](https://docs.claude.com/en/api/messages)
 - `anthropic.stop_reason.max_tokens` (llm.stop_reason) — [vendor docs](https://docs.claude.com/en/api/messages)
-- `anthropic.stop_reason.pause_turn` (llm.stop_reason) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages)
-- `anthropic.stop_reason.refusal` (llm.stop_reason) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages)
+- `anthropic.stop_reason.pause_turn` (llm.stop_reason) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages)
+- `anthropic.stop_reason.refusal` (llm.stop_reason) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages)
 - `anthropic.stop_reason.stop_sequence` (llm.stop_reason) — [vendor docs](https://docs.claude.com/en/api/messages)
 - `anthropic.stop_reason.tool_use` (llm.stop_reason) — [vendor docs](https://docs.claude.com/en/api/messages)
 
@@ -531,11 +574,11 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `anthropic.streaming.event.content_block_delta` (llm.stream.event) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 - `anthropic.streaming.event.content_block_start` (llm.stream.event) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 - `anthropic.streaming.event.content_block_stop` (llm.stream.event) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
-- `anthropic.streaming.event.error` (llm.stream.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
+- `anthropic.streaming.event.error` (llm.stream.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 - `anthropic.streaming.event.message_delta` (llm.stream.event) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 - `anthropic.streaming.event.message_start` (llm.stream.event) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 - `anthropic.streaming.event.message_stop` (llm.stream.event) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
-- `anthropic.streaming.event.ping` (llm.stream.event) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
+- `anthropic.streaming.event.ping` (llm.stream.event) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 - `anthropic.streaming.fine_grained_tool` (llm.stream.delta) — [vendor docs](https://docs.claude.com/en/api/messages-streaming)
 
 **Parameters** (1):
@@ -545,6 +588,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `header.anthropic-beta` | string | `"fine-grained-tool-streaming-2025-05-14"` | — | low | [docs](https://docs.claude.com/en/api/messages-streaming) |
 
 ## Structured outputs
+
+> Concept guide: [Structured Output](/concepts/structured-output) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (2/2 rows usable):
 
@@ -586,13 +631,15 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Tool versions
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (7/13 rows usable):
 
 - `anthropic.tools.versions.bash_20250124` (tool.bash) — [vendor docs](https://docs.claude.com/en/docs/agents-and-tools/tool-use/bash-tool)
 - `anthropic.tools.versions.code_execution_20250522` (tool.code_execution) — [vendor docs](https://docs.claude.com/en/docs/agents-and-tools/tool-use/code-execution-tool)
 - `anthropic.tools.versions.code_execution_20250825` (tool.code_execution) — [vendor docs](https://docs.claude.com/en/docs/agents-and-tools/tool-use/code-execution-tool)
 - `anthropic.tools.versions.computer_20250124` (tool.computer) — [vendor docs](https://docs.claude.com/en/docs/agents-and-tools/tool-use/computer-use-tool)
-- `anthropic.tools.versions.computer_20251124` (tool.computer) · *partial-compatible* — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/computer-use)
+- `anthropic.tools.versions.computer_20251124` (tool.computer) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://docs.claude.com/en/docs/build-with-claude/computer-use)
 - `anthropic.tools.versions.web_fetch_20250910` (tool.web_fetch) — [vendor docs](https://docs.claude.com/en/docs/agents-and-tools/tool-use/web-fetch-tool)
 - `anthropic.tools.versions.web_search_20250305` (tool.web_search) — [vendor docs](https://docs.claude.com/en/docs/agents-and-tools/tool-use/web-search-tool)
 
@@ -609,10 +656,12 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Tools
 
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (4/6 rows usable):
 
 - `anthropic.tools.client` (tool.call) — [vendor docs](https://platform.claude.com/docs/build-with-claude/tool-use)
-- `anthropic.tools.mcp_connector` (provider.tool.server) · *partial-compatible* — [vendor docs](https://platform.claude.com/docs/build-with-claude/mcp-connector)
+- `anthropic.tools.mcp_connector` (provider.tool.server) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://platform.claude.com/docs/build-with-claude/mcp-connector)
 - `anthropic.tools.server` (provider.tool.server) — [vendor docs](https://platform.claude.com/docs/build-with-claude/server-tools)
 - `anthropic.tools.web_search` (provider.tool.server) — [vendor docs](https://platform.claude.com/docs/build-with-claude/web-search-tool)
 

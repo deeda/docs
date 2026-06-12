@@ -34,7 +34,20 @@
     "pages": [
       {
         "group": "Getting Started",
-        "pages": ["index", "quickstart", "agents"]
+        "pages": ["index", "start-here", "quickstart", "agents"]
+      },
+      {
+        "group": "Concepts",
+        "pages": [
+          "concepts/tools-and-mcp",
+          "concepts/hooks",
+          "concepts/state-and-sessions",
+          "concepts/thinking",
+          "concepts/structured-output",
+          "concepts/voice-and-realtime",
+          "concepts/computer-use",
+          "concepts/cost-batch-cache"
+        ]
       },
       {
         "group": "Agent Harness",

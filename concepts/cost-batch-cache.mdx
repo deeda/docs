@@ -1,0 +1,71 @@
+---
+title: "Cost, Batch & Cache"
+description: "Spend less per result: budgets, prompt caching, batching, and Headroom compression."
+icon: "coins"
+---
+
+**ELI5:** four dials control spend. **Budgets** cap a run. **Caching** makes
+repeated context nearly free. **Batching** trades latency for ~50% off.
+**Headroom** compresses context before the provider ever sees it.
+
+## Budgets (always set these)
+
+```yaml
+budget:
+  tokens: 100000
+  wall_clock_minutes: 45
+```
+
+Cadence enforces both; a run that hits its budget stops cleanly and the
+session ledger records actual usage and cost per event.
+
+## Prompt caching
+
+```yaml
+cache_policy:
+  enabled: true
+  strategy: auto
+  key_scope: workflow   # workflow | ticket | global
+  ttl: 1h
+```
+
+`auto` lets the harness place provider cache breakpoints (Anthropic ephemeral
+cache blocks, Gemini cached content, OpenAI prompt caching) — you choose
+scope and TTL, not provider mechanics. Cache scoping is workspace-isolated on
+the vendor side.
+
+## Batching
+
+Batch APIs are implemented for Anthropic (`anthropic.batches.create`) and the
+OpenAI batch surface — right for evals, backfills, and bulk classification
+where minutes of latency are fine for ~half price. Drive them through a
+workflow stage that submits and a later stage (or trigger) that collects.
+
+## Headroom (context compression)
+
+```yaml
+harness_config:
+  sdk_settings:
+    anthropic:
+      headroom:
+        enabled: true
+        token_budget: 120000
+```
+
+Headroom runs before the provider call, compresses context to the budget,
+and emits evidence either way (`headroom.compression` / `headroom.skipped`)
+— you can audit exactly what it did.
+
+## When to use what
+
+| Symptom | Dial |
+|---|---|
+| Same big system context every turn | `cache_policy` |
+| Long-running agent blowing context windows | Headroom |
+| Thousands of independent items | Batch |
+| Runaway spend risk | Tighter `budget` + `retry.max_attempts` |
+
+## See also
+
+- [Workflow Schema](/harness/workflow-schema#budget) — field shapes
+- Provider pages: [Anthropic batch/cache rows](/harness/providers/anthropic#batch-cost-cache)

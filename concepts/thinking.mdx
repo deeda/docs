@@ -1,0 +1,60 @@
+---
+title: "Thinking & Reasoning"
+description: "Buy more reasoning when the task is hard: thinking budgets per provider, in one schema."
+icon: "brain"
+---
+
+**ELI5:** every provider sells "think harder" under a different name
+(extended thinking, reasoning effort, thinking level). deeda gives you one
+workflow field plus per-provider knobs; the harness maps them.
+
+## The portable field
+
+```yaml
+agent:
+  thinking:
+    type: enabled        # enabled | disabled | adaptive
+    budget_tokens: 16000 # or "{{thinking_budget}}" template
+```
+
+## Per-provider mapping
+
+| Provider/runtime | Knob (under `harness_config.sdk_settings.<provider>`) | Values |
+|---|---|---|
+| `anthropic-agent-sdk` | `thinking_type`, `thinking_budget_tokens` | enabled/disabled/adaptive + token cap; interleaved & adaptive thinking implemented |
+| `openai-codex-sdk`, `openai-agents-sdk`, `openai-responses-api` | `reasoning_effort` | model-dependent (o-series / GPT-5 class) |
+| `gemini-antigravity-cli` | `antigravity_thinking_level` | `MINIMAL` \| `LOW` \| `MEDIUM` \| `HIGH` |
+| `gemini-genai-sdk` | thinking on/off/dynamic is implemented at the capability level; no extra knob needed | — |
+| `local-llm`, `local-voice` | none — local models expose no thinking control | — |
+
+Caveats worth knowing: Anthropic *summarized* thinking is model-dependent
+(4-series vendor default, no deeda selector); OpenAI `reasoning_effort` is
+rejected by non-reasoning models — pin a supporting `model`; Gemini
+deep-research is policy-blocked (long-running paid surface).
+
+## Example: pay for reasoning only on the hard stage
+
+```yaml
+state_machine:
+  stage_order: [scan, deep_fix]
+  states:
+    scan:
+      agent:
+        thinking: { type: disabled }
+    deep_fix:
+      agent:
+        thinking: { type: enabled, budget_tokens: 24000 }
+```
+
+## When to use
+
+| Task | Setting |
+|---|---|
+| Bulk/mechanical edits, summaries | `disabled` — thinking is wasted spend |
+| Debugging, architecture, proofs | `enabled` with 16–32k budget |
+| Mixed/unknown difficulty | `adaptive` (Anthropic) — model decides |
+
+## See also
+
+- [Workflow Schema](/harness/workflow-schema#agent) — field shapes
+- Provider pages for per-row status: [Anthropic](/harness/providers/anthropic#extended-thinking), [Gemini](/harness/providers/gemini), [OpenAI](/harness/providers/openai)

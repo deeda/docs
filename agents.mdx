@@ -17,11 +17,19 @@ markdown, and the site ships standard agent indexes.
 
 ## Minimal context recipe
 
-To assemble and dispatch a workflow you need exactly **three fetches**:
+Start with `/start-here.md` — it routes any task to a runtime + blocks in one
+table. To assemble and dispatch a workflow you then need **three fetches**:
 
 1. `/harness/snippets.md` — composable frontmatter blocks, one per concern.
 2. `/harness/runtimes.md` — pick a `runtime_key` + `method` by capability.
 3. `/harness/workflow-schema.md` — confirm field types/enums while writing.
+
+If a capability is unfamiliar, fetch its concept page
+(`/concepts/hooks.md`, `/concepts/tools-and-mcp.md`,
+`/concepts/state-and-sessions.md`, `/concepts/thinking.md`,
+`/concepts/structured-output.md`, `/concepts/voice-and-realtime.md`,
+`/concepts/computer-use.md`, `/concepts/cost-batch-cache.md`) — each states
+what is true today vs not yet wired, in one page.
 
 Then validate with the `think_workflow_md_validate` tool and dispatch through
 Cadence. For provider-specific parameters (sampling, thinking, permissions,

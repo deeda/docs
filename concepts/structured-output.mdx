@@ -1,0 +1,64 @@
+---
+title: "Structured Output"
+description: "Get schema-valid JSON out of any stage, on any provider."
+icon: "braces"
+---
+
+**ELI5:** declare the shape you want per stage; the harness picks each
+provider's native structured-output mechanism (Anthropic `output_format:
+json_schema`, Gemini structured output, OpenAI structured responses) and
+validates the result. You never write provider-specific JSON-mode flags.
+
+## Where it lives: per-stage `output_schema`
+
+There is deliberately **no top-level `structured_output` field**. Structure
+belongs to stages — a stage that produces data declares its shape:
+
+```yaml
+state_machine:
+  start: extract
+  stage_order: [extract, report]
+  states:
+    extract:
+      output_schema:
+        type: object
+        properties:
+          issues:
+            type: array
+            items:
+              type: object
+              properties:
+                file: { type: string }
+                severity: { type: string }
+                summary: { type: string }
+              required: [file, severity]
+        required: [issues]
+  on_event:
+    extract_completed: report
+  terminal_states: [done]
+```
+
+The `extract` stage must emit JSON matching this schema; the next stage
+receives it as typed input. Supported `type` values: `object`, `array`,
+`string`, `number`, `boolean`, with recursive `properties`/`items` and
+`required`.
+
+## Provider support
+
+Implemented and probed on Anthropic (`output_format {type: json_schema}` and
+strict JSON mode), Gemini (structured output), and the OpenAI Responses path.
+Local models honor the shape on a best-effort basis — validate downstream if
+your local model matters.
+
+## When to use
+
+| Task | Use structured output? |
+|---|---|
+| Stage feeds another stage or a program | Yes — always declare `output_schema` |
+| Extraction, classification, triage | Yes |
+| Prose deliverables (reports, reviews) | No — let the stage write markdown to the workpad |
+
+## See also
+
+- [State & Sessions](/concepts/state-and-sessions) — how stage outputs flow
+- [Workflow Schema](/harness/workflow-schema#state-machine) — exact shape

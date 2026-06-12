@@ -1,0 +1,77 @@
+---
+title: "Tools & MCP"
+description: "How agents get tools: workflow grants, power profiles, and attaching MCP servers."
+icon: "wrench"
+---
+
+**ELI5:** an agent can only touch what its workflow grants. `tools` says
+*which* named tools; `tool_policy`/`sandbox_profile` say *how much power*
+those tools get; `mcp_server_config` plugs in *external* tool servers.
+
+## Granting tools
+
+```yaml
+tools:
+  required: [fs.read, fs.write, git, probes.run]
+  optional: [redaction.scan, merge.request_slot, beam.issue.update, canvas.workpad]
+```
+
+`required` tools must be available or dispatch fails; `optional` tools attach
+when present. Common deeda tool names: `fs.read`, `fs.write`, `git`,
+`probes.run`, `redaction.scan`, `merge.request_slot`, `beam.issue.update`,
+`canvas.workpad`. Provider runtimes add their own built-ins (e.g. Claude
+Code's bash/read/write/edit/glob/grep/web_search — see the
+[Anthropic page](/harness/providers/anthropic#claude-code-built-in-tools)).
+
+## Power profiles (the blast-radius dial)
+
+```yaml
+tool_policy: edit        # read-only | edit | full | network
+sandbox_profile: edit    # read-only | edit | full | network
+```
+
+`tool_policy` scopes the tool surface; `sandbox_profile` scopes
+filesystem/network. Omitting both preserves the default (`edit` ≈ workspace
+write, no network). `read-only` is the right default for review/research
+agents; `network` requires an explicit `sandbox.network` allowlist:
+
+```yaml
+sandbox:
+  workspace_write: true
+  network: [api.anthropic.com]
+```
+
+## Attaching MCP servers
+
+MCP servers attach **per participant** in multi-agent workflows:
+
+```yaml
+participants:
+  - id: researcher
+    runtime_key: gemini-genai-sdk
+    method: mcp
+    mcp_server_config:
+      deeda-think:
+        type: stdio
+        command: deeda-think-mcp
+```
+
+deeda's own MCP server (`deeda-think`) exposes the Think knowledge tools and
+attaches automatically when the run payload requests it. Remote MCP servers
+are *partial-compatible* on the Anthropic Messages path (connection contract
+proven; full remote round-trip not yet probed) — test small before depending
+on one.
+
+## When to use what
+
+| You want | Use |
+|---|---|
+| Local file/repo work | `tools.required` + `tool_policy: edit` |
+| Research with no side effects | `tool_policy: read-only` |
+| External SaaS tools | `mcp_server_config` on the participant |
+| Network calls from the sandbox | `sandbox.network` allowlist + `sandbox_profile: network` |
+
+## See also
+
+- [Workflow Schema](/harness/workflow-schema) — exact field shapes
+- [Snippets](/harness/snippets#tools) — copy-paste blocks

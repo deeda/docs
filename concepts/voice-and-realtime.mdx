@@ -1,0 +1,59 @@
+---
+title: "Voice & Realtime"
+description: "Speech in, speech out: what's driven from workflows vs the desktop app."
+icon: "microphone"
+---
+
+**ELI5:** voice has two homes. The **desktop app** owns live audio plumbing
+(transports, turn detection, microphones). **Workflows** own *which agent
+speaks with which voice* in multi-agent rooms. You declare the what; the app
+runs the how.
+
+## What the workflow author controls
+
+In multi-agent rooms (`roster`), each agent can speak:
+
+```yaml
+roster:
+  - id: analyst
+    runtime_key: openai-realtime-api
+    voice: openai-realtime     # voice backend
+    voice_name: cedar          # specific voice
+  - id: narrator
+    runtime_key: gemini-genai-sdk
+    voice: gemini-tts
+    voice_name: Kore
+```
+
+Single-agent workflows have **no voice field today** — a lone `agent` block
+is text-first; voice sessions start from the desktop surfaces.
+
+## What the app controls (not workflow-configurable)
+
+Transport (WebSocket vs WebRTC), input/output modalities, and turn detection
+(server VAD) are selected by the desktop runtime per session. SIP telephony
+and custom vendor voices are **policy-blocked** (telephony trunk and vendor
+program access deeda does not hold).
+
+## What's implemented (probed)
+
+OpenAI Realtime: WebSocket + WebRTC transports, in-session function tools,
+remote MCP attachment, transcription-only sessions, input-audio
+transcription, server-VAD turn detection, and the full client-event set.
+Local voice: on-device STT with cloud-assisted TTS (Gemini TTS via gcloud
+auth). See [OpenAI](/harness/providers/openai#realtime) and
+[Local](/harness/providers/local) for row-level status.
+
+## When to use what
+
+| Task | Route |
+|---|---|
+| Voice conversation with one assistant | Desktop app voice surface (`local-voice` / realtime) — no workflow needed |
+| Multi-expert spoken panel | `roster` with per-agent `voice`/`voice_name` |
+| Transcribe audio only | `openai-realtime-api` transcription session |
+| Offline/private voice | `local-voice` (on-device STT; TTS needs gcloud auth) |
+
+## See also
+
+- [Runtimes](/harness/runtimes#openai-realtime-api) — knobs and starter
+- [Workflow Schema](/harness/workflow-schema#roster) — roster field shapes

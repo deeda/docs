@@ -12,6 +12,25 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 — model/turn/budget fields on `agent`, provider knobs under
 `harness_config.sdk_settings.openai`, and tool/sandbox policy at top level.
 
+## How to read this page
+
+Decision rules per capability state — what YOU (the reader/agent) should do:
+
+| State badge | Meaning | Your action |
+|---|---|---|
+| *(none)* = implemented | Wired end-to-end through deeda primitives and live-probed. | Use freely. |
+| *model-dependent* | Works only on a documented subset of the provider's models. | Pin a supporting `model` in your workflow; verify against the vendor docs link. |
+| *partial-compatible* | One half of the contract is proven, the other is not (yet). Patterns: request shape accepted but execution unproven at scale; wired in deeda but live probe pending; vendor does it but no deeda knob exists; works on one dispatch path (e.g. CLI) but not another (e.g. raw API). | Usable — but treat the **Parameters table as the entire contract**. Do not assume vendor-parity beyond what is listed. If your task depends on the unproven half, test small first. |
+
+Parameter table columns: **Parameter** is the provider-side path the harness
+maps for you (you set it via workflow fields or `harness_config.sdk_settings.<provider>`
+knobs — see [Runtimes](/harness/runtimes) for which knobs exist). **Default**
+applies when you say nothing. **Allowed** is exhaustive — values outside it
+fail validation. **Risk** is deeda's policy weight: `high` parameters
+generally require elevated `tool_policy`/`sandbox_profile` and may trigger
+human approval on hot-reload.
+
+
 ## Admin/enterprise
 
 **Parameters** (1):
@@ -360,12 +379,12 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 **Capabilities** (55/59 rows usable):
 
-- `openai.chat.completions` (llm.complete) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/reference/chat/create)
+- `openai.chat.completions` (llm.complete) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/reference/chat/create)
 - `openai.chat.completions.delete` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/delete)
 - `openai.chat.completions.list` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/list)
 - `openai.chat.completions.messages` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/getMessages)
 - `openai.chat.completions.retrieve` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/get)
-- `openai.chat.completions.stream` (llm.stream) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/reference/chat/streaming)
+- `openai.chat.completions.stream` (llm.stream) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/reference/chat/streaming)
 - `openai.chat.completions.update` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/update)
 - `openai.conversations.create` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/conversations/create)
 - `openai.conversations.delete` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/conversations/delete)
@@ -404,8 +423,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `openai.responses.parallel_tool_calls` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
 - `openai.responses.previous_response_id` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/docs/guides/conversation-state)
 - `openai.responses.prompt_object` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
-- `openai.responses.reasoning` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning)
-- `openai.responses.reasoning_summaries` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning)
+- `openai.responses.reasoning` (llm.complete) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning)
+- `openai.responses.reasoning_summaries` (llm.complete) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning)
 - `openai.responses.refusal` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/structured-outputs)
 - `openai.responses.retrieve` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/retrieve)
 - `openai.responses.safety_identifier` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
@@ -730,6 +749,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 
 ## Realtime
 
+> Concept guide: [Voice & Realtime](/concepts/voice-and-realtime) — what this is, when to use it, and how to express it in workflow markdown.
+
 **Capabilities** (55/68 rows usable):
 
 - `openai.realtime.client_event.conversation_item_create` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/create)
@@ -859,17 +880,17 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `openai.run.compaction` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/conversation-state-compaction)
 - `openai.run.error_codes` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/error-codes)
 - `openai.run.file_inputs` (file.upload) — [vendor docs](https://developers.openai.com/api/docs/guides/file-inputs)
-- `openai.run.flex_processing` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/scale-tiers)
-- `openai.run.idempotency` (llm.complete) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/error-codes)
+- `openai.run.flex_processing` (llm.complete) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/scale-tiers)
+- `openai.run.idempotency` (llm.complete) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/error-codes)
 - `openai.run.image_inputs` (media.image.input) — [vendor docs](https://developers.openai.com/api/docs/guides/vision)
-- `openai.run.priority_processing` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/scale-tiers)
-- `openai.run.prompt_caching` (llm.complete) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/prompt-caching)
-- `openai.run.rate_limits` (provider.admin.read) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/rate-limits)
+- `openai.run.priority_processing` (llm.complete) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/scale-tiers)
+- `openai.run.prompt_caching` (llm.complete) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/prompt-caching)
+- `openai.run.rate_limits` (provider.admin.read) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/rate-limits)
 - `openai.run.reasoning_practices` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning-best-practices)
 - `openai.run.service_tier` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/service-tiers)
 - `openai.run.streaming_modes` (llm.stream) — [vendor docs](https://developers.openai.com/api/docs/guides/streaming)
 - `openai.run.token_counting` (llm.count_tokens) — [vendor docs](https://developers.openai.com/api/docs/guides/token-counting)
-- `openai.run.websocket` (llm.stream) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-websocket)
+- `openai.run.websocket` (llm.stream) · [*partial-compatible*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-websocket)
 - `openai.webhooks.batch_cancelled` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
 - `openai.webhooks.batch_completed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
 - `openai.webhooks.batch_expired` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
@@ -942,7 +963,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 - `openai.media.audio.tts` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/reference/audio/createSpeech)
 - `openai.media.audio.tts_stream` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/reference/audio/createSpeech)
 - `openai.media.images.generate` (media.image.generate) — [vendor docs](https://developers.openai.com/api/reference/images/create)
-- `openai.media.images.model_dall_e_3` (media.image.generate) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/models/dall-e-3)
+- `openai.media.images.model_dall_e_3` (media.image.generate) · [*model-dependent*](#how-to-read-this-page) — [vendor docs](https://developers.openai.com/api/docs/models/dall-e-3)
 - `openai.media.images.model_gpt_image_1` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-image-1)
 - `openai.media.images.model_gpt_image_1_5` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-image-1-5)
 - `openai.media.images.model_gpt_image_2` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-image-2)
@@ -978,6 +999,8 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/omni-moderation-latest) |
 
 ## Tools
+
+> Concept guide: [Tools & MCP](/concepts/tools-and-mcp) — what this is, when to use it, and how to express it in workflow markdown.
 
 **Capabilities** (28/42 rows usable):
 

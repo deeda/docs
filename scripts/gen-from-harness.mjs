@@ -369,7 +369,43 @@ elevated workflow policy (see [tool_policy / sandbox](/harness/workflow-schema#t
 }
 
 mkdirSync(join(siteRoot, 'harness', 'providers'), { recursive: true });
-const STATE_BADGE = { implemented: '', 'model-dependent': ' · *model-dependent*', 'partial-compatible': ' · *partial-compatible*' };
+const STATE_BADGE = {
+  implemented: '',
+  'model-dependent': ' · [*model-dependent*](#how-to-read-this-page)',
+  'partial-compatible': ' · [*partial-compatible*](#how-to-read-this-page)',
+};
+
+/** Map feature families to concept guides (curated; extend as concepts grow). */
+const CONCEPT_MAP = [
+  [/hook/i, '/concepts/hooks', 'Hooks'],
+  [/mcp|built-in tools|server tools|^tool/i, '/concepts/tools-and-mcp', 'Tools & MCP'],
+  [/session|memory|state|context management|conversation/i, '/concepts/state-and-sessions', 'State & Sessions'],
+  [/thinking|reasoning/i, '/concepts/thinking', 'Thinking & Reasoning'],
+  [/structured|json|output config/i, '/concepts/structured-output', 'Structured Output'],
+  [/realtime|voice|audio|speech|tts|stt|transcription/i, '/concepts/voice-and-realtime', 'Voice & Realtime'],
+  [/computer|operator/i, '/concepts/computer-use', 'Computer Use'],
+  [/batch|cache|cost|caching/i, '/concepts/cost-batch-cache', 'Cost, Batch & Cache'],
+];
+const conceptFor = (family) => CONCEPT_MAP.find(([re]) => re.test(family));
+
+const HOW_TO_READ = `## How to read this page
+
+Decision rules per capability state — what YOU (the reader/agent) should do:
+
+| State badge | Meaning | Your action |
+|---|---|---|
+| *(none)* = implemented | Wired end-to-end through deeda primitives and live-probed. | Use freely. |
+| *model-dependent* | Works only on a documented subset of the provider's models. | Pin a supporting \`model\` in your workflow; verify against the vendor docs link. |
+| *partial-compatible* | One half of the contract is proven, the other is not (yet). Patterns: request shape accepted but execution unproven at scale; wired in deeda but live probe pending; vendor does it but no deeda knob exists; works on one dispatch path (e.g. CLI) but not another (e.g. raw API). | Usable — but treat the **Parameters table as the entire contract**. Do not assume vendor-parity beyond what is listed. If your task depends on the unproven half, test small first. |
+
+Parameter table columns: **Parameter** is the provider-side path the harness
+maps for you (you set it via workflow fields or \`harness_config.sdk_settings.<provider>\`
+knobs — see [Runtimes](/harness/runtimes) for which knobs exist). **Default**
+applies when you say nothing. **Allowed** is exhaustive — values outside it
+fail validation. **Risk** is deeda's policy weight: \`high\` parameters
+generally require elevated \`tool_policy\`/\`sandbox_profile\` and may trigger
+human approval on hot-reload.
+`;
 
 for (const p of PROVIDERS) {
   const rows = PROVIDER_FEATURE_CATALOG.filter((x) => x.provider === p);
@@ -391,6 +427,8 @@ description: "${u.length} usable capability rows, ${ledger.length} documented pa
     '— model/turn/budget fields on `agent`, provider knobs under',
     `\`harness_config.sdk_settings.${p}\`, and tool/sandbox policy at top level.`,
     '',
+    HOW_TO_READ,
+    '',
   );
   for (const family of families) {
     const fam = rows.filter((x) => x.feature_family === family);
@@ -398,6 +436,8 @@ description: "${u.length} usable capability rows, ${ledger.length} documented pa
     const famParams = ledger.filter((o) => o.feature_family === family);
     if (famU.length === 0 && famParams.length === 0) continue;
     out.push(`## ${esc(family)}`, '');
+    const concept = conceptFor(family);
+    if (concept) out.push(`> Concept guide: [${concept[2]}](${concept[1]}) — what this is, when to use it, and how to express it in workflow markdown.`, '');
     if (famU.length) {
       out.push(`**Capabilities** (${famU.length}/${fam.length} rows usable):`, '');
       for (const row of [...famU].sort((a, b) => a.id.localeCompare(b.id))) {
