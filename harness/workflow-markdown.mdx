@@ -1,0 +1,207 @@
+---
+title: "Workflow Markdown"
+description: "The declarative control plane: author policy, not provider code."
+icon: "file-code"
+---
+
+A `workflow.md` file is the **policy SSOT** for an agent run. It names a
+`runtime_key`, a schema `method`, budgets, tools, sandbox, retries, review
+policy, state-machine transitions, and optional provider settings. Cadence
+validates it, reduces it, and owns the run.
+
+## Author-facing methods
+
+Workflow authors use only these schema methods:
+
+`api`, `sdk`, `mcp`, `cli`, `desktop_app`
+
+<Warning>
+Never put proof-suite taxonomy such as `local_process` or `local_http` in
+workflow frontmatter. Those are test/evidence labels, not author-facing
+selectors.
+</Warning>
+
+## Runtime keys
+
+| Runtime key | Provider / surface | Author-facing methods |
+|---|---|---|
+| `anthropic-agent-sdk` | Anthropic Claude Agent SDK / Claude Code | `sdk`, `cli` |
+| `openai-codex-sdk` | OpenAI Codex CLI/SDK bridge | `cli` |
+| `openai-agents-sdk` | OpenAI Agents SDK | `sdk` |
+| `openai-responses-api` | OpenAI Responses API | `api` |
+| `openai-realtime-api` | OpenAI Realtime API | `api` |
+| `openai-operator` | OpenAI computer-use / operator path | `api` |
+| `gemini-genai-sdk` | Google GenAI SDK | `sdk` |
+| `gemini-antigravity-cli` | Google Antigravity CLI/SDK bridge | `cli`, `sdk` |
+| `local-llm` | Local OpenAI-compatible LLM runtime | `api` |
+| `local-voice` | Desktop voice shell | no turn-dispatch method; used via desktop/voice surfaces |
+
+## How to author a workflow
+
+1. Pick the job shape: single agent, pair programming, reviewer panel, or a
+   state-machine workflow with several provider stages.
+2. Pick runtime keys **by capability, not brand preference** (see
+   [Runtimes](/harness/runtimes)).
+3. Use `agent.single_agent` for single-agent fixed, vendor-auto, or ordered
+   fallback routes.
+4. Use `participants`, `roster`, `pair_profiles`, and `state_machine` for
+   multi-agent or nested workflows.
+5. Keep it declarative: no endpoint URLs, raw shell flags, SDK class names,
+   or provider-specific imperative code.
+6. Declare budgets, sandbox, tools, review consensus, retry, cache, and
+   lifecycle policy in frontmatter.
+7. Validate before dispatch.
+8. Dispatch through Cadence — never bypass it with a raw provider call for
+   production work.
+
+## Validated cross-provider example
+
+This example is a policy document, not a script: Gemini researches, Anthropic
+implements, OpenAI reviews, and Cadence gates completion — with ordered
+fallback if a runtime is unavailable or rate-limited. It is validated against
+the real workflow schema by a CI test.
+
+```yaml
+---
+id: cross-provider-research-build-review
+version: 1.0.0
+library:
+  selectable: true
+  family: research
+  product_mode: collab
+  display_name: "Cross Provider Research Build Review"
+  description: "Gemini researches, Anthropic implements, OpenAI reviews, Cadence gates completion."
+  maturity: experimental
+agent:
+  runtime_key: anthropic-agent-sdk
+  provider: anthropic
+  role: orchestrator
+  task_template: "Run {{workflow_id}} for {{issue_ref}} using cross-provider stages."
+  max_turns: 12
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: ordered
+    candidates:
+      - runtime_key: anthropic-agent-sdk
+        method: sdk
+        dispatch_path: cloud_managed
+      - runtime_key: openai-codex-sdk
+        method: cli
+        dispatch_path: local
+      - runtime_key: gemini-antigravity-cli
+        method: cli
+        dispatch_path: local
+    fallback_on_credit_exhausted: true
+pair_profiles:
+  default:
+    name: "Gemini research plus Anthropic build plus OpenAI review"
+    researcher:
+      runtime_key: gemini-genai-sdk
+      provider: gemini
+      model: gemini-2.5-pro
+      method: sdk
+    engineer:
+      runtime_key: anthropic-agent-sdk
+      provider: anthropic
+      model: claude-opus-4-7
+      method: cli
+    reviewer:
+      runtime_key: openai-codex-sdk
+      provider: openai
+      model: gpt-5.5
+      method: cli
+      isolate_context: true
+budget:
+  tokens: 180000
+  wall_clock_minutes: 90
+sandbox:
+  workspace_write: true
+  network:
+    - api.anthropic.com
+    - api.openai.com
+    - generativelanguage.googleapis.com
+tools:
+  required:
+    - fs.read
+    - fs.write
+    - git
+    - probes.run
+  optional:
+    - redaction.scan
+    - merge.request_slot
+review_consensus:
+  workflow_id: review-consensus
+  reviewers: 3
+  rule: unanimous-on-block
+  diversity:
+    - anthropic
+    - gemini
+    - openai
+  runtime_keys:
+    anthropic: anthropic-agent-sdk
+    gemini: gemini-genai-sdk
+    openai: openai-codex-sdk
+  timeout_ms: 5400000
+retry:
+  max_attempts: 2
+  retryable_runtime_failures:
+    - provider_unavailable
+    - context_window_exceeded
+    - rate_limited
+  runtime_failure_fallbacks:
+    - failure_class: rate_limited
+      from_provider: anthropic
+      provider: openai
+      runtime_key: openai-codex-sdk
+cache_policy:
+  enabled: true
+  strategy: auto
+  key_scope: workflow
+harness_config:
+  sdk_settings:
+    anthropic:
+      headroom:
+        enabled: true
+        token_budget: 120000
+    openai:
+      headroom:
+        enabled: true
+        token_budget: 120000
+    gemini:
+      headroom:
+        enabled: true
+        token_budget: 120000
+state_machine:
+  start: research
+  stage_order:
+    - research
+    - plan
+    - implement
+    - review
+    - signoff
+  terminal_states:
+    - done
+  on_event:
+    research_completed: plan
+    plan_completed: implement
+    implementation_completed: review
+    review_clean: signoff
+    review_blocked: implement
+    signoff_completed: done
+  loop_caps:
+    total_turns: 12
+    on_exceeded: signoff
+---
+
+# Cross Provider Research Build Review
+
+Use Gemini for broad research, Anthropic for implementation, OpenAI Codex for
+independent code review, and Cadence for budgets, lifecycle, retries, and
+final signoff. Persist evidence for each stage before advancing the state
+machine.
+```
+
+Every frontmatter block here is real schema: selection with ordered fallback,
+cross-provider pair profiles, provider-diverse review consensus, typed retry
+fallbacks, per-provider Headroom budgets, and an explicit state machine with
+loop caps.

@@ -1,0 +1,319 @@
+---
+title: "Local (on-device)"
+description: "185 of 386 catalog rows usable today."
+---
+
+{/* GENERATED (providers/local) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
+
+Everything you can do with **Local (on-device)** through the deeda harness,
+grouped by feature family. Caveats are inline; rows without a caveat are
+implemented end-to-end and probed.
+
+### Core generation (4/4 usable)
+
+- `local.llamacpp.openai_compat` (llm.complete)
+- `local.llamacpp.server` (llm.complete)
+- `local.ollama.generate` (llm.complete)
+- `local.ollama.openai_compat` (llm.complete)
+
+### llama-cpp-python (13/13 usable)
+
+- `local.llamacpp.python.create_chat_completion` (llm.chat)
+- `local.llamacpp.python.create_completion` (llm.complete)
+- `local.llamacpp.python.create_embedding` (llm.embed)
+- `local.llamacpp.python.eval_sample_generate` (llm.streaming)
+- `local.llamacpp.python.from_pretrained` (provider.models)
+- `local.llamacpp.python.llama_cache_state` (provider.slots)
+- `local.llamacpp.python.llama_class` (provider.models)
+- `local.llamacpp.python.llama_grammar` (llm.structured_output)
+- `local.llamacpp.python.logits_processor` (llm.sampling)
+- `local.llamacpp.python.save_load_state` (provider.slots)
+- `local.llamacpp.python.server_module` (provider.lifecycle)
+- `local.llamacpp.python.stopping_criteria` (llm.sampling)
+- `local.llamacpp.python.tokenize_detokenize` (llm.tokenize)
+
+### llama.cpp CLI (4/4 usable)
+
+- `local.llamacpp.bench` (eval.benchmark)
+- `local.llamacpp.cli` (provider.cli)
+- `local.llamacpp.model_acquisition_cache` (provider.models)
+- `local.llamacpp.perplexity` (eval.perplexity)
+
+### llama.cpp CLI Tools (15/20 usable)
+
+- `local.llamacpp.cli.batched` (eval.benchmark)
+- `local.llamacpp.cli.batched_bench` (eval.benchmark)
+- `local.llamacpp.cli.embedding` (llm.embed)
+- `local.llamacpp.cli.gguf_inspect` (provider.diagnostics)
+- `local.llamacpp.cli.gguf_split` (file.split_merge)
+- `local.llamacpp.cli.imatrix` (provider.quantization)
+- `local.llamacpp.cli.lookahead` (llm.speculative_decoding)
+- `local.llamacpp.cli.mtmd_cli` (media.multimodal)
+- `local.llamacpp.cli.parallel` (eval.benchmark)
+- `local.llamacpp.cli.passkey` (eval.benchmark)
+- `local.llamacpp.cli.quantize` (provider.quantization)
+- `local.llamacpp.cli.retrieval` (llm.rag)
+- `local.llamacpp.cli.simple` (llm.complete)
+- `local.llamacpp.cli.simple_chat` (llm.chat)
+- `local.llamacpp.cli.tokenize` (llm.tokenize)
+
+### llama.cpp Evaluation (1/1 usable)
+
+- `local.llamacpp.eval.choice_logit_tasks` (eval.benchmark) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ggml-org/llama.cpp/blob/master/README.md (checked 2026-06-12). Previous evidence: llama-perplexity --multiple-choice expects the serialized binary task format; bounded text-format attempt failed ("failed to read task positions", 2026-06-11); needs the prepared eval datasets.
+
+### llama.cpp Quant Types (7/7 usable)
+
+- `local.llamacpp.quant.bf16_f16_f32` (provider.quantization)
+- `local.llamacpp.quant.iq_extreme` (provider.quantization)
+- `local.llamacpp.quant.iq2` (provider.quantization)
+- `local.llamacpp.quant.iq3` (provider.quantization)
+- `local.llamacpp.quant.iq4` (provider.quantization)
+- `local.llamacpp.quant.k_quants` (provider.quantization)
+- `local.llamacpp.quant.legacy_q` (provider.quantization)
+
+### llama.cpp Runtime (4/7 usable)
+
+- `local.llamacpp.runtime.cpu_memory` (provider.runtime)
+- `local.llamacpp.runtime.kv_cache_context` (provider.context)
+- `local.llamacpp.runtime.threads_batch` (provider.runtime)
+- `local.llamacpp.sampling_controls` (llm.sampling)
+
+### llama.cpp Server Anthropic Format (2/2 usable)
+
+- `local.llamacpp.server.anthropic_count_tokens` (anthropic.messages.count_tokens)
+- `local.llamacpp.server.anthropic_messages` (anthropic.messages)
+
+### llama.cpp Server Native (21/26 usable)
+
+- `local.llamacpp.server.apply_template` (llm.chat_template)
+- `local.llamacpp.server.auth_tls` (provider.auth)
+- `local.llamacpp.server.completion_native` (llm.completion)
+- `local.llamacpp.server.detokenize` (llm.tokenize)
+- `local.llamacpp.server.embeddings_native` (llm.embedding)
+- `local.llamacpp.server.gpu_backend` (provider.gpu_offload)
+- `local.llamacpp.server.grammar` (llm.structured_output)
+- `local.llamacpp.server.health` (provider.health)
+- `local.llamacpp.server.infill` (llm.fim) — *model-dependent*: POST /infill requires FIM special tokens in the GGUF (fim_pre/fim_suf/fim_mid); live-proven on qwen2.5-0.5b-instruct (llama.cpp 8680, 2026-06-11).
+- `local.llamacpp.server.lora_adapters` (tuning.lora_runtime) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md (checked 2026-06-12). Previous evidence: needs a LoRA adapter GGUF to exercise /lora-adapters; none on the machine within the &lt;500MB lane budget (checked 2026-06-11).
+- `local.llamacpp.server.metrics` (provider.metrics)
+- `local.llamacpp.server.parallel_batching` (provider.parallel_decoding)
+- `local.llamacpp.server.props` (provider.runtime_config)
+- `local.llamacpp.server.props_post` (provider.runtime_config)
+- `local.llamacpp.server.reasoning` (llm.reasoning) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md (checked 2026-06-12). Previous evidence: --reasoning-format parsing needs a reasoning-emitting model; none fits the &lt;500MB lane budget and a non-thinking model cannot exercise the parse (live attempt 2026-06-11).
+- `local.llamacpp.server.reranking` (llm.rerank)
+- `local.llamacpp.server.slots` (provider.slots)
+- `local.llamacpp.server.slots_save_restore` (provider.slots)
+- `local.llamacpp.server.speculative` (llm.speculative_decoding)
+- `local.llamacpp.server.tokenize` (llm.tokenize)
+- `local.llamacpp.server.webui` (docs.webui)
+
+### llama.cpp Server OpenAI Format (2/2 usable)
+
+- `local.llamacpp.server.responses` (llm.responses)
+- `local.llamacpp.server.tools` (tool.function_calling) — *model-dependent*: OpenAI-style tool calling requires llama-server --jinja and a tool-capable chat template; live tool_calls proven on qwen2.5-0.5b-instruct (llama.cpp 8680, 2026-06-11).
+
+### LocalAI Anthropic Format (1/1 usable)
+
+- `local.localai.anthropic_messages` (anthropic.messages)
+
+### LocalAI Backends (1/23 usable)
+
+- `local.localai.backend.llamacpp` (provider.backend)
+
+### LocalAI Galleries (2/6 usable)
+
+- `local.localai.gallery_available` (provider.gallery)
+- `local.localai.gallery_jobs` (provider.gallery)
+
+### LocalAI Ollama Format (1/1 usable)
+
+- `local.localai.ollama_compat` (llm.complete)
+
+### LocalAI OpenAI Format (3/16 usable)
+
+- `local.localai.openai_chat` (llm.chat)
+- `local.localai.openai_completions` (llm.completion)
+- `local.localai.openai_models` (provider.models)
+
+### MLX Apple Platform (2/2 usable)
+
+- `local.mlx.platform.lazy_eval` (provider.runtime)
+- `local.mlx.platform.macos_unified_memory` (provider.gpu_offload)
+
+### MLX Distributed (2/2 usable)
+
+- `local.mlx.distributed.launch` (provider.distributed_inference)
+- `local.mlx.distributed.primitives` (provider.distributed_inference)
+
+### MLX Examples (2/12 usable)
+
+- `local.mlx.ex.bert` (llm.embed) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ml-explore/mlx-examples/tree/main/bert (checked 2026-06-12). Previous evidence: mlx-examples bert BERT encoder inference + sentence embeddings (model-dependent) pending PUP-F.
+- `local.mlx.ex.t5` (llm.complete) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ml-explore/mlx-examples/tree/main/t5 (checked 2026-06-12). Previous evidence: mlx-examples t5 sequence-to-sequence inference (model-dependent) pending PUP-F.
+
+### MLX Fast Kernels (5/5 usable)
+
+- `local.mlx.fast.metal_kernel` (provider.runtime)
+- `local.mlx.fast.quantized_matmul` (provider.quantization)
+- `local.mlx.fast.rms_norm` (provider.runtime)
+- `local.mlx.fast.rope` (provider.runtime)
+- `local.mlx.fast.scaled_dot_product_attention` (provider.attention_backend)
+
+### MLX Optimizers (1/1 usable)
+
+- `local.mlx.optimizers` (tuning.training_reference)
+
+### MLX Profiling (3/3 usable)
+
+- `local.mlx.metal.cache_limit` (provider.gpu_offload)
+- `local.mlx.metal.capture` (provider.observability)
+- `local.mlx.utils.tree` (provider.runtime)
+
+### MLX-LM CLI (10/17 usable)
+
+- `local.mlx.lm.cli_benchmark` (eval.benchmark)
+- `local.mlx.lm.cli_cache_prompt` (provider.slots)
+- `local.mlx.lm.cli_chat` (llm.chat)
+- `local.mlx.lm.cli_convert` (provider.models)
+- `local.mlx.lm.cli_fuse` (tuning.lora_runtime)
+- `local.mlx.lm.cli_generate` (llm.complete)
+- `local.mlx.lm.cli_lora` (tuning.lora_runtime)
+- `local.mlx.lm.cli_manage` (provider.models)
+- `local.mlx.lm.cli_perplexity` (eval.perplexity) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/perplexity.py (checked 2026-06-12). Previous evidence: mlx_lm.perplexity CLI computes perplexity over a dataset (runtime-native) pending PUP-F.
+- `local.mlx.lm.cli_server` (llm.chat)
+
+### MLX-LM Python SDK (7/9 usable)
+
+- `local.mlx.lm.kv_cache_quantized` (provider.kv_cache)
+- `local.mlx.lm.kv_cache_rotating` (provider.kv_cache)
+- `local.mlx.lm.py_generate` (llm.complete)
+- `local.mlx.lm.py_load` (provider.models)
+- `local.mlx.lm.py_prompt_cache` (provider.slots)
+- `local.mlx.lm.py_sample_utils` (llm.sampling)
+- `local.mlx.lm.py_stream_generate` (llm.streaming)
+
+### MLX-LM Server (1/1 usable)
+
+- `local.mlx.lm.speculative` (llm.speculative_decoding)
+
+### Ollama Anthropic Format (1/3 usable)
+
+- `local.ollama.anthropic_messages` (anthropic.messages)
+
+### Ollama Blobs (2/2 usable)
+
+- `local.ollama.api_blobs_head` (file.exists)
+- `local.ollama.api_blobs_post` (file.upload)
+
+### Ollama CLI (6/7 usable)
+
+- `local.ollama.cli_cp` (provider.models)
+- `local.ollama.cli_pull_rm_ls` (provider.models)
+- `local.ollama.cli_run` (llm.chat)
+- `local.ollama.cli_serve` (provider.lifecycle)
+- `local.ollama.cli_show` (provider.admin.read)
+- `local.ollama.cli_stop` (provider.lifecycle)
+
+### Ollama Environment (13/15 usable)
+
+- `local.ollama.env.context_length` (provider.context)
+- `local.ollama.env.debug` (provider.observability)
+- `local.ollama.env.flash_attention` (provider.attention_backend)
+- `local.ollama.env.gpu_overhead` (provider.gpu_offload)
+- `local.ollama.env.host` (provider.connectivity)
+- `local.ollama.env.keep_alive` (provider.lifecycle)
+- `local.ollama.env.kv_cache_type` (provider.kv_cache)
+- `local.ollama.env.max_loaded` (provider.lifecycle)
+- `local.ollama.env.max_queue` (provider.parallel_decoding)
+- `local.ollama.env.models_dir` (file.manage)
+- `local.ollama.env.num_parallel` (provider.parallel_decoding)
+- `local.ollama.env.origins` (provider.connectivity)
+- `local.ollama.env.sched_spread` (provider.gpu_offload)
+
+### Ollama Generate (6/6 usable)
+
+- `local.ollama.chat` (llm.chat)
+- `local.ollama.generate_context` (llm.state.continue)
+- `local.ollama.generate_keep_alive` (provider.lifecycle)
+- `local.ollama.generate_options_full` (llm.sampling)
+- `local.ollama.generate_raw` (llm.complete)
+- `local.ollama.generate_suffix` (llm.fim) — *model-dependent*: Ollama /api/generate suffix (FIM insert) requires a model template with suffix support; live daemon 0.30.6 returns "does not support insert" for non-FIM models (probed 2026-06-11). Endpoint contract is model-gated, not absent.
+
+### Ollama Model Management (11/11 usable)
+
+- `local.ollama.api_create_adapters` (tuning.lora_runtime) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://docs.ollama.com/api/create (checked 2026-06-12). Previous evidence: /api/create adapters map needs a LoRA adapter artifact; none on the machine within the &lt;500MB lane budget (checked 2026-06-11).
+- `local.ollama.api_create_quantize` (provider.quantization)
+- `local.ollama.api_create_safetensors` (provider.models) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://docs.ollama.com/api/create (checked 2026-06-12). Previous evidence: /api/create from safetensors shards needs a safetensors model on disk; none on the machine within the &lt;500MB lane budget (checked 2026-06-11).
+- `local.ollama.api_show` (provider.admin.read)
+- `local.ollama.copy` (provider.models)
+- `local.ollama.create` (provider.models)
+- `local.ollama.delete` (provider.models)
+- `local.ollama.ps` (provider.lifecycle)
+- `local.ollama.pull` (provider.models)
+- `local.ollama.push` (provider.models) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://docs.ollama.com/api/push (checked 2026-06-12). Previous evidence: POST /api/push publishes to ollama.com and requires an authenticated account; no key in env on the dogfood machine (checked 2026-06-11).
+- `local.ollama.tags` (provider.models)
+
+### Ollama Modelfile (2/2 usable)
+
+- `local.ollama.context_length` (provider.context)
+- `local.ollama.modelfile` (provider.modelfile)
+
+### Ollama OpenAI Format (6/6 usable)
+
+- `local.ollama.openai_chat` (llm.chat)
+- `local.ollama.openai_completions` (llm.completions)
+- `local.ollama.openai_embeddings` (llm.embeddings)
+- `local.ollama.openai_images` (media.image_generation) — *model-dependent*: Experimental /v1/images/generations routes on live daemon 0.30.6 (HTTP 200, x-ndjson stream, probed 2026-06-11) but generation needs an image-capable model; none fits the &lt;500MB lane budget.
+- `local.ollama.openai_models` (provider.models)
+- `local.ollama.openai_responses` (llm.responses)
+
+### Ollama Server (1/1 usable)
+
+- `local.ollama.api_version` (provider.health)
+
+### Ollama Streaming (1/1 usable)
+
+- `local.ollama.streaming` (llm.streaming)
+
+### Ollama Structured Output (1/1 usable)
+
+- `local.ollama.structured_outputs` (llm.structured_output)
+
+### Ollama Thinking (1/1 usable)
+
+- `local.ollama.thinking` (llm.thinking) — *model-dependent*: Ollama think parameter is model-gated: live daemon 0.30.6 returns ""qwen2.5:0.5b" does not support thinking" for non-thinking models (probed 2026-06-11); no thinking-capable model fits the &lt;500MB lane budget. The wire contract is model-gated, not absent.
+
+### Ollama Vision (2/2 usable)
+
+- `local.ollama.generate_image_input` (media.image_input) — *model-dependent*: Ollama /api/generate images array is model-gated: live daemon 0.30.6 rejects multimodal input for non-vision models (probed 2026-06-11, same gate as local.ollama.vision); no vision model fits the &lt;500MB lane budget.
+- `local.ollama.vision` (media.image_input) — *model-dependent*: Ollama images array is model-gated: live daemon 0.30.6 returns "Multimodal data provided, but model does not support multimodal requests" (HTTP 400, probed 2026-06-11); no vision model fits the &lt;500MB lane budget. The wire contract is model-gated, not absent.
+
+### ollama-js SDK (3/5 usable)
+
+- `local.ollama.js_abort_method` (llm.cancel)
+- `local.ollama.js_async_iterator` (llm.streaming)
+- `local.ollama.js_client_class` (provider.admin.read)
+
+### ollama-python SDK (10/11 usable)
+
+- `local.ollama.python_async_client` (provider.admin.read)
+- `local.ollama.python_chat_method` (llm.chat)
+- `local.ollama.python_client_class` (provider.admin.read)
+- `local.ollama.python_copy_delete` (provider.models)
+- `local.ollama.python_create_modelfile` (provider.models)
+- `local.ollama.python_embed_method` (llm.embed)
+- `local.ollama.python_generate_method` (llm.complete)
+- `local.ollama.python_list_method` (provider.models)
+- `local.ollama.python_ps_method` (provider.lifecycle)
+- `local.ollama.python_show_method` (provider.admin.read)
+
+### Retrieval/files/embeddings (4/4 usable)
+
+- `local.ollama.embed_dimensions` (llm.embed)
+- `local.ollama.embed_truncate` (llm.embed)
+- `local.ollama.embeddings` (llm.embed)
+- `local.ollama.embeddings_legacy` (llm.embed)
+
+### Tools (1/1 usable)
+
+- `local.ollama.tools` (tool.call) — *model-dependent*: Ollama tool calling depends on the selected local model and is pending PUP-F runtime-profile probes.
+

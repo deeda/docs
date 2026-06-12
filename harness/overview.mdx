@@ -1,0 +1,55 @@
+---
+title: "Harness Overview"
+description: "One control plane, any model, any provider, full capability."
+icon: "diagram-project"
+---
+
+The deeda agent harness drives any foundational model — Anthropic, OpenAI,
+Gemini, or local — across every surface (API, SDK, MCP, CLI) from a single
+workflow-markdown control plane.
+
+## The pieces
+
+**Workflow markdown is the policy SSOT.** A `workflow.md` file declares the
+runtime, budget, tools, sandbox, retries, review rules, state machine, and
+selection policy. Authors write policy, never imperative provider code.
+
+**Cadence owns the run.** Cadence is a local Elixir/OTP sidecar that validates
+workflow frontmatter, reduces it to a run payload, owns ticket lifecycle and
+budgets, performs provider selection, and advances workflows from typed
+harness events on a `:harness` event bus. Dispatchers are pure executors of
+the route Cadence resolves.
+
+**The runtime catalog describes what each runtime can do** — its capability
+flags, requirements, recommended models, and which provider catalog rows it
+represents. The provider option ledger maps provider-specific knobs into
+workflow-safe configuration.
+
+**The broker enforces the granted operation surface.** Providers are execution
+backends, not principals: the workflow policy decides what an agent may do,
+and every brokered call is checked against that grant.
+
+**The harness compiler builds the final prompt/config** for the selected
+backend. Headroom (context compression), when enabled for a provider, runs
+before the provider call and emits evidence either way.
+
+## Status
+
+All **10 runtimes are available**, and the provider capability catalog has
+**zero deferred rows** — every one of its 2,058 rows is in an explicit,
+audited terminal state, enforced in CI by a ratchet test. See the
+[Capability Catalog](/harness/capabilities) for what that means in detail.
+
+<Note>
+Zero deferred does not mean every provider surface is implemented. It means
+there is no unowned backlog: every row is usable, policy-blocked,
+vendor-blocked with a sourced and dated reason, or unsupported by the vendor.
+</Note>
+
+## Proof, not assertion
+
+A runtime or capability row only counts as available when a cross-provider
+proof suite passes for it across all applicable surfaces, with evidence
+checked in. The same discipline applies to these docs: the
+[Runtimes](/harness/runtimes), [Capability Catalog](/harness/capabilities),
+and per-provider pages are generated from the live catalogs, drift-gated in CI.
