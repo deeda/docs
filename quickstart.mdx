@@ -1,47 +1,68 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Author and dispatch your first workflow in five minutes."
+icon: "bolt"
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+## 1. Pick a runtime
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+Browse [Runtimes](/harness/runtimes) and choose by capability. For a first
+workflow, `anthropic-agent-sdk` (agentic coding) or `gemini-genai-sdk`
+(research/chat) are good defaults — both with `method: sdk`.
 
-## Prerequisites
+## 2. Write a minimal workflow
 
-Before you begin, you must have:
+Create a `workflow.md` with frontmatter naming your runtime, a budget, tools,
+and a sandbox. Keep it declarative — policy, not code:
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+```yaml
+---
+id: my-first-workflow
+version: 1.0.0
+agent:
+  runtime_key: anthropic-agent-sdk
+  provider: anthropic
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+  network:
+    - api.anthropic.com
+tools:
+  required:
+    - fs.read
+    - fs.write
+    - git
+---
 
-## Get started
+# My First Workflow
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+Plan, implement, verify, and record evidence before finishing.
+```
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+## 3. Validate
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+Validate the workflow before dispatch — Cadence rejects invalid policy before
+anything runs (and your editor agent can do this for you via the
+`think_workflow_md_validate` tool).
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+## 4. Dispatch through Cadence
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+Dispatch the workflow from the deeda Think app or via the harness tools. Never
+bypass Cadence with a raw provider call for production work: budgets,
+sandboxing, retries, review, and evidence all live on the Cadence path.
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Workflow Markdown" icon="file-code" href="/harness/workflow-markdown">
+    The full schema surface: selection, fallbacks, review consensus, state machines.
+  </Card>
+  <Card title="Capability Catalog" icon="table" href="/harness/capabilities">
+    Everything each provider can do through the harness today.
+  </Card>
+</CardGroup>

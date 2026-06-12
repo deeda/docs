@@ -1,0 +1,348 @@
+---
+title: "Anthropic"
+description: "214 of 294 catalog rows usable today."
+---
+
+{/* GENERATED (providers/anthropic) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
+
+Everything you can do with **Anthropic** through the deeda harness,
+grouped by feature family. Caveats are inline; rows without a caveat are
+implemented end-to-end and probed.
+
+### Admin API (11/22 usable)
+
+- `anthropic.admin.api_keys.get` (provider.admin.read)
+- `anthropic.admin.api_keys.list` (provider.admin.read)
+- `anthropic.admin.invites.get` (provider.admin.read)
+- `anthropic.admin.invites.list` (provider.admin.read)
+- `anthropic.admin.organizations.me` (provider.admin.read)
+- `anthropic.admin.organizations.members.get` (provider.admin.read)
+- `anthropic.admin.organizations.members.list` (provider.admin.read)
+- `anthropic.admin.workspace_members.get` (provider.admin.read)
+- `anthropic.admin.workspace_members.list` (provider.admin.read)
+- `anthropic.admin.workspaces.get` (provider.admin.read)
+- `anthropic.admin.workspaces.list` (provider.admin.read)
+
+### Batch/cost/cache (2/2 usable)
+
+- `anthropic.batches.create` (batch.run)
+- `anthropic.cache.ephemeral` (llm.complete)
+
+### Beta features (2/7 usable)
+
+- `anthropic.beta.computer_use` (tool.computer) — *partial-compatible*: computer-use beta transport is live (both headers accepted; computer_20250124 tool accepted on sonnet via pc-cat.anthropic.tool-versions-current, 2026-06-11); the high-level computer-use loop stays gated behind deeda grant policy/permission UI (see anthropic.tools.computer_use).
+- `anthropic.beta.fast_mode` (llm.routing) — *partial-compatible*: The installed Claude Agent SDK 0.2.140 exposes the fast-mode surface (FastModeState off\|cooldown\|on, supportsFastMode, fast_mode_state on SDK messages — sdk.d.ts); no deeda dispatch path consumes it yet and no public anthropic-beta value is documented.
+
+### Beta headers (20/29 usable)
+
+- `anthropic.betas.claude_code_20250219` (provider.beta_header)
+- `anthropic.betas.code_execution_20250522` (provider.beta_header)
+- `anthropic.betas.code_execution_20250825` (provider.beta_header)
+- `anthropic.betas.computer_use_20241022` (provider.beta_header)
+- `anthropic.betas.computer_use_20250124` (provider.beta_header)
+- `anthropic.betas.context_1m_20250807` (provider.beta_header)
+- `anthropic.betas.context_management_20250627` (provider.beta_header)
+- `anthropic.betas.extended_cache_ttl_20250411` (provider.beta_header)
+- `anthropic.betas.files_api_20250414` (provider.beta_header)
+- `anthropic.betas.fine_grained_tool_streaming_20250514` (provider.beta_header)
+- `anthropic.betas.interleaved_thinking_20250514` (provider.beta_header)
+- `anthropic.betas.max_tokens_3_5_sonnet_20240715` (provider.beta_header)
+- `anthropic.betas.mcp_client_20250404` (provider.beta_header)
+- `anthropic.betas.output_128k_20250219` (provider.beta_header)
+- `anthropic.betas.pdfs_20240925` (provider.beta_header)
+- `anthropic.betas.prompt_caching_20240731` (provider.beta_header)
+- `anthropic.betas.search_results_20250609` (provider.beta_header)
+- `anthropic.betas.structured_outputs_20251113` (provider.beta_header)
+- `anthropic.betas.token_efficient_tools_20250219` (provider.beta_header)
+- `anthropic.betas.web_fetch_20250910` (provider.beta_header)
+
+### Claude Agent SDK (23/23 usable)
+
+- `anthropic.agent_sdk.callback.can_use_tool` (agent.callback) — *partial-compatible*: canUseTool override + default permission-card flow wired (claude-agent.ts canUseToolWithPolicy/defaultCanUseTool with approvePermission/approvePermissionForSession/denyPermission API); provider-live probe registration pending.
+- `anthropic.agent_sdk.callback.hook` (agent.callback) — *partial-compatible*: The HookCallbackMatcher shape is typed by the installed SDK (sdk.d.ts 0.2.140) and accepted end-to-end via ClaudeAgentRuntimeConfig.hooks → SDK options.hooks (claude-agent.ts); no deeda dispatch path constructs a HookCallback yet.
+- `anthropic.agent_sdk.hooks` (agent.hook) — *partial-compatible*: ClaudeAgentRuntimeConfig.hooks forwards HookCallbackMatcher maps to SDK options.hooks (claude-agent.ts) and settings shell hooks fire in native Claude Code harness mode via settingSources [project, local]; no deeda dispatch path constructs hook callbacks yet — per-event rows live in the Hook events family.
+- `anthropic.agent_sdk.mcp` (tool.mcp) — *partial-compatible*: mcpServers option wired through claude-agent.ts buildOptions; desktop adapter attaches the deeda-think stdio MCP server when payload.mcp_servers requests it (desktop-adapters/anthropic.ts buildDeedaThinkStdioMcpServer); provider-live probe registration pending.
+- `anthropic.agent_sdk.permission_mode.accept_edits` (agent.permission_mode) — *partial-compatible*: permissionMode="acceptEdits" accepted by isClaudePermissionMode (llm-anthropic/complete.ts) from LlmExecutionContext and forwarded to SDK options.permissionMode; provider-live probe registration pending.
+- `anthropic.agent_sdk.permission_mode.bypass_permissions` (agent.permission_mode) — *partial-compatible*: permissionMode="bypassPermissions" wired with the SDK-required allowDangerouslySkipPermissions pairing (claude-agent.ts canUseToolWithPolicy short-circuit); desktop full-auto policy maps to it only for trusted workspaces (desktop-adapters/anthropic.ts applyPermissionPolicy); provider-live probe registration pending.
+- `anthropic.agent_sdk.permission_mode.default` (agent.permission_mode) — *partial-compatible*: permissionMode="default" is the RUNTIME_DEFAULTS fallback in claude-agent.ts buildOptions; interactive approval flows through canUseToolWithPolicy permission cards; provider-live probe registration pending.
+- `anthropic.agent_sdk.permission_mode.plan` (agent.permission_mode) — *partial-compatible*: permissionMode="plan" accepted by isClaudePermissionMode (llm-anthropic/complete.ts) from LlmExecutionContext and forwarded to SDK options.permissionMode; provider-live probe registration pending.
+- `anthropic.agent_sdk.permissions` (agent.permission) — *partial-compatible*: allowedTools/disallowedTools + permissionMode pass through ClaudeAgentRuntime.buildOptions; Lane D run-power profiles project LlmExecutionContext.permissionMode via llm-anthropic/complete.ts isClaudePermissionMode; provider-live probe registration pending.
+- `anthropic.agent_sdk.plugins` (agent.plugin) — *partial-compatible*: The installed SDK exposes options.plugins (SdkPluginConfig[], sdk.d.ts 0.2.140) and project-scope enabledPlugins already load in native harness mode via settingSources; no deeda dispatch path constructs the programmatic plugins option yet.
+- `anthropic.agent_sdk.query` (agent.query) — *partial-compatible*: ClaudeAgentRuntime owns the @anthropic-ai/claude-agent-sdk query() path for anthropic-agent-sdk; provider-live probe registration is pending before this row can be marked implemented.
+- `anthropic.agent_sdk.sessions` (agent.session) — *partial-compatible*: Session resume + forkSession wired end-to-end: desktop-adapters/anthropic.ts round-trips sdk_session_id via getSessionId/setSessionId into ClaudeAgentRuntimeConfig.resume_session_id (claude-agent.ts buildOptions resume/forkSession); provider-live probe registration pending.
+- `anthropic.agent_sdk.skills` (agent.skills) — *partial-compatible*: Native Claude Code harness mode boots with settingSources [project, local] (claude-agent.ts buildOptions) so the CLI loads .claude/skills; Think-managed profiles keep settingSources [] by design; provider-live probe registration pending.
+- `anthropic.agent_sdk.slash_commands` (agent.slash) — *partial-compatible*: Native Claude Code harness mode boots with settingSources [project, local] (claude-agent.ts buildOptions) so the CLI loads .claude/commands; Think-managed profiles keep settingSources [] by design; provider-live probe registration pending.
+- `anthropic.agent_sdk.subagents` (agent.subagent) — *partial-compatible*: AgentDefinition map + loadProjectAgents(.claude/agents) merged in claude-agent.ts buildOptions; desktop adapter derives synthetic subagent lifecycle events; provider-live probe registration pending.
+- `anthropic.agent_sdk.system_prompt` (agent.prompt) — *partial-compatible*: Think Harness compiles Agent SDK systemPrompt as Claude Code preset append or string[] with SYSTEM_PROMPT_DYNAMIC_BOUNDARY for prompt caching; provider-live probe registration is pending before this row can be marked implemented.
+- `anthropic.agent_sdk.system_prompt.preset` (agent.prompt) — *partial-compatible*: anthropic-agent-sdk profiles default to &#123; type: "preset", preset: "claude_code", append, excludeDynamicSections: true &#125; for Claude Code prompt parity and cacheable static prefixes; provider-live probe registration is pending before this row can be marked implemented.
+- `anthropic.agent_sdk.tool_runner` (agent.tool_runner) — *partial-compatible*: The tool() helper is exported by the installed SDK (sdk.d.ts 0.2.140, zod-schema custom tools for SDK-MCP servers); no deeda dispatch path registers custom SDK tools yet (deeda tools ride the deeda-think MCP server).
+- `anthropic.agent_sdk.transport.http` (tool.mcp_transport) — *partial-compatible*: McpHttpServerConfig is a member of the installed SDK McpServerConfig union (sdk.d.ts 0.2.140; headers field carries pre-provisioned auth) and flows through the same mcpServers plumb as stdio; no deeda dispatch path constructs an HTTP config yet.
+- `anthropic.agent_sdk.transport.sdk_mcp` (tool.mcp_transport) — *partial-compatible*: createSdkMcpServer + McpSdkServerConfigWithInstance are exported by the installed SDK (sdk.d.ts 0.2.140) and accepted by the mcpServers plumb; no deeda dispatch path constructs an in-process SDK-MCP server yet.
+- `anthropic.agent_sdk.transport.sse` (tool.mcp_transport) — *partial-compatible*: McpSSEServerConfig is a member of the installed SDK McpServerConfig union (sdk.d.ts 0.2.140) and flows through the same mcpServers plumb as stdio; no deeda dispatch path constructs an SSE config yet.
+- `anthropic.agent_sdk.transport.stdio` (tool.mcp_transport) — *partial-compatible*: stdio McpServerConfig is the live transport for the deeda-think MCP server child (src/runtime/deeda-think-mcp.ts → desktop-adapters/anthropic.ts → claude-agent.ts mcpServers); provider-live probe registration pending.
+- `anthropic.agent_sdk.user_input` (tool.ask_user) — *partial-compatible*: AskUserQuestion ships in the installed Claude Code CLI (binary string-verified in 2.1.172, 2026-06-11) and deeda interactive approval flows through the wired permission-card APIs (canUseToolWithPolicy approve/deny); no AskUserQuestion-specific deeda dispatch yet.
+
+### Claude Code (7/22 usable)
+
+- `anthropic.code.cli` (agent.cli) — *partial-compatible*: The claude CLI is the runtime execution vehicle for anthropic-agent-sdk: resolvePackagedClaudeCodeExecutable / pathToClaudeCodeExecutable select the binary and probeClaudeCliFlags reads its --help contract (claude-agent.ts, anthropic-cli-flags.ts); interactive-terminal use stays vendor-side; provider-live probe registration pending.
+- `anthropic.code.cli_reference` (agent.cli) — *partial-compatible*: The CLI flag contract is machine-consumed by the harness: probeClaudeCliFlags parses `claude --help` and filterClaudeExtraArgs gates every forwarded flag against it (anthropic-cli-flags.ts); the interactive command reference itself stays vendor-side.
+- `anthropic.code.hooks` (agent.hook) — *partial-compatible*: settings.json shell hooks load in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions); Think-managed profiles exclude them by design; provider-live probe registration pending.
+- `anthropic.code.memory` (agent.memory) — *partial-compatible*: CLAUDE.md memory loads in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions); Think-managed profiles exclude it by design; provider-live probe registration pending.
+- `anthropic.code.settings` (agent.settings) — *partial-compatible*: settings.json is consumed in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions; user-global settings deliberately excluded); provider-live probe registration pending.
+- `anthropic.code.skills` (agent.skills) — *partial-compatible*: .claude/skills load in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions); Think-managed profiles exclude them by design; provider-live probe registration pending.
+- `anthropic.code.subagents` (agent.subagent) — *partial-compatible*: .claude/agents definitions load via loadProjectAgents for Think-managed modes and via settingSources for native mode (claude-agent.ts buildOptions agents merge); provider-live probe registration pending.
+
+### Claude Code built-in tools (15/15 usable)
+
+- `anthropic.code.tools.bash` (tool.bash) — *partial-compatible*: Built-in Bash tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (vault_write class); provider-live probe registration pending.
+- `anthropic.code.tools.bash_output` (tool.bash) — *partial-compatible*: Built-in BashOutput tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName; provider-live probe registration pending.
+- `anthropic.code.tools.edit` (tool.fs_write) — *partial-compatible*: Built-in Edit tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (vault_write class); provider-live probe registration pending.
+- `anthropic.code.tools.exit_plan_mode` (agent.permission_mode) — *partial-compatible*: Built-in ExitPlanMode tool delivered via ClaudeAgentRuntime alongside permissionMode="plan" support; provider-live probe registration pending.
+- `anthropic.code.tools.glob` (tool.fs_search) — *partial-compatible*: Built-in Glob tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (read_source class); provider-live probe registration pending.
+- `anthropic.code.tools.grep` (tool.fs_search) — *partial-compatible*: Built-in Grep tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (read_source class); provider-live probe registration pending.
+- `anthropic.code.tools.kill_shell` (tool.bash) — *partial-compatible*: Built-in KillShell tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName; provider-live probe registration pending.
+- `anthropic.code.tools.notebook_edit` (tool.fs_write) — *partial-compatible*: Built-in NotebookEdit tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (vault_write class); provider-live probe registration pending.
+- `anthropic.code.tools.read` (tool.fs_read) — *partial-compatible*: Built-in Read tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (read_source class); provider-live probe registration pending.
+- `anthropic.code.tools.skill` (agent.skills) — *partial-compatible*: Built-in Skill tool delivered via ClaudeAgentRuntime in native harness mode (skills load via settingSources); provider-live probe registration pending.
+- `anthropic.code.tools.task` (agent.subagent) — *partial-compatible*: Built-in Task tool delivered via ClaudeAgentRuntime; subagent lifecycle surfaced via synthetic subagent events on the desktop adapter; provider-live probe registration pending.
+- `anthropic.code.tools.todo_write` (agent.todo) — *partial-compatible*: Built-in TodoWrite tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (vault_write class); provider-live probe registration pending.
+- `anthropic.code.tools.web_fetch` (tool.web_fetch) — *partial-compatible*: Built-in WebFetch tool delivered via ClaudeAgentRuntime (webFetchUseCache knob forwarded via extraArgs when the CLI supports it); provider-live probe registration pending.
+- `anthropic.code.tools.web_search` (tool.web_search) — *partial-compatible*: Built-in WebSearch tool delivered via ClaudeAgentRuntime (webSearchConfig knob forwarded via extraArgs when the CLI supports it); provider-live probe registration pending.
+- `anthropic.code.tools.write` (tool.fs_write) — *partial-compatible*: Built-in Write tool delivered via ClaudeAgentRuntime, policy-gated by classifyRuntimeToolName (vault_write class); provider-live probe registration pending.
+
+### Commands discovery (2/3 usable)
+
+- `anthropic.commands_discovery.plugin` (agent.slash) — *partial-compatible*: Plugin-bundled commands load when project settings enable plugins in native harness mode (enabledPlugins in .claude/settings.json via settingSources [project, local]); provider-live probe registration pending.
+- `anthropic.commands_discovery.project` (agent.slash) — *partial-compatible*: .claude/commands/&lt;name>.md loads in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions; same citation as anthropic.agent_sdk.slash_commands); provider-live probe registration pending.
+
+### Containers (1/1 usable)
+
+- `anthropic.container.reuse` (container.reuse)
+
+### Content blocks (9/10 usable)
+
+- `anthropic.content.document` (file.read)
+- `anthropic.content.image_base64` (media.image)
+- `anthropic.content.redacted_thinking` (llm.reasoning) — *partial-compatible*: redacted_thinking flows through the same wired thinking path as plain thinking blocks; the documented magic-string trigger returns a plain thinking block on current 4-5 models (probed live on haiku and sonnet, 2026-06-11), so the variant cannot be forced deterministically and carries no conformance probe — mirrors the streaming.event.ping/error precedent.
+- `anthropic.content.search_result` (provider.tool.server)
+- `anthropic.content.server_tool_use` (provider.tool.server)
+- `anthropic.content.text` (llm.content)
+- `anthropic.content.thinking` (llm.reasoning)
+- `anthropic.content.tool_result` (tool.call)
+- `anthropic.content.tool_use` (tool.call)
+
+### Context management (3/5 usable)
+
+- `anthropic.context.management` (llm.context)
+- `anthropic.context.strategy.clear_thinking` (llm.context.clear)
+- `anthropic.context.strategy.clear_tool_uses` (llm.context.clear)
+
+### Core generation (2/2 usable)
+
+- `anthropic.messages.create` (llm.complete)
+- `anthropic.messages.stream` (llm.stream)
+
+### Extended thinking (3/3 usable)
+
+- `anthropic.thinking.adaptive` (llm.reasoning)
+- `anthropic.thinking.interleaved` (llm.reasoning)
+- `anthropic.thinking.summarized` (llm.reasoning) — *model-dependent*: Summarized thinking is the vendor default on 4-series models (Sonnet 3.7 returns full thinking); the blocks flow through the wired thinking path (StreamController thinking_delta/thinking_complete) with no deeda-side knob to select the variant.
+
+### Files API (3/4 usable)
+
+- `anthropic.files.delete` (file.delete)
+- `anthropic.files.get` (file.read)
+- `anthropic.files.list` (file.list)
+
+### Hook decisions (6/6 usable)
+
+- `anthropic.hooks.decision.additional_context` (agent.hook.decision) — *partial-compatible*: additionalContext is a hook-output field of the installed SDK (sdk.d.ts 0.2.140, on multiple hookSpecificOutput shapes); reachable through the plumbed hooks option (claude-agent.ts), no deeda hook constructor yet.
+- `anthropic.hooks.decision.allow_tool` (agent.hook.decision) — *partial-compatible*: permissionDecision "allow" is a HookPermissionDecision member of the installed SDK (sdk.d.ts 0.2.140: allow\|deny\|ask\|defer); reachable through the plumbed hooks option (claude-agent.ts), no deeda hook constructor yet.
+- `anthropic.hooks.decision.ask_user` (agent.hook.decision) — *partial-compatible*: permissionDecision "ask" is a HookPermissionDecision member of the installed SDK (sdk.d.ts 0.2.140); interactive escalation rides the wired permission-card flow (canUseToolWithPolicy); no deeda hook constructor yet.
+- `anthropic.hooks.decision.continue` (agent.hook.decision) — *partial-compatible*: continue:false is a SyncHookJSONOutput field of the installed SDK (sdk.d.ts 0.2.140); reachable through the plumbed hooks option (claude-agent.ts), no deeda hook constructor yet.
+- `anthropic.hooks.decision.deny_tool` (agent.hook.decision) — *partial-compatible*: permissionDecision "deny" is a HookPermissionDecision member of the installed SDK (sdk.d.ts 0.2.140); reachable through the plumbed hooks option (claude-agent.ts), no deeda hook constructor yet.
+- `anthropic.hooks.decision.suppress_output` (agent.hook.decision) — *partial-compatible*: suppressOutput is a hook-output field of the installed SDK (sdk.d.ts 0.2.140); reachable through the plumbed hooks option (claude-agent.ts), no deeda hook constructor yet.
+
+### Hook events (12/12 usable)
+
+- `anthropic.hooks.events.notification` (agent.hook.event) — *partial-compatible*: Notification is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.permission_request` (agent.hook.event) — *partial-compatible*: PermissionRequest is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.post_tool_use` (agent.hook.event) — *partial-compatible*: PostToolUse is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.post_tool_use_failure` (agent.hook.event) — *partial-compatible*: PostToolUseFailure is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.pre_compact` (agent.hook.event) — *partial-compatible*: PreCompact is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.pre_tool_use` (agent.hook.event) — *partial-compatible*: PreToolUse is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.session_end` (agent.hook.event) — *partial-compatible*: SessionEnd is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.session_start` (agent.hook.event) — *partial-compatible*: SessionStart is in the installed SDK HookEvent union (sdk.d.ts 0.2.140; the Khan-protocols session hook already rides it in terminal sessions), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.stop` (agent.hook.event) — *partial-compatible*: Stop is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.subagent_start` (agent.hook.event) — *partial-compatible*: SubagentStart is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.subagent_stop` (agent.hook.event) — *partial-compatible*: SubagentStop is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+- `anthropic.hooks.events.user_prompt_submit` (agent.hook.event) — *partial-compatible*: UserPromptSubmit is in the installed SDK HookEvent union (sdk.d.ts 0.2.140), delivered through the plumbed hooks option (ClaudeAgentRuntimeConfig.hooks → SDK options.hooks, claude-agent.ts) and via settings.json shell hooks in native Claude Code harness mode (settingSources [project, local]); no deeda dispatch path constructs hook callbacks yet.
+
+### Long context (1/1 usable)
+
+- `anthropic.context.window_1m` (llm.context) — *partial-compatible*: context-1m-2025-08-07 is accepted live and a 210k-token count_tokens request returns under it (2026-06-11); a >200k-token generation call is not exercised under probe cost discipline, so only the request-shape half is pinned.
+
+### MCP (17/22 usable)
+
+- `anthropic.mcp.list_changed` (tool.mcp) — *partial-compatible*: list_changed dynamic tool refresh is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via mcpServers; no deeda-side assertion of a refresh event yet.
+- `anthropic.mcp.oauth` (tool.mcp) — *partial-compatible*: Interactive browser OAuth is a CLI product flow; the harness path supports pre-provisioned auth via headers on http/sse server configs (sdk.d.ts McpHttpServerConfig.headers, installed SDK 0.2.140); no deeda constructor builds remote-MCP configs yet.
+- `anthropic.mcp.plugin_servers` (agent.plugin) — *partial-compatible*: Plugin-bundled MCP servers (.mcp.json in plugin root) load in native Claude Code harness mode when project settings enable plugins (enabledPlugins in .claude/settings.json via settingSources [project, local]); provider-live probe registration pending.
+- `anthropic.mcp.protocol.cancellation` (tool.mcp) — *partial-compatible*: notifications/cancelled is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.completion` (tool.mcp) — *partial-compatible*: completion/complete is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.elicitation` (tool.mcp) — *partial-compatible*: elicitation/create is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172; the installed SDK also ships Elicitation/ElicitationResult hook events, sdk.d.ts 0.2.140); no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.logging` (tool.mcp) — *partial-compatible*: logging/setLevel is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.progress` (tool.mcp) — *partial-compatible*: notifications/progress is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.prompts` (tool.mcp) — *partial-compatible*: prompts/list is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11; MCP prompts surface as slash commands) and rides any server attached via mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.resources` (tool.mcp) — *partial-compatible*: resources/list is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.roots` (tool.mcp) — *partial-compatible*: roots/list is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11) and rides any server attached via ClaudeAgentRuntimeConfig.mcpServers; no deeda-side conformance assertion yet.
+- `anthropic.mcp.protocol.sampling` (tool.mcp) — *partial-compatible*: sampling/createMessage is implemented by the shipped Claude Code CLI MCP client (binary string-verified in CLI 2.1.172, 2026-06-11); the agent-to-agent topology is not exercised by any deeda dispatch path.
+- `anthropic.mcp.scopes` (tool.mcp) — *partial-compatible*: Project-scope .mcp.json is honored in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions); user/local CLI scopes are excluded by the same settings policy; provider-live probe registration pending.
+- `anthropic.mcp.tool_search` (tool.mcp) — *partial-compatible*: Deferred-tool search is implemented by the shipped Claude Code CLI (tool_search strings binary-verified in CLI 2.1.172, 2026-06-11; the live Messages schema also ships tool_search_tool_bm25/regex server tools); no deeda-side knob selects it yet.
+- `anthropic.mcp.transport.http` (tool.mcp_transport) — *partial-compatible*: McpHttpServerConfig is a member of the installed SDK McpServerConfig union (sdk.d.ts 0.2.140) and ClaudeAgentRuntimeConfig.mcpServers forwards arbitrary server configs; no deeda dispatch path constructs an HTTP config (only the deeda-think stdio server is attached).
+- `anthropic.mcp.transport.sse` (tool.mcp_transport) — *partial-compatible*: McpSSEServerConfig is a member of the installed SDK McpServerConfig union (sdk.d.ts 0.2.140) and ClaudeAgentRuntimeConfig.mcpServers forwards arbitrary server configs; no deeda dispatch path constructs an SSE config (only the deeda-think stdio server is attached).
+- `anthropic.mcp.transport.stdio` (tool.mcp_transport) — *partial-compatible*: stdio is the live transport for the deeda-think MCP server child (desktop-adapters/anthropic.ts buildDeedaThinkStdioMcpServer → claude-agent.ts mcpServers; exercised by the Phase-1 capstone cells); provider-live probe registration pending.
+
+### Memory hierarchy (1/2 usable)
+
+- `anthropic.memory.project_claude_md` (agent.memory) — *partial-compatible*: &lt;repo>/CLAUDE.md loads in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions; same citation as the flipped anthropic.code.memory row); provider-live probe registration pending.
+
+### Message Batches (5/5 usable)
+
+- `anthropic.batches.cancel` (batch.cancel)
+- `anthropic.batches.delete` (batch.delete)
+- `anthropic.batches.get` (batch.get)
+- `anthropic.batches.list` (batch.list)
+- `anthropic.batches.results` (batch.results)
+
+### Messages API (4/4 usable)
+
+- `anthropic.assistant.prefill` (llm.complete)
+- `anthropic.inference_geo` (provider.geo) — *partial-compatible*: Plumbed sdk_settings.anthropic.inference_geo → CompiledSdkConfig.inferenceGeo → llm-anthropic/complete.ts → ClaudeAgentRuntime extraArgs --inference-geo; applied only when the installed Claude Code CLI advertises the flag (anthropic-cli-flags.ts filterClaudeExtraArgs).
+- `anthropic.output.config` (llm.output) — *model-dependent*: output_config.effort is recognized by the live request schema but model-gated ("This model does not support the effort parameter" on haiku-4-5, pinged 2026-06-11; effort ships on the Opus 4.5 line); the JSON-schema format half is live-proven via pc-cat.anthropic.structured-output.
+- `anthropic.service_tier` (provider.tier) — *partial-compatible*: Plumbed sdk_settings.anthropic.service_tier → CompiledSdkConfig.serviceTier → llm-anthropic/complete.ts → ClaudeAgentRuntime extraArgs --service-tier; applied only when the installed Claude Code CLI advertises the flag (anthropic-cli-flags.ts filterClaudeExtraArgs).
+
+### Partner platforms (3/4 usable)
+
+- `anthropic.partners.bedrock` (provider.bedrock) — *partial-compatible*: The shipped Claude Code CLI implements native Bedrock routing via CLAUDE_CODE_USE_BEDROCK (binary string-verified in CLI 2.1.172, 2026-06-11) and the harness child inherits run env; no AWS credentials in the lane env, so no live cell — gap named.
+- `anthropic.partners.foundry` (provider.azure) — *partial-compatible*: The shipped Claude Code CLI implements native Foundry routing via CLAUDE_CODE_USE_FOUNDRY (binary string-verified in CLI 2.1.172, 2026-06-11) and the harness child inherits run env; no Azure credentials in the lane env, so no live cell — gap named.
+- `anthropic.partners.vertex` (provider.vertex) — *partial-compatible*: The shipped Claude Code CLI implements native Vertex routing via CLAUDE_CODE_USE_VERTEX (binary string-verified in CLI 2.1.172, 2026-06-11) and the harness child inherits run env; no GCP credentials in the lane env, so no live cell — gap named.
+
+### Platform data (2/2 usable)
+
+- `anthropic.beta` (provider.beta_gateway)
+- `anthropic.models.list` (provider.models_list)
+
+### Plugin discovery (1/2 usable)
+
+- `anthropic.plugins_discovery.project` (agent.plugin) — *partial-compatible*: Project-scope plugins load in native Claude Code harness mode (enabledPlugins in this repo’s .claude/settings.json, consumed via settingSources [project, local] in claude-agent.ts buildOptions); provider-live probe registration pending.
+
+### Prompt caching (2/3 usable)
+
+- `anthropic.cache.extended_ttl` (llm.cache.ttl)
+- `anthropic.cache.workspace_isolation` (llm.cache.scope) — *partial-compatible*: Vendor-side cache scoping default (workspace-level since 2026-02-05) with no deeda-side knob; the cache contract is live-probed within a single workspace by pup-d.anthropic.cache-ephemeral and pc-cat.anthropic.cache-ttl-extended.
+
+### Rate limits API (1/1 usable)
+
+- `anthropic.rate_limits.get` (provider.rate_limit) — *partial-compatible*: No standalone REST endpoint live (GET /v1/rate_limits → 404, 2026-06-11); programmatic quota inspection works via the anthropic-ratelimit-* response headers on /v1/messages (requests/input-tokens/output-tokens limit, remaining and reset all live-verified).
+
+### Reasoning/thinking (1/1 usable)
+
+- `anthropic.thinking.extended` (llm.complete)
+
+### Retrieval/files/embeddings (3/3 usable)
+
+- `anthropic.citations` (llm.complete)
+- `anthropic.files.pdf` (file.read)
+- `anthropic.files.upload` (file.upload)
+
+### Sampling parameters (4/6 usable)
+
+- `anthropic.sampling.metadata_user_id` (llm.sampling) — *partial-compatible*: Plumbed sdk_settings.anthropic.metadata.user_id → CompiledSdkConfig.metadata → llm-anthropic/complete.ts → ClaudeAgentRuntime extraArgs --metadata-user-id; applied only when the installed Claude Code CLI advertises the flag (anthropic-cli-flags.ts filterClaudeExtraArgs).
+- `anthropic.sampling.stop_sequences` (llm.sampling) — *partial-compatible*: Plumbed sdk_settings.anthropic.stop_sequences → CompiledSdkConfig.stopSequences → llm-anthropic/complete.ts → ClaudeAgentRuntime extraArgs --stop-sequences; applied only when the installed Claude Code CLI advertises the flag (anthropic-cli-flags.ts filterClaudeExtraArgs).
+- `anthropic.sampling.top_k` (llm.sampling) — *partial-compatible*: Plumbed sdk_settings.anthropic.top_k → CompiledSdkConfig.topK → llm-anthropic/complete.ts → ClaudeAgentRuntime extraArgs --top-k; applied only when the installed Claude Code CLI advertises the flag (anthropic-cli-flags.ts filterClaudeExtraArgs).
+- `anthropic.sampling.top_p` (llm.sampling) — *partial-compatible*: Plumbed sdk_settings.anthropic.top_p → CompiledSdkConfig.topP → llm-anthropic/complete.ts → ClaudeAgentRuntime extraArgs --top-p; applied only when the installed Claude Code CLI advertises the flag (anthropic-cli-flags.ts filterClaudeExtraArgs) — the Agent SDK is a CLI bridge, not a raw Messages client.
+
+### SDK/agent harness (1/2 usable)
+
+- `anthropic.agent_sdk` (anthropic.agent.run) — *partial-compatible*: ClaudeAgentRuntime (src/runtime/claude-agent.ts) wraps @anthropic-ai/claude-agent-sdk query() as the only Claude path; runtime anthropic-agent-sdk is proof-suite available (6/6 A2 cells). Mirrors agent_sdk.query: provider-live probe registration is pending before implemented.
+
+### Server tools (5/5 usable)
+
+- `anthropic.tools.bash` (tool.bash) — *partial-compatible*: bash_20250124 is accepted by the live request schema (pc-cat.anthropic.tool-versions-current); deeda executes shell through the Claude Code built-in Bash path (anthropic.code.tools.bash) and drives no raw-Messages bash loop.
+- `anthropic.tools.code_execution` (tool.code_execution)
+- `anthropic.tools.memory` (tool.memory) — *partial-compatible*: The live schema ships memory_20250818 header-free (accepted on haiku/sonnet 4-5, pinged 2026-06-11; the catalogued memory_20250911 tag and its beta header are retired); the memory tool is client-executed and deeda ships no raw-Messages memory handler — Claude Code built-ins own file-backed memory.
+- `anthropic.tools.text_editor` (tool.text_editor) — *partial-compatible*: The live schema ships text_editor_20250728 (accepted on haiku/sonnet 4-5, pinged 2026-06-11; the catalogued 20250124/20250429 variants are rejected by every current model); deeda edits files through the Claude Code built-in Edit path and drives no raw-Messages editor loop.
+- `anthropic.tools.web_fetch` (tool.web_fetch)
+
+### Settings hierarchy (2/3 usable)
+
+- `anthropic.settings.local` (agent.settings) — *partial-compatible*: .claude/settings.local.json loads in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions); Think-managed profiles exclude it by design; provider-live probe registration pending.
+- `anthropic.settings.project` (agent.settings) — *partial-compatible*: .claude/settings.json loads in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions); Think-managed profiles exclude it by design; provider-live probe registration pending.
+
+### Skills discovery (2/3 usable)
+
+- `anthropic.skills_discovery.plugin` (agent.skills) — *partial-compatible*: Plugin-bundled skills load when project settings enable plugins in native harness mode (this repo’s .claude/settings.json carries enabledPlugins consumed via settingSources [project, local]); provider-live probe registration pending.
+- `anthropic.skills_discovery.project` (agent.skills) — *partial-compatible*: .claude/skills/&lt;name>/SKILL.md loads in native Claude Code harness mode via settingSources [project, local] (claude-agent.ts buildOptions; same citation as the flipped anthropic.code.skills row); provider-live probe registration pending.
+
+### Stop reasons (6/6 usable)
+
+- `anthropic.stop_reason.end_turn` (llm.stop_reason)
+- `anthropic.stop_reason.max_tokens` (llm.stop_reason)
+- `anthropic.stop_reason.pause_turn` (llm.stop_reason) — *partial-compatible*: pause_turn arrives on the same message_delta path the four probed stop_reasons use; it fires only on long server-tool turns at vendor discretion (live web_search/code-execution probe turns completed with end_turn), so no deterministic conformance probe — mirrors the streaming.event.ping/error precedent.
+- `anthropic.stop_reason.refusal` (llm.stop_reason) — *partial-compatible*: refusal arrives on the same message_delta path the four probed stop_reasons use; a safety refusal cannot be forced deterministically (and deliberately is not attempted), so no conformance probe — mirrors the streaming.event.ping/error precedent.
+- `anthropic.stop_reason.stop_sequence` (llm.stop_reason)
+- `anthropic.stop_reason.tool_use` (llm.stop_reason)
+
+### Streaming events (12/12 usable)
+
+- `anthropic.streaming.delta.citations` (llm.stream.delta)
+- `anthropic.streaming.delta.input_json` (llm.stream.delta)
+- `anthropic.streaming.delta.thinking` (llm.stream.delta)
+- `anthropic.streaming.event.content_block_delta` (llm.stream.event)
+- `anthropic.streaming.event.content_block_start` (llm.stream.event)
+- `anthropic.streaming.event.content_block_stop` (llm.stream.event)
+- `anthropic.streaming.event.error` (llm.stream.event) — *partial-compatible*: error SSE events map to typed ErrorEvent in StreamController (src/runtime/stream-controller.ts handleStreamEventMessage default branch); a vendor-side mid-stream error (overloaded_error) cannot be forced deterministically, so no conformance probe.
+- `anthropic.streaming.event.message_delta` (llm.stream.event)
+- `anthropic.streaming.event.message_start` (llm.stream.event)
+- `anthropic.streaming.event.message_stop` (llm.stream.event)
+- `anthropic.streaming.event.ping` (llm.stream.event) — *partial-compatible*: ping keep-alive is consumed and intentionally swallowed by StreamController (src/runtime/stream-controller.ts handleStreamEventMessage default branch); the vendor emits pings non-deterministically so no conformance probe can assert one fires.
+- `anthropic.streaming.fine_grained_tool` (llm.stream.delta)
+
+### Structured outputs (2/2 usable)
+
+- `anthropic.output.json_mode` (llm.structured)
+- `anthropic.output.structured` (llm.structured)
+
+### System prompt (2/2 usable)
+
+- `anthropic.system_prompt.blocks` (llm.system)
+- `anthropic.system_prompt.string` (llm.system)
+
+### Token counting (1/1 usable)
+
+- `anthropic.messages.count_tokens` (llm.tokens.count)
+
+### Tool versions (7/13 usable)
+
+- `anthropic.tools.versions.bash_20250124` (tool.bash)
+- `anthropic.tools.versions.code_execution_20250522` (tool.code_execution)
+- `anthropic.tools.versions.code_execution_20250825` (tool.code_execution)
+- `anthropic.tools.versions.computer_20250124` (tool.computer)
+- `anthropic.tools.versions.computer_20251124` (tool.computer) — *partial-compatible*: computer_20251124 app-side bridge exists in the macOS Tauri shell and provider-tool binding, but the provider-live probe is not registered yet. High-level anthropic.tools.computer_use stays deferred until permission UI and auto-approve mode gate this variant.
+- `anthropic.tools.versions.web_fetch_20250910` (tool.web_fetch)
+- `anthropic.tools.versions.web_search_20250305` (tool.web_search)
+
+### Tools (4/6 usable)
+
+- `anthropic.tools.client` (tool.call)
+- `anthropic.tools.mcp_connector` (provider.tool.server) — *partial-compatible*: mcp_servers Messages parameter is live under mcp-client-2025-04-04: the API attempted the connection and returned a deterministic connector error for an unreachable URL (400 "Connection error while communicating with MCP server", pinged 2026-06-11); a full round-trip against a live remote MCP server is not exercised.
+- `anthropic.tools.server` (provider.tool.server)
+- `anthropic.tools.web_search` (provider.tool.server)
+
+### Usage accounting (4/4 usable)
+
+- `anthropic.usage.cache_creation_1h` (provider.usage)
+- `anthropic.usage.cache_creation_5m` (provider.usage)
+- `anthropic.usage.cache_read` (provider.usage)
+- `anthropic.usage.server_tool_use` (provider.usage)
+

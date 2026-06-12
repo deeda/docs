@@ -1,0 +1,47 @@
+---
+title: "Cadence"
+description: "The Elixir/OTP sidecar that owns workflow policy, dispatch, lifecycle, and review."
+icon: "wave-square"
+---
+
+**Cadence** is the governor of the deeda agent harness: a local Elixir/OTP
+sidecar that turns declarative workflow markdown into governed, budgeted,
+reviewable agent runs.
+
+## What Cadence owns
+
+| Concern | What Cadence does |
+|---|---|
+| Policy validation | Validates `workflow.md` frontmatter against the schema; rejects invalid policy before anything runs. |
+| Reduction | Reduces validated frontmatter to a typed `RunPayload` — the single dispatch contract. |
+| Provider selection | Resolves `runtime_key` + `method` (fixed, vendor-auto, or ordered fallback) via its selection policy. Selection logic lives in Cadence, never in dispatchers. |
+| Run lifecycle | Owns ticket lifecycle: dispatch, claim, progress, retry, rework, review, merge admission, close. |
+| Budgets | Enforces token and wall-clock budgets declared in frontmatter. |
+| Tool/sandbox power | Owns the run power profiles (read-only / edit / full / network) that bound what an agent may touch. |
+| Review consensus | Runs multi-provider reviewer panels (e.g. 3 reviewers, unanimous-on-block, provider-diverse). |
+| Events | Correlates progress on a typed `:harness` event bus; workflow state advances only from typed events, never from streaming text. |
+
+## The dispatch path
+
+1. A ticket or user action selects a workflow.
+2. Cadence loads and validates the workflow chain (base workflow + per-label
+   flows + provider workflow), hashing each source for auditability.
+3. Frontmatter reduces to a `RunPayload`; selection policy resolves the
+   concrete runtime and method, with declared fallbacks.
+4. The dispatcher executes the resolved route — it makes no decisions.
+5. Harness events stream back; Cadence advances the state machine, enforces
+   budgets and retries, and gates completion on review and evidence.
+
+## Hot reload and safety
+
+Workflow policy can change without a rebuild — that is the point of markdown
+as the control plane. Changes that expand tools, raise budgets, weaken safety,
+or alter merge/review policy require human approval; reloads happen only at
+safe checkpoints (between turns, before retry, before rework dispatch).
+
+## Why a sidecar
+
+Putting lifecycle, selection, and policy in one process outside the UI and
+outside any single provider SDK keeps providers as execution backends, not
+principals — and means every paid call passes through one auditable,
+budget-enforced path.

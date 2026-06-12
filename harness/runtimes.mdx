@@ -1,0 +1,61 @@
+---
+title: "Runtimes"
+description: "All 10 harness runtimes are available. Pick by capability, not brand."
+icon: "rocket"
+---
+
+{/* GENERATED (runtimes) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
+
+Every runtime in the catalog is `available`. A workflow selects one with
+`runtime_key` + `method` (author-facing methods: `api`, `sdk`, `mcp`,
+`cli`, `desktop_app` — see [Workflow Markdown](/harness/workflow-markdown)).
+
+| Runtime key | Name | Provider | Category | Recommended model | Needs API key |
+|---|---|---|---|---|---|
+| `anthropic-agent-sdk` | Anthropic Agent SDK | anthropic | agent | `claude-opus-4-7` | yes |
+| `gemini-antigravity-cli` | Google Antigravity 2.0 CLI | gemini | agent | `gemini-3.5-flash` | yes |
+| `gemini-genai-sdk` | Gemini GenAI SDK | gemini | chat | `gemini-2.5-pro` | yes |
+| `local-llm` | Local LLM | local | chat | `gemma-4-e2b` | yes |
+| `local-voice` | Local Voice | local | voice | `gemma-4-e2b` | yes |
+| `openai-agents-sdk` | OpenAI Agents SDK | openai | agent | `gpt-5.5` | yes |
+| `openai-codex-sdk` | OpenAI Codex SDK | openai | agent | `gpt-5.5` | yes |
+| `openai-operator` | OpenAI Operator | openai | agent | `gpt-5.5` | yes |
+| `openai-realtime-api` | OpenAI Realtime API | openai | voice | `gpt-realtime-2` | yes |
+| `openai-responses-api` | OpenAI Responses API | openai | chat | `gpt-5.5` | yes |
+
+## When to use which runtime
+
+**`anthropic-agent-sdk`** — Use when you want Claude Code style coding and shell-native agent behavior with Anthropic models.
+
+**`gemini-antigravity-cli`** — Use for Google Antigravity 2.0 (I/O 2026-05-19) — local agentic coding loop via the `agy` CLI + `google-antigravity` Python SDK. 11 BuiltinTools (list_directory/search_directory/find_file/view_file/create_file/edit_file/run_command/ask_question/start_subagent/generate_image/finish), lifecycle Hook classes (runtime-enumerated; the SDK self-updates), 7-primitive policy DSL (allow/deny/ask_user/allow_all/deny_all/safe_defaults/workspace_only), MCP transports resolved from the installed SDK (stdio + streamable-http today; the vendor folded SSE reads into streamable-http), file-change + interval triggers, multimodal input (Image/Document/Audio/Video). Pairs with raw Gemini API/SDK in tandem.
+
+**`gemini-genai-sdk`** — Use when you want Gemini native streaming, Google Search, code execution, or Vertex AI-backed deployment.
+
+**`local-llm`** — Use for managed llama.cpp or a catalog-backed local endpoint covering the V1 local universe: llama.cpp, Ollama, MLX, and LocalAI. Sprint 07 signoff is llama.cpp only.
+
+**`local-voice`** — Use when you want local STT plus a provider-agnostic voice shell that can drive any text runtime.
+
+**`openai-agents-sdk`** — Use when you need declarative agents, hosted tools, typed handoffs, and guardrails in the OpenAI Agents SDK.
+
+**`openai-codex-sdk`** — Use when you want Codex CLI autonomy, workspace-aware edits, and approval-driven coding loops.
+
+**`openai-operator`** — Use when you need computer-use style browser automation, screenshots, and hosted connectors through OpenAI tool primitives.
+
+**`openai-realtime-api`** — Use when you need low-latency audio or multimodal Realtime sessions with server VAD and voice output.
+
+**`openai-responses-api`** — Use when you need the broadest OpenAI knob surface, structured output, hosted tools, background runs, and webhook delivery.
+
+## Capability flags
+
+| Runtime key | Flags (true) |
+|---|---|
+| `anthropic-agent-sdk` | `canParseVerdicts`, `canReview`, `supportsAdaptiveThinking`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCacheControl`, `supportsCitations`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsComputerUse`, `supportsContext1M`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsReasoningEffort`, `supportsServiceTier`, `supportsSessionResume`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsToolCalling`, `supportsWebSearch` |
+| `gemini-antigravity-cli` | `canParseVerdicts`, `canReview`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsThinkingLevel`, `supportsToolCalling`, `supportsVideoInput`, `supportsWebSearch` |
+| `gemini-genai-sdk` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsThinkingLevel`, `supportsToolCalling`, `supportsVideoInput`, `supportsWebSearch` |
+| `local-llm` | `canParseVerdicts`, `canReview`, `supportsCloudTTS`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling` |
+| `local-voice` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsCloudTTS`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsRealtimeVoice`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling` |
+| `openai-agents-sdk` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch` |
+| `openai-codex-sdk` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedContainer`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch` |
+| `openai-operator` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsAudioStreaming`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsRealtimeSIP`, `supportsRealtimeVoice`, `supportsRealtimeWebRTC`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServerVAD`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`, `supportsWebhookDelivery` |
+| `openai-realtime-api` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsAudioStreaming`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedContainer`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsRealtimeSIP`, `supportsRealtimeVoice`, `supportsRealtimeWebRTC`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServerVAD`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch` |
+| `openai-responses-api` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`, `supportsWebhookDelivery` |

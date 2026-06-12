@@ -1,0 +1,38 @@
+---
+title: "Capability Catalog"
+description: "1328 of 2058 capability rows are usable today — 0 deferred."
+icon: "table"
+---
+
+{/* GENERATED (capabilities) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
+
+The provider feature catalog tracks **2058 capability rows** across four
+providers. **1328 rows are usable today** — implemented end-to-end, or
+usable with a documented model/compatibility caveat. **0 rows are
+deferred.** Every remaining row is in an explicit, audited terminal state.
+
+Zero deferred does **not** mean universal implementation. It means no unowned
+backlog: each row is usable, policy-blocked, vendor-blocked (sourced + dated),
+or unsupported by the vendor.
+
+| Provider | Usable now | Implemented | Model-dependent | Partial-compatible | Policy-blocked | Vendor-blocked | Unsupported | Total |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Anthropic](/harness/providers/anthropic) | **214** | 99 | 2 | 113 | 34 | 7 | 39 | 294 |
+| [Google Gemini](/harness/providers/gemini) | **466** | 463 | 1 | 2 | 99 | 52 | 79 | 696 |
+| [Local (on-device)](/harness/providers/local) | **185** | 168 | 17 | 0 | 188 | 6 | 7 | 386 |
+| [OpenAI](/harness/providers/openai) | **463** | 452 | 5 | 6 | 121 | 21 | 77 | 682 |
+
+## State semantics
+
+| State | Meaning |
+|---|---|
+| `implemented` | Wired end-to-end through deeda primitives and probed. |
+| `model-dependent` | Works on a documented subset of the provider's models. |
+| `partial-compatible` | Works under a documented compatibility shape. |
+| `policy-blocked` | Doc-cited, withheld by deeda policy (e.g. admin surfaces). |
+| `blocked_by_vendor` | Vendor has not shipped or access-gates it; every row cites a primary source URL and an ISO checked date. |
+| `unsupported` | The provider does not expose this feature. |
+
+Per-provider showcases list every usable capability:
+[Anthropic](/harness/providers/anthropic), [Gemini](/harness/providers/gemini),
+[Local](/harness/providers/local), [OpenAI](/harness/providers/openai).
