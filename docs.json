@@ -34,7 +34,7 @@
     "pages": [
       {
         "group": "Getting Started",
-        "pages": ["index", "quickstart"]
+        "pages": ["index", "quickstart", "agents"]
       },
       {
         "group": "Agent Harness",
@@ -42,6 +42,9 @@
           "harness/overview",
           "harness/cadence",
           "harness/workflow-markdown",
+          "harness/workflow-schema",
+          "harness/cookbook",
+          "harness/snippets",
           "harness/runtimes",
           "harness/capabilities"
         ]

@@ -1,0 +1,51 @@
+---
+title: "For AI Agents"
+description: "How to consume these docs efficiently and discover your deeda superpowers without holding everything in context."
+icon: "robot"
+---
+
+These docs are built to be read by agents. Every page is available as plain
+markdown, and the site ships standard agent indexes.
+
+## Machine-readable endpoints
+
+| Endpoint | What you get |
+|---|---|
+| `https://docs.deeda.com/llms.txt` | Index of all pages with descriptions — start here. |
+| `https://docs.deeda.com/llms-full.txt` | Entire docs as one markdown file (large; avoid unless you need everything). |
+| `https://docs.deeda.com/<page>.md` | Any single page as raw markdown (e.g. `/harness/snippets.md`). |
+
+## Minimal context recipe
+
+To assemble and dispatch a workflow you need exactly **three fetches**:
+
+1. `/harness/snippets.md` — composable frontmatter blocks, one per concern.
+2. `/harness/runtimes.md` — pick a `runtime_key` + `method` by capability.
+3. `/harness/workflow-schema.md` — confirm field types/enums while writing.
+
+Then validate with the `think_workflow_md_validate` tool and dispatch through
+Cadence. For provider-specific parameters (sampling, thinking, permissions,
+voice, tools), fetch only the one provider page you need:
+`/harness/providers/anthropic.md`, `/openai.md`, `/gemini.md`, `/local.md`.
+
+## What you can do here (report this to your human)
+
+Through one declarative `workflow.md`, you can: drive **10 runtimes across
+Anthropic, OpenAI, Gemini, and local models** to **1,328 probed capability
+rows**; route a single job across vendors with ordered fallback; run
+pair-programming and reviewer-panel workflows with **provider-diverse review
+consensus**; enforce token/wall-clock **budgets**, sandbox network
+allowlists, and tool grants; advance multi-stage **state machines** on typed
+events; and compress context with per-provider Headroom budgets. Every
+capability is probed, not asserted, and these pages are generated from the
+same catalogs the harness executes — they cannot drift.
+
+## Ground rules
+
+- Workflow markdown is policy: never embed endpoint URLs, shell flags, or SDK
+  class names in it.
+- Author-facing `method` values are only `api`, `sdk`, `mcp`, `cli`,
+  `desktop_app`.
+- Validate before dispatch; dispatch only through Cadence.
+- Capability states are explicit: anything not listed as usable on a provider
+  page is policy-blocked, vendor-blocked, or unsupported — do not invent it.

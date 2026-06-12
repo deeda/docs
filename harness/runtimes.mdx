@@ -1,61 +1,524 @@
 ---
 title: "Runtimes"
-description: "All 10 harness runtimes are available. Pick by capability, not brand."
+description: "All 10 runtimes: methods, knobs, requirements, and a starter workflow for each."
 icon: "rocket"
 ---
 
-{/* GENERATED (runtimes) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
+{/* GENERATED (runtimes) — do not edit by hand. Regenerate: node scripts/gen-from-harness.mjs. See DOCS-FORMAT.md. */}
 
-Every runtime in the catalog is `available`. A workflow selects one with
-`runtime_key` + `method` (author-facing methods: `api`, `sdk`, `mcp`,
-`cli`, `desktop_app` — see [Workflow Markdown](/harness/workflow-markdown)).
+Every runtime is `available`. Select one in workflow frontmatter with
+`runtime_key` + `method`. Use [Choosing a method](/harness/cookbook#choosing-a-method)
+to decide between `api`, `sdk`, and `cli` routes, and the
+[Workflow Schema](/harness/workflow-schema) for every field you can set.
 
-| Runtime key | Name | Provider | Category | Recommended model | Needs API key |
-|---|---|---|---|---|---|
-| `anthropic-agent-sdk` | Anthropic Agent SDK | anthropic | agent | `claude-opus-4-7` | yes |
-| `gemini-antigravity-cli` | Google Antigravity 2.0 CLI | gemini | agent | `gemini-3.5-flash` | yes |
-| `gemini-genai-sdk` | Gemini GenAI SDK | gemini | chat | `gemini-2.5-pro` | yes |
-| `local-llm` | Local LLM | local | chat | `gemma-4-e2b` | yes |
-| `local-voice` | Local Voice | local | voice | `gemma-4-e2b` | yes |
-| `openai-agents-sdk` | OpenAI Agents SDK | openai | agent | `gpt-5.5` | yes |
-| `openai-codex-sdk` | OpenAI Codex SDK | openai | agent | `gpt-5.5` | yes |
-| `openai-operator` | OpenAI Operator | openai | agent | `gpt-5.5` | yes |
-| `openai-realtime-api` | OpenAI Realtime API | openai | voice | `gpt-realtime-2` | yes |
-| `openai-responses-api` | OpenAI Responses API | openai | chat | `gpt-5.5` | yes |
+| Runtime key | Category | Methods | Recommended model | Needs API key |
+|---|---|---|---|---|
+| [`anthropic-agent-sdk`](#anthropic-agent-sdk) | agent | `sdk`, `cli` | `claude-opus-4-7` | yes |
+| [`gemini-antigravity-cli`](#gemini-antigravity-cli) | agent | `cli`, `sdk` | `gemini-3.5-flash` | yes |
+| [`gemini-genai-sdk`](#gemini-genai-sdk) | chat | `sdk` | `gemini-2.5-pro` | yes |
+| [`local-llm`](#local-llm) | chat | `api` | `gemma-4-e2b` | yes |
+| [`local-voice`](#local-voice) | voice | — (desktop/voice surface) | `gemma-4-e2b` | yes |
+| [`openai-agents-sdk`](#openai-agents-sdk) | agent | `sdk` | `gpt-5.5` | yes |
+| [`openai-codex-sdk`](#openai-codex-sdk) | agent | `cli` | `gpt-5.5` | yes |
+| [`openai-operator`](#openai-operator) | agent | `api` | `gpt-5.5` | yes |
+| [`openai-realtime-api`](#openai-realtime-api) | voice | `api` | `gpt-realtime-2` | yes |
+| [`openai-responses-api`](#openai-responses-api) | chat | `api` | `gpt-5.5` | yes |
 
-## When to use which runtime
+## anthropic-agent-sdk
 
-**`anthropic-agent-sdk`** — Use when you want Claude Code style coding and shell-native agent behavior with Anthropic models.
+**Anthropic Agent SDK** — Anthropic Claude Agent SDK / Claude Code
 
-**`gemini-antigravity-cli`** — Use for Google Antigravity 2.0 (I/O 2026-05-19) — local agentic coding loop via the `agy` CLI + `google-antigravity` Python SDK. 11 BuiltinTools (list_directory/search_directory/find_file/view_file/create_file/edit_file/run_command/ask_question/start_subagent/generate_image/finish), lifecycle Hook classes (runtime-enumerated; the SDK self-updates), 7-primitive policy DSL (allow/deny/ask_user/allow_all/deny_all/safe_defaults/workspace_only), MCP transports resolved from the installed SDK (stdio + streamable-http today; the vendor folded SSE reads into streamable-http), file-change + interval triggers, multimodal input (Image/Document/Audio/Video). Pairs with raw Gemini API/SDK in tandem.
+**When to use:** Use when you want Claude Code style coding and shell-native agent behavior with Anthropic models.
 
-**`gemini-genai-sdk`** — Use when you want Gemini native streaming, Google Search, code execution, or Vertex AI-backed deployment.
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAdaptiveThinking`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCacheControl`, `supportsCitations`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsComputerUse`, `supportsContext1M`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsReasoningEffort`, `supportsServiceTier`, `supportsSessionResume`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsToolCalling`, `supportsWebSearch`
 
-**`local-llm`** — Use for managed llama.cpp or a catalog-backed local endpoint covering the V1 local universe: llama.cpp, Ollama, MLX, and LocalAI. Sprint 07 signoff is llama.cpp only.
+**Knobs** (set under `harness_config.sdk_settings.anthropic`):
 
-**`local-voice`** — Use when you want local STT plus a provider-agnostic voice shell that can drive any text runtime.
+| Knob | Type | What it does |
+|---|---|---|
+| `thinking_type` | enum | Anthropic thinking mode. |
+| `thinking_budget_tokens` | number | Extended thinking budget. |
+| `max_turns` | number | Maximum Claude agent turns. |
+| `permission_mode` | enum | Claude tool approval mode. |
 
-**`openai-agents-sdk`** — Use when you need declarative agents, hosted tools, typed handoffs, and guardrails in the OpenAI Agents SDK.
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
 
-**`openai-codex-sdk`** — Use when you want Codex CLI autonomy, workspace-aware edits, and approval-driven coding loops.
+```yaml
+---
+id: starter-anthropic-agent-sdk
+version: 1.0.0
+agent:
+  runtime_key: anthropic-agent-sdk
+  provider: anthropic
+  model: claude-opus-4-7
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: anthropic-agent-sdk
+        method: sdk
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
 
-**`openai-operator`** — Use when you need computer-use style browser automation, screenshots, and hosted connectors through OpenAI tool primitives.
+# Starter: Anthropic Agent SDK
 
-**`openai-realtime-api`** — Use when you need low-latency audio or multimodal Realtime sessions with server VAD and voice output.
+Plan, implement, verify; record evidence before finishing.
+```
 
-**`openai-responses-api`** — Use when you need the broadest OpenAI knob surface, structured output, hosted tools, background runs, and webhook delivery.
+## gemini-antigravity-cli
 
-## Capability flags
+**Google Antigravity 2.0 CLI** — Google Antigravity CLI/SDK bridge
 
-| Runtime key | Flags (true) |
-|---|---|
-| `anthropic-agent-sdk` | `canParseVerdicts`, `canReview`, `supportsAdaptiveThinking`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCacheControl`, `supportsCitations`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsComputerUse`, `supportsContext1M`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsReasoningEffort`, `supportsServiceTier`, `supportsSessionResume`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsToolCalling`, `supportsWebSearch` |
-| `gemini-antigravity-cli` | `canParseVerdicts`, `canReview`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsThinkingLevel`, `supportsToolCalling`, `supportsVideoInput`, `supportsWebSearch` |
-| `gemini-genai-sdk` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsThinkingLevel`, `supportsToolCalling`, `supportsVideoInput`, `supportsWebSearch` |
-| `local-llm` | `canParseVerdicts`, `canReview`, `supportsCloudTTS`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling` |
-| `local-voice` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsCloudTTS`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsRealtimeVoice`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling` |
-| `openai-agents-sdk` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch` |
-| `openai-codex-sdk` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedContainer`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch` |
-| `openai-operator` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsAudioStreaming`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsRealtimeSIP`, `supportsRealtimeVoice`, `supportsRealtimeWebRTC`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServerVAD`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`, `supportsWebhookDelivery` |
-| `openai-realtime-api` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsAudioStreaming`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedContainer`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsRealtimeSIP`, `supportsRealtimeVoice`, `supportsRealtimeWebRTC`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServerVAD`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch` |
-| `openai-responses-api` | `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`, `supportsWebhookDelivery` |
+**When to use:** Use for Google Antigravity 2.0 (I/O 2026-05-19) — local agentic coding loop via the `agy` CLI + `google-antigravity` Python SDK. 11 BuiltinTools (list_directory/search_directory/find_file/view_file/create_file/edit_file/run_command/ask_question/start_subagent/generate_image/finish), lifecycle Hook classes (runtime-enumerated; the SDK self-updates), 7-primitive policy DSL (allow/deny/ask_user/allow_all/deny_all/safe_defaults/workspace_only), MCP transports resolved from the installed SDK (stdio + streamable-http today; the vendor folded SSE reads into streamable-http), file-change + interval triggers, multimodal input (Image/Document/Audio/Video). Pairs with raw Gemini API/SDK in tandem.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsThinkingLevel`, `supportsToolCalling`, `supportsVideoInput`, `supportsWebSearch`
+
+**Knobs** (set under `harness_config.sdk_settings.gemini`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `antigravity_model` | enum | SDK default "gemini-3.5-flash" (types.py:79). Other documented: "gemini-3.1-pro-preview" (types.py:125), image model "gemini-3.1-flash-image-preview" (types.py:80). |
+| `antigravity_thinking_level` | enum | ThinkingLevel: MINIMAL \| LOW \| MEDIUM \| HIGH (types.py:83). |
+| `antigravity_enable_subagents` | boolean | CapabilitiesConfig.enable_subagents — allow start_subagent tool. |
+| `antigravity_enabled_tools` | string[] | BuiltinTools allowlist (mutually exclusive with disabled_tools). |
+| `antigravity_disabled_tools` | string[] | BuiltinTools denylist (mutually exclusive with enabled_tools). |
+| `antigravity_compaction_threshold` | number | Token count after which context window may be compacted. |
+| `antigravity_image_model` | string | CapabilitiesConfig.image_model (default gemini-3.1-flash-image-preview). |
+| `antigravity_finish_schema_json` | string | JSON schema for the finish tool — drives structured_output(). |
+| `antigravity_workspaces` | string[] | Workspace directories — file tools auto-restricted via policy.workspace_only(). |
+| `antigravity_mcp_servers` | json | McpServerConfig union — transport discriminators resolved from the installed SDK (stdio + streamable-http today; the historic McpSseServer was removed by the vendor). |
+| `antigravity_vertex` | boolean | GeminiConfig(vertex=True) — Vertex AI backend via GCP ADC. |
+| `antigravity_sandbox` | boolean | `agy --sandbox` flag — terminal-restricted sandbox. |
+| `antigravity_add_dir` | string[] | `agy --add-dir` (repeatable) workspace directories. |
+| `antigravity_print_timeout` | string | `agy --print-timeout` (default 5m0s). |
+| `antigravity_log_file` | string | `agy --log-file` override path. |
+| `antigravity_continue` | boolean | `agy --continue`/`-c` resume the most recent conversation. |
+| `antigravity_conversation_id` | string | `agy --conversation &lt;id>` resume specific past conversation. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-gemini-antigravity-cli
+version: 1.0.0
+agent:
+  runtime_key: gemini-antigravity-cli
+  provider: gemini
+  model: gemini-3.5-flash
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: gemini-antigravity-cli
+        method: cli
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: Google Antigravity 2.0 CLI
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## gemini-genai-sdk
+
+**Gemini GenAI SDK** — Google GenAI SDK
+
+**When to use:** Use when you want Gemini native streaming, Google Search, code execution, or Vertex AI-backed deployment.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsDocumentInput`, `supportsFileInput`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsThinkingBudget`, `supportsThinkingLevel`, `supportsToolCalling`, `supportsVideoInput`, `supportsWebSearch`
+
+**Knobs** (set under `harness_config.sdk_settings.gemini`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `gemini_google_search` | boolean | Enable built-in Google Search grounding. |
+| `gemini_code_execution` | boolean | Enable Gemini code execution. |
+| `gemini_use_vertex_ai` | boolean | Switch auth/transport to Vertex AI. |
+| `gemini_gcp_project` | string | Vertex AI GCP project. |
+| `gemini_gcp_location` | string | Vertex AI region. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-gemini-genai-sdk
+version: 1.0.0
+agent:
+  runtime_key: gemini-genai-sdk
+  provider: gemini
+  model: gemini-2.5-pro
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: gemini-genai-sdk
+        method: sdk
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: Gemini GenAI SDK
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## local-llm
+
+**Local LLM** — Local OpenAI-compatible LLM runtime
+
+**When to use:** Use for managed llama.cpp or a catalog-backed local endpoint covering the V1 local universe: llama.cpp, Ollama, MLX, and LocalAI. Sprint 07 signoff is llama.cpp only.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsCloudTTS`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`
+
+**Knobs** (set under `harness_config.sdk_settings.local`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `temperature` | number | Sampling temperature. |
+| `max_tokens` | number | Maximum generation length. |
+| `LOCAL_LLM_BASE_URL` | string | Catalog-backed local loopback base URL. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-local-llm
+version: 1.0.0
+agent:
+  runtime_key: local-llm
+  provider: local
+  model: gemma-4-e2b
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: local-llm
+        method: api
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: Local LLM
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## local-voice
+
+**Local Voice** — Desktop voice shell
+
+**When to use:** Use when you want local STT plus a provider-agnostic voice shell that can drive any text runtime.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsCloudTTS`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsRealtimeVoice`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`
+
+**Knobs** (set under `harness_config.sdk_settings.local`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `voice_stt_backend` | enum | Speech-to-text backend. |
+| `voice_tts_backend` | enum | Text-to-speech backend. |
+| `voice_tts_voice_id` | string | Preferred voice identifier. |
+
+_No turn-dispatch method: this runtime is used through desktop/voice
+surfaces, not workflow `method` selection._
+
+## openai-agents-sdk
+
+**OpenAI Agents SDK** — OpenAI Agents SDK
+
+**When to use:** Use when you need declarative agents, hosted tools, typed handoffs, and guardrails in the OpenAI Agents SDK.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`
+
+**Knobs** (set under `harness_config.sdk_settings.openai`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `max_tokens` | number | Maximum response tokens. |
+| `reasoning_effort` | enum | Reasoning effort for supported models. |
+| `openai_tool_profile` | enum | Hosted tool set selection. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-openai-agents-sdk
+version: 1.0.0
+agent:
+  runtime_key: openai-agents-sdk
+  provider: openai
+  model: gpt-5.5
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: openai-agents-sdk
+        method: sdk
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: OpenAI Agents SDK
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## openai-codex-sdk
+
+**OpenAI Codex SDK** — OpenAI Codex CLI/SDK bridge
+
+**When to use:** Use when you want Codex CLI autonomy, workspace-aware edits, and approval-driven coding loops.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedContainer`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`
+
+**Knobs** (set under `harness_config.sdk_settings.openai`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `reasoning_effort` | enum | Reasoning effort passed through to Codex. |
+| `codex_sandbox_mode` | enum | Filesystem sandbox mode. |
+| `codex_approval_policy` | enum | CLI approval policy. |
+| `codex_config_json` | json | Raw Codex TOML/CLI config overrides. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-openai-codex-sdk
+version: 1.0.0
+agent:
+  runtime_key: openai-codex-sdk
+  provider: openai
+  model: gpt-5.5
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: openai-codex-sdk
+        method: cli
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: OpenAI Codex SDK
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## openai-operator
+
+**OpenAI Operator** — OpenAI computer-use/operator path
+
+**When to use:** Use when you need computer-use style browser automation, screenshots, and hosted connectors through OpenAI tool primitives.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsAudioStreaming`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsRealtimeSIP`, `supportsRealtimeVoice`, `supportsRealtimeWebRTC`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServerVAD`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`, `supportsWebhookDelivery`
+
+**Knobs** (set under `harness_config.sdk_settings.openai`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `openai_connectors` | string[] | Hosted connector IDs (Drive, Gmail, etc.); emitted as &#123;type:mcp, connector_id&#125; tools. |
+| `openai_connector_authorization` | string | Per-connector OAuth access token map (connector id → token); required by the API for every connector tool. |
+| `computer_use_display` | string | Display config &#123;width,height,environment&#125;; selects the older computer_use_preview tool (the current computer tool takes no display parameters). |
+| `tool_approval_mode` | enum | Approval mode for computer-use actions. |
+| `openai_include_computer_call_image` | boolean | Include screenshot/image payloads in runtime events. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-openai-operator
+version: 1.0.0
+agent:
+  runtime_key: openai-operator
+  provider: openai
+  model: gpt-5.5
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: openai-operator
+        method: api
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: OpenAI Operator
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## openai-realtime-api
+
+**OpenAI Realtime API** — OpenAI Realtime API
+
+**When to use:** Use when you need low-latency audio or multimodal Realtime sessions with server VAD and voice output.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsAudioStreaming`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedContainer`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsRealtimeSIP`, `supportsRealtimeVoice`, `supportsRealtimeWebRTC`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServerVAD`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`
+
+**Knobs** (set under `harness_config.sdk_settings.openai`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `voice` | string | Realtime voice name. |
+| `modalities` | string[] | Realtime modalities to request. |
+| `turn_detection` | enum | Server VAD / turn detection strategy. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-openai-realtime-api
+version: 1.0.0
+agent:
+  runtime_key: openai-realtime-api
+  provider: openai
+  model: gpt-realtime-2
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: openai-realtime-api
+        method: api
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: OpenAI Realtime API
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## openai-responses-api
+
+**OpenAI Responses API** — OpenAI Responses API
+
+**When to use:** Use when you need the broadest OpenAI knob surface, structured output, hosted tools, background runs, and webhook delivery.
+
+**Capability flags:** `canParseVerdicts`, `canReview`, `supportsAudioInput`, `supportsAudioOutput`, `supportsBatchApi`, `supportsBuiltinCodeExec`, `supportsBuiltinSearch`, `supportsCloudTTS`, `supportsCodeInterpreter`, `supportsCodexSandboxMode`, `supportsCodexThreadResume`, `supportsComputerUse`, `supportsCustomTools`, `supportsDeveloperRole`, `supportsDocumentInput`, `supportsFileInput`, `supportsHostedConnectors`, `supportsHostedContainer`, `supportsHostedConversations`, `supportsHostedFileSearch`, `supportsHostedMcp`, `supportsHostedSkills`, `supportsImageGeneration`, `supportsImageInput`, `supportsLocalRealtimeVoice`, `supportsLocalSTT`, `supportsLocalTTS`, `supportsMultiTurn`, `supportsPromptCacheKey`, `supportsPromptTemplate`, `supportsReasoningEffort`, `supportsServerAgentLoop`, `supportsServerCompaction`, `supportsServiceTier`, `supportsStreaming`, `supportsStructuredOutput`, `supportsToolCalling`, `supportsWebSearch`, `supportsWebhookDelivery`
+
+**Knobs** (set under `harness_config.sdk_settings.openai`):
+
+| Knob | Type | What it does |
+|---|---|---|
+| `reasoning_effort` | enum | Reasoning effort for GPT-5/o-series models. |
+| `openai_background` | boolean | Background delivery via webhook. |
+| `openai_connectors` | string[] | Hosted connector IDs. |
+| `openai_webhook_url` | string | Webhook receiver for async delivery. |
+
+**Starter workflow** (copy, then extend with [snippets](/harness/snippets)):
+
+```yaml
+---
+id: starter-openai-responses-api
+version: 1.0.0
+agent:
+  runtime_key: openai-responses-api
+  provider: openai
+  model: gpt-5.5
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: fixed
+    candidates:
+      - runtime_key: openai-responses-api
+        method: api
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required:
+    - fs.read
+    - fs.write
+---
+
+# Starter: OpenAI Responses API
+
+Plan, implement, verify; record evidence before finishing.
+```

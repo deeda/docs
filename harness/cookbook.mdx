@@ -1,0 +1,193 @@
+---
+title: "Workflow Cookbook"
+description: "Complete, copy-paste workflow recipes — and how to choose between api, sdk, and cli."
+icon: "book-open"
+---
+
+Every recipe below is a complete `workflow.md` you can copy, validate, and
+dispatch. Extend any of them with blocks from [Snippets](/harness/snippets);
+check field meanings in the [Workflow Schema](/harness/workflow-schema).
+
+## Choosing a method
+
+The `method` field selects *how* a runtime is driven. Rules of thumb:
+
+| Method | Choose when | Trade-off |
+|---|---|---|
+| `api` | You want stateless turns, structured output, tight latency control, or server-side features (e.g. OpenAI Responses/Realtime/Operator). | You manage context/state in the workflow; no vendor-native agent loop. |
+| `sdk` | You want the vendor's full agentic loop — native tool calling, hooks, sessions, thinking budgets (e.g. Claude Agent SDK, OpenAI Agents SDK, GenAI SDK). | Heavier per-turn; vendor loop semantics apply. |
+| `cli` | The capability lives in a local agent binary (Claude Code, Codex CLI, Antigravity) — local file edits, sandboxed shell, repo-scale work. | Requires local install; dispatch_path is `local`. |
+| `mcp` | You are bridging an external MCP server's tools into the run. | Tool-surface only. |
+| `desktop_app` | Driving a desktop surface (voice shell, UI automation). | Desktop session required. |
+
+Concretely: research/synthesis → `gemini-genai-sdk (sdk)`; repo implementation
+→ `anthropic-agent-sdk (cli or sdk)`; independent code review →
+`openai-codex-sdk (cli)`; cheap structured calls → `openai-responses-api (api)`;
+voice → `openai-realtime-api (api)` or `local-voice`; computer use →
+`openai-operator (api)`; offline/private → `local-llm (api)`.
+
+## Recipe: minimal single agent
+
+The smallest valid production workflow — one runtime, fixed route:
+
+```yaml
+---
+id: minimal-single-agent
+version: 1.0.0
+agent:
+  runtime_key: anthropic-agent-sdk
+  provider: anthropic
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+budget:
+  tokens: 60000
+  wall_clock_minutes: 30
+sandbox:
+  workspace_write: true
+tools:
+  required: [fs.read, fs.write, git]
+---
+
+# Minimal Single Agent
+
+Plan, implement, verify; record evidence before finishing.
+```
+
+## Recipe: ordered fallback (resilient single agent)
+
+Try Anthropic first; fall back to Codex, then Antigravity, on failure or
+credit exhaustion:
+
+```yaml
+---
+id: resilient-worker
+version: 1.0.0
+agent:
+  runtime_key: anthropic-agent-sdk
+  provider: anthropic
+  role: worker
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 10
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: ordered
+    candidates:
+      - runtime_key: anthropic-agent-sdk
+        method: sdk
+        dispatch_path: cloud_managed
+      - runtime_key: openai-codex-sdk
+        method: cli
+        dispatch_path: local
+      - runtime_key: gemini-antigravity-cli
+        method: cli
+        dispatch_path: local
+    fallback_on_credit_exhausted: true
+budget:
+  tokens: 100000
+  wall_clock_minutes: 45
+sandbox:
+  workspace_write: true
+tools:
+  required: [fs.read, fs.write, git]
+retry:
+  max_attempts: 2
+  retryable_runtime_failures: [provider_unavailable, rate_limited]
+---
+
+# Resilient Worker
+
+Same job, three routes. Cadence advances to the next candidate on failure.
+```
+
+## Recipe: pair programming (researcher + engineer + reviewer)
+
+Three providers, each where it is strongest, with an isolated reviewer:
+
+```yaml
+---
+id: pair-research-build-review
+version: 1.0.0
+agent:
+  runtime_key: anthropic-agent-sdk
+  provider: anthropic
+  role: orchestrator
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 12
+pair_profiles:
+  default:
+    name: "Research, build, review"
+    researcher:
+      runtime_key: gemini-genai-sdk
+      provider: gemini
+      model: gemini-2.5-pro
+      method: sdk
+    engineer:
+      runtime_key: anthropic-agent-sdk
+      provider: anthropic
+      model: claude-opus-4-7
+      method: cli
+    reviewer:
+      runtime_key: openai-codex-sdk
+      provider: openai
+      model: gpt-5.5
+      method: cli
+      isolate_context: true
+budget:
+  tokens: 180000
+  wall_clock_minutes: 90
+sandbox:
+  workspace_write: true
+  network: [api.anthropic.com, api.openai.com, generativelanguage.googleapis.com]
+tools:
+  required: [fs.read, fs.write, git, probes.run]
+---
+
+# Pair: Research, Build, Review
+
+Researcher gathers context, engineer implements, isolated reviewer judges.
+```
+
+## Recipe: provider-diverse review panel
+
+Gate completion on a 3-reviewer, cross-vendor consensus:
+
+```yaml
+review_consensus:
+  workflow_id: review-consensus
+  reviewers: 3
+  rule: unanimous-on-block
+  diversity: [anthropic, gemini, openai]
+  runtime_keys:
+    anthropic: anthropic-agent-sdk
+    gemini: gemini-genai-sdk
+    openai: openai-codex-sdk
+  timeout_ms: 5400000
+```
+
+Add this block to any recipe above; Cadence will not close the run until the
+panel agrees (any reviewer can block; a block forces rework).
+
+## Recipe: state-machine workflow
+
+Multi-stage run where Cadence advances stages only on typed events:
+
+```yaml
+state_machine:
+  start: research
+  stage_order: [research, plan, implement, review, signoff]
+  terminal_states: [done]
+  on_event:
+    research_completed: plan
+    plan_completed: implement
+    implementation_completed: review
+    review_clean: signoff
+    review_blocked: implement
+    signoff_completed: done
+  loop_caps:
+    total_turns: 12
+    on_exceeded: signoff
+```
+
+The full worked example combining all of the above is in
+[Workflow Markdown](/harness/workflow-markdown#validated-cross-provider-example).

@@ -1,504 +1,1044 @@
 ---
 title: "OpenAI"
-description: "463 of 682 catalog rows usable today."
+description: "463 usable capability rows, 461 documented parameters."
 ---
 
-{/* GENERATED (providers/openai) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
+{/* GENERATED (providers/openai) — do not edit by hand. Regenerate: node scripts/gen-from-harness.mjs. See DOCS-FORMAT.md. */}
 
-Everything you can do with **OpenAI** through the deeda harness,
-grouped by feature family. Caveats are inline; rows without a caveat are
-implemented end-to-end and probed.
+What you can do with **OpenAI** through the harness, by feature
+family: the capability rows you can rely on (linked to vendor docs) and
+the **parameters** you can set for each. Configure parameters through the
+workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
+— model/turn/budget fields on `agent`, provider knobs under
+`harness_config.sdk_settings.openai`, and tool/sandbox policy at top level.
 
-### Agent runtime (163/179 usable)
+## Admin/enterprise
 
-- `openai.agents_sdk.agent.as_tool` (tool.call)
-- `openai.agents_sdk.agent.class` (agent.event.append)
-- `openai.agents_sdk.agent.clone` (agent.event.append)
-- `openai.agents_sdk.agent.dynamic_instructions` (agent.event.append)
-- `openai.agents_sdk.exceptions.agents_exception` (agent.event.append)
-- `openai.agents_sdk.exceptions.input_guardrail_tripwire` (agent.event.append)
-- `openai.agents_sdk.exceptions.max_turns_exceeded` (agent.event.append)
-- `openai.agents_sdk.exceptions.model_behavior_error` (agent.event.append)
-- `openai.agents_sdk.exceptions.output_guardrail_tripwire` (agent.event.append)
-- `openai.agents_sdk.exceptions.user_error` (agent.event.append)
-- `openai.agents_sdk.guardrail.function_output` (agent.event.append)
-- `openai.agents_sdk.guardrail.input_class` (agent.event.append)
-- `openai.agents_sdk.guardrail.input_decorator` (agent.event.append)
-- `openai.agents_sdk.guardrail.output_class` (agent.event.append)
-- `openai.agents_sdk.guardrail.output_decorator` (agent.event.append)
-- `openai.agents_sdk.handoff.class` (agent.handoff.create)
-- `openai.agents_sdk.handoff.function` (agent.handoff.create)
-- `openai.agents_sdk.handoff.input_filter` (agent.handoff.create)
-- `openai.agents_sdk.handoff.recommended_prompt` (agent.handoff.create)
-- `openai.agents_sdk.hooks.agent_hooks` (agent.event.append)
-- `openai.agents_sdk.hooks.run_hooks` (agent.event.append)
-- `openai.agents_sdk.items.handoff_call_item` (agent.handoff.create)
-- `openai.agents_sdk.items.handoff_output_item` (agent.handoff.create)
-- `openai.agents_sdk.items.helpers` (agent.event.append)
-- `openai.agents_sdk.items.mcp_call_item` (tool.call)
-- `openai.agents_sdk.items.message_output_item` (agent.event.append)
-- `openai.agents_sdk.items.reasoning_item` (agent.event.append)
-- `openai.agents_sdk.items.tool_call_item` (tool.call)
-- `openai.agents_sdk.items.tool_call_output_item` (tool.call)
-- `openai.agents_sdk.js.core_package` (agent.event.append)
-- `openai.agents_sdk.js.openai_package` (agent.event.append)
-- `openai.agents_sdk.js.realtime_package` (realtime.session.create)
-- `openai.agents_sdk.js.with_trace` (agent.event.append)
-- `openai.agents_sdk.js.zod_helpers` (agent.event.append)
-- `openai.agents_sdk.model.chat_completions_model` (llm.complete)
-- `openai.agents_sdk.model.model_settings` (agent.event.append)
-- `openai.agents_sdk.model.openai_provider` (agent.event.append)
-- `openai.agents_sdk.model.responses_model` (llm.complete)
-- `openai.agents_sdk.model.set_default_api` (agent.event.append)
-- `openai.agents_sdk.model.set_default_client` (agent.event.append)
-- `openai.agents_sdk.model.set_default_key` (agent.event.append)
-- `openai.agents_sdk.realtime.agent` (realtime.session.create)
-- `openai.agents_sdk.realtime.runner` (realtime.session.create)
-- `openai.agents_sdk.realtime.session` (realtime.session.create)
-- `openai.agents_sdk.result.run_result` (agent.event.append)
-- `openai.agents_sdk.result.run_result_streaming` (agent.event.append)
-- `openai.agents_sdk.run_config` (agent.event.append)
-- `openai.agents_sdk.runner.default_max_turns` (agent.event.append)
-- `openai.agents_sdk.runner.run` (agent.event.append)
-- `openai.agents_sdk.runner.run_streamed` (agent.event.append)
-- `openai.agents_sdk.runner.run_sync` (agent.event.append)
-- `openai.agents_sdk.session.abc` (agent.event.append)
-- `openai.agents_sdk.session.openai_conversations` (agent.event.append)
-- `openai.agents_sdk.session.sqlite` (agent.event.append)
-- `openai.agents_sdk.streaming.agent_updated_event` (agent.event.append)
-- `openai.agents_sdk.streaming.raw_response_event` (agent.event.append)
-- `openai.agents_sdk.streaming.run_item_event` (agent.event.append)
-- `openai.agents_sdk.tool.code_interpreter` (tool.call)
-- `openai.agents_sdk.tool.computer` (tool.call)
-- `openai.agents_sdk.tool.file_search` (tool.call)
-- `openai.agents_sdk.tool.function_decorator` (tool.call)
-- `openai.agents_sdk.tool.function_tool_class` (tool.call)
-- `openai.agents_sdk.tool.hosted_mcp` (tool.call)
-- `openai.agents_sdk.tool.image_generation` (media.image.generate)
-- `openai.agents_sdk.tool.local_shell` (tool.call)
-- `openai.agents_sdk.tool.mcp_server_sse` (tool.call)
-- `openai.agents_sdk.tool.mcp_server_stdio` (tool.call)
-- `openai.agents_sdk.tool.mcp_server_streamable_http` (tool.call)
-- `openai.agents_sdk.tool.tool_context` (tool.call)
-- `openai.agents_sdk.tool.web_search` (tool.call)
-- `openai.agents_sdk.tracing.add_processor` (agent.event.append)
-- `openai.agents_sdk.tracing.agent_span` (agent.event.append)
-- `openai.agents_sdk.tracing.batch_processor` (agent.event.append)
-- `openai.agents_sdk.tracing.console_exporter` (agent.event.append)
-- `openai.agents_sdk.tracing.custom_span` (agent.event.append)
-- `openai.agents_sdk.tracing.disabled_setter` (agent.event.append)
-- `openai.agents_sdk.tracing.export_api_key` (agent.event.append)
-- `openai.agents_sdk.tracing.function_span` (agent.event.append)
-- `openai.agents_sdk.tracing.generation_span` (agent.event.append)
-- `openai.agents_sdk.tracing.guardrail_span` (agent.event.append)
-- `openai.agents_sdk.tracing.handoff_span` (agent.event.append)
-- `openai.agents_sdk.tracing.mcp_tools_span` (agent.event.append)
-- `openai.agents_sdk.tracing.openai_exporter` (agent.event.append)
-- `openai.agents_sdk.tracing.response_span` (agent.event.append)
-- `openai.agents_sdk.tracing.set_processors` (agent.event.append)
-- `openai.agents_sdk.tracing.span_class` (agent.event.append)
-- `openai.agents_sdk.tracing.speech_group_span` (agent.event.append)
-- `openai.agents_sdk.tracing.speech_span` (agent.event.append)
-- `openai.agents_sdk.tracing.trace` (agent.event.append)
-- `openai.agents_sdk.tracing.transcription_span` (agent.event.append)
-- `openai.agents_sdk.usage_tracker` (agent.event.append)
-- `openai.agents_sdk.voice.audio_input` (media.audio.transcribe)
-- `openai.agents_sdk.voice.pipeline` (media.audio.speak)
-- `openai.agents_sdk.voice.single_agent_workflow` (media.audio.speak)
-- `openai.agents_sdk.voice.streamed_audio_input` (media.audio.transcribe)
-- `openai.agents_sdk.voice.workflow_base` (media.audio.speak)
-- `openai.agents_sdk.voice.workflow_helper` (media.audio.speak)
-- `openai.agents.config` (agent.event.append)
-- `openai.agents.context` (agent.event.append)
-- `openai.agents.definition` (agent.event.append)
-- `openai.agents.examples` (docs.examples)
-- `openai.agents.guardrails` (agent.event.append)
-- `openai.agents.handoff` (agent.handoff.create)
-- `openai.agents.lifecycle` (agent.event.append)
-- `openai.agents.mcp` (tool.call)
-- `openai.agents.memory` (agent.event.append)
-- `openai.agents.models` (agent.event.append)
-- `openai.agents.observability` (agent.event.append)
-- `openai.agents.results_state` (agent.event.append)
-- `openai.agents.sandbox` (agent.event.append)
-- `openai.agents.sdk` (agent.event.append)
-- `openai.agents.sdk_python` (agent.event.append)
-- `openai.agents.session_memory` (agent.event.append)
-- `openai.agents.streaming` (agent.event.append)
-- `openai.agents.tracing` (agent.event.append)
-- `openai.agents.voice` (realtime.session.create)
-- `openai.cadence.context_window_self_management` (llm.complete)
-- `openai.cadence.cross_provider_routing` (provider.admin.read)
-- `openai.cadence.dynamic_instructions` (agent.event.append)
-- `openai.cadence.failure_compensation` (agent.event.append)
-- `openai.cadence.model_routing` (provider.admin.read)
-- `openai.cadence.observability_export` (agent.event.append)
-- `openai.cadence.policy_layer` (agent.event.append)
-- `openai.cadence.subagent_orchestration` (agent.handoff.create)
-- `openai.cadence.tool_dynamic_filter` (tool.call)
-- `openai.codex.cli` (codex.cli)
-- `openai.codex.config` (codex.cli)
-- `openai.codex.exec` (codex.cli)
-- `openai.codex.ide_extension` (codex.ide)
-- `openai.codex.mcp_server` (codex.cli)
-- `openai.codex.review` (codex.app)
-- `openai.codex.sandboxing` (codex.cli)
-- `openai.codex.sdk` (codex.agent.run)
-- `openai.mcp.apps_sdk_server` (tool.call)
-- `openai.mcp.codex_server` (tool.call)
-- `openai.mcp.dynamic_registration` (tool.call)
-- `openai.mcp.hosted_remote` (tool.call)
-- `openai.mcp.list_tools` (tool.call)
-- `openai.mcp.oauth_dynamic` (tool.call)
-- `openai.mcp.realtime_remote` (tool.call)
-- `openai.sdk.azure_openai` (provider.admin.read)
-- `openai.sdk.cli` (provider.admin.read)
-- `openai.sdk.config.base_url` (provider.admin.read)
-- `openai.sdk.config.default_headers` (provider.admin.read)
-- `openai.sdk.config.max_retries` (provider.admin.read)
-- `openai.sdk.config.organization` (provider.admin.read)
-- `openai.sdk.config.project` (provider.admin.read)
-- `openai.sdk.config.timeout` (provider.admin.read)
-- `openai.sdk.deno` (provider.admin.read)
-- `openai.sdk.dotnet` (provider.admin.read)
-- `openai.sdk.go` (provider.admin.read)
-- `openai.sdk.helpers.beta_chat` (llm.complete)
-- `openai.sdk.helpers.parse` (llm.complete)
-- `openai.sdk.helpers.realtime` (realtime.session.create)
-- `openai.sdk.helpers.responses_stream` (llm.stream)
-- `openai.sdk.helpers.streaming` (llm.stream)
-- `openai.sdk.helpers.zod_response_format` (llm.complete)
-- `openai.sdk.java` (provider.admin.read)
-- `openai.sdk.node` (provider.admin.read)
-- `openai.sdk.python` (provider.admin.read)
-- `openai.sdk.raw_response` (provider.admin.read)
-- `openai.sdk.vertex_anthropic_compat` (provider.admin.read)
-- `openai.sdk.with_options` (provider.admin.read)
+**Parameters** (1):
 
-### Core generation (55/59 usable)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `start_time` | string | — | — | high | Requires OpenAI admin API key; never resolvable from user audience. |
 
-- `openai.chat.completions` (llm.complete) — *partial-compatible*: Chat Completions kept as compatibility surface only; Responses is default.
-- `openai.chat.completions.delete` (llm.complete)
-- `openai.chat.completions.list` (llm.complete)
-- `openai.chat.completions.messages` (llm.complete)
-- `openai.chat.completions.retrieve` (llm.complete)
-- `openai.chat.completions.stream` (llm.stream) — *partial-compatible*: Chat Completions SSE streaming kept as compatibility surface only.
-- `openai.chat.completions.update` (llm.complete)
-- `openai.conversations.create` (llm.state.continue)
-- `openai.conversations.delete` (llm.state.continue)
-- `openai.conversations.items` (llm.conversations.items)
-- `openai.conversations.items.create` (llm.conversations.items)
-- `openai.conversations.items.delete` (llm.conversations.items)
-- `openai.conversations.items.list` (llm.conversations.items)
-- `openai.conversations.items.retrieve` (llm.conversations.items)
-- `openai.conversations.retrieve` (llm.state.continue)
-- `openai.conversations.update` (llm.state.continue)
-- `openai.responses.cancel` (llm.complete)
-- `openai.responses.create` (llm.complete)
-- `openai.responses.delete` (llm.complete)
-- `openai.responses.include` (llm.complete)
-- `openai.responses.input_items` (llm.responses.input_items)
-- `openai.responses.item.code_interpreter_call` (tool.call)
-- `openai.responses.item.computer_call` (tool.call)
-- `openai.responses.item.computer_call_output` (tool.call)
-- `openai.responses.item.custom_tool_call` (tool.call)
-- `openai.responses.item.custom_tool_call_output` (tool.call)
-- `openai.responses.item.file_search_call` (tool.call)
-- `openai.responses.item.function_call` (tool.call)
-- `openai.responses.item.function_call_output` (tool.call)
-- `openai.responses.item.image_generation_call` (media.image.generate)
-- `openai.responses.item.item_reference` (llm.state.continue)
-- `openai.responses.item.mcp_approval_request` (tool.call)
-- `openai.responses.item.mcp_approval_response` (tool.call)
-- `openai.responses.item.mcp_call` (tool.call)
-- `openai.responses.item.mcp_list_tools` (tool.call)
-- `openai.responses.item.message` (llm.complete)
-- `openai.responses.item.reasoning` (llm.complete)
-- `openai.responses.item.web_search_call` (tool.call)
-- `openai.responses.json_schema_strict` (llm.complete)
-- `openai.responses.max_output_tokens` (llm.complete)
-- `openai.responses.metadata` (llm.complete)
-- `openai.responses.parallel_tool_calls` (llm.complete)
-- `openai.responses.previous_response_id` (llm.state.continue)
-- `openai.responses.prompt_object` (llm.complete)
-- `openai.responses.reasoning` (llm.complete) — *model-dependent*: reasoning.effort plumb-through verified live; only reasoning-capable models (o3-mini, o-series, gpt-5+) honor the field — non-reasoning models reject with HTTP 400.
-- `openai.responses.reasoning_summaries` (llm.complete) — *model-dependent*: reasoning.summary plumbed through harness sdk_config (reasoning_summary) → Responses request builder; only reasoning-capable models (o-series, gpt-5+) emit summaries — the field rides the reasoning block, which non-reasoning models reject.
-- `openai.responses.refusal` (llm.complete)
-- `openai.responses.retrieve` (llm.complete)
-- `openai.responses.safety_identifier` (llm.complete)
-- `openai.responses.store` (llm.complete)
-- `openai.responses.stream` (llm.stream)
-- `openai.responses.structured_output` (llm.complete)
-- `openai.responses.temperature` (llm.complete)
-- `openai.responses.text_format` (llm.complete)
-- `openai.responses.tool_choice` (llm.complete)
+## Agent runtime
 
-### Evaluation (22/26 usable)
+**Capabilities** (163/179 rows usable):
 
-- `openai.evals.create` (eval.create)
-- `openai.evals.data_source.completions` (eval.run)
-- `openai.evals.data_source.jsonl` (eval.run)
-- `openai.evals.data_source.responses` (eval.run)
-- `openai.evals.data_source.stored_completions` (eval.run)
-- `openai.evals.delete` (eval.create)
-- `openai.evals.graders` (eval.run)
-- `openai.evals.graders.model` (eval.run)
-- `openai.evals.graders.multi` (eval.run)
-- `openai.evals.graders.python` (eval.run)
-- `openai.evals.graders.string_check` (eval.run)
-- `openai.evals.graders.text_similarity` (eval.run)
-- `openai.evals.list` (eval.create)
-- `openai.evals.output_items` (eval.output.list)
-- `openai.evals.output_items.retrieve` (eval.output.list)
-- `openai.evals.retrieve` (eval.create)
-- `openai.evals.run` (eval.run)
-- `openai.evals.runs.cancel` (eval.run)
-- `openai.evals.runs.delete` (eval.run)
-- `openai.evals.runs.list` (eval.run)
-- `openai.evals.status` (eval.status)
-- `openai.evals.update` (eval.create)
+- `openai.agents_sdk.agent.as_tool` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/agent/)
+- `openai.agents_sdk.agent.class` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/agent/)
+- `openai.agents_sdk.agent.clone` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/agent/)
+- `openai.agents_sdk.agent.dynamic_instructions` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/agents/)
+- `openai.agents_sdk.exceptions.agents_exception` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.agents_sdk.exceptions.input_guardrail_tripwire` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.agents_sdk.exceptions.max_turns_exceeded` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.agents_sdk.exceptions.model_behavior_error` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.agents_sdk.exceptions.output_guardrail_tripwire` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.agents_sdk.exceptions.user_error` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.agents_sdk.guardrail.function_output` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/guardrail/)
+- `openai.agents_sdk.guardrail.input_class` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/guardrail/)
+- `openai.agents_sdk.guardrail.input_decorator` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/guardrails/)
+- `openai.agents_sdk.guardrail.output_class` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/guardrail/)
+- `openai.agents_sdk.guardrail.output_decorator` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/guardrails/)
+- `openai.agents_sdk.handoff.class` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/ref/handoffs/)
+- `openai.agents_sdk.handoff.function` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/handoffs/)
+- `openai.agents_sdk.handoff.input_filter` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/ref/extensions/handoff_filters/)
+- `openai.agents_sdk.handoff.recommended_prompt` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/ref/extensions/handoff_prompt/)
+- `openai.agents_sdk.hooks.agent_hooks` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/lifecycle/)
+- `openai.agents_sdk.hooks.run_hooks` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/lifecycle/)
+- `openai.agents_sdk.items.handoff_call_item` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.handoff_output_item` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.helpers` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.mcp_call_item` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.message_output_item` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.reasoning_item` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.tool_call_item` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.items.tool_call_output_item` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/items/)
+- `openai.agents_sdk.js.core_package` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/)
+- `openai.agents_sdk.js.openai_package` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/)
+- `openai.agents_sdk.js.realtime_package` (realtime.session.create) — [vendor docs](https://openai.github.io/openai-agents-js/guides/realtime-agents/)
+- `openai.agents_sdk.js.with_trace` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/tracing/)
+- `openai.agents_sdk.js.zod_helpers` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/tools/)
+- `openai.agents_sdk.model.chat_completions_model` (llm.complete) — [vendor docs](https://openai.github.io/openai-agents-python/ref/models/openai_chatcompletions/)
+- `openai.agents_sdk.model.model_settings` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/model_settings/)
+- `openai.agents_sdk.model.openai_provider` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/models/)
+- `openai.agents_sdk.model.responses_model` (llm.complete) — [vendor docs](https://openai.github.io/openai-agents-python/ref/models/openai_responses/)
+- `openai.agents_sdk.model.set_default_api` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/config/)
+- `openai.agents_sdk.model.set_default_client` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/config/)
+- `openai.agents_sdk.model.set_default_key` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/config/)
+- `openai.agents_sdk.realtime.agent` (realtime.session.create) — [vendor docs](https://openai.github.io/openai-agents-python/realtime/)
+- `openai.agents_sdk.realtime.runner` (realtime.session.create) — [vendor docs](https://openai.github.io/openai-agents-python/realtime/)
+- `openai.agents_sdk.realtime.session` (realtime.session.create) — [vendor docs](https://openai.github.io/openai-agents-python/realtime/)
+- `openai.agents_sdk.result.run_result` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/result/)
+- `openai.agents_sdk.result.run_result_streaming` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/result/)
+- `openai.agents_sdk.run_config` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/run/)
+- `openai.agents_sdk.runner.default_max_turns` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/run/)
+- `openai.agents_sdk.runner.run` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/run/)
+- `openai.agents_sdk.runner.run_streamed` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/run/)
+- `openai.agents_sdk.runner.run_sync` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/run/)
+- `openai.agents_sdk.session.abc` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/sessions/)
+- `openai.agents_sdk.session.openai_conversations` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/sessions/)
+- `openai.agents_sdk.session.sqlite` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/sessions/)
+- `openai.agents_sdk.streaming.agent_updated_event` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/streaming/)
+- `openai.agents_sdk.streaming.raw_response_event` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/streaming/)
+- `openai.agents_sdk.streaming.run_item_event` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/streaming/)
+- `openai.agents_sdk.tool.code_interpreter` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.computer` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.file_search` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.function_decorator` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.function_tool_class` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tool/)
+- `openai.agents_sdk.tool.hosted_mcp` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/mcp/)
+- `openai.agents_sdk.tool.image_generation` (media.image.generate) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.local_shell` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.mcp_server_sse` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/mcp/)
+- `openai.agents_sdk.tool.mcp_server_stdio` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/mcp/)
+- `openai.agents_sdk.tool.mcp_server_streamable_http` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/ref/mcp/)
+- `openai.agents_sdk.tool.tool_context` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tool.web_search` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.agents_sdk.tracing.add_processor` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/tracing/)
+- `openai.agents_sdk.tracing.agent_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.batch_processor` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/processors/)
+- `openai.agents_sdk.tracing.console_exporter` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/processors/)
+- `openai.agents_sdk.tracing.custom_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.disabled_setter` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/tracing/)
+- `openai.agents_sdk.tracing.export_api_key` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/tracing/)
+- `openai.agents_sdk.tracing.function_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.generation_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.guardrail_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.handoff_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.mcp_tools_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.openai_exporter` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/processors/)
+- `openai.agents_sdk.tracing.response_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.set_processors` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/tracing/)
+- `openai.agents_sdk.tracing.span_class` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/spans/)
+- `openai.agents_sdk.tracing.speech_group_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.speech_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.tracing.trace` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/tracing/)
+- `openai.agents_sdk.tracing.transcription_span` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/tracing/create/)
+- `openai.agents_sdk.usage_tracker` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/usage/)
+- `openai.agents_sdk.voice.audio_input` (media.audio.transcribe) — [vendor docs](https://openai.github.io/openai-agents-python/ref/voice/input/)
+- `openai.agents_sdk.voice.pipeline` (media.audio.speak) — [vendor docs](https://openai.github.io/openai-agents-python/voice/)
+- `openai.agents_sdk.voice.single_agent_workflow` (media.audio.speak) — [vendor docs](https://openai.github.io/openai-agents-python/ref/voice/workflow/)
+- `openai.agents_sdk.voice.streamed_audio_input` (media.audio.transcribe) — [vendor docs](https://openai.github.io/openai-agents-python/ref/voice/input/)
+- `openai.agents_sdk.voice.workflow_base` (media.audio.speak) — [vendor docs](https://openai.github.io/openai-agents-python/ref/voice/workflow/)
+- `openai.agents_sdk.voice.workflow_helper` (media.audio.speak) — [vendor docs](https://openai.github.io/openai-agents-python/ref/voice/utils/)
+- `openai.agents.config` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/config/)
+- `openai.agents.context` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/context/)
+- `openai.agents.definition` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/agents/)
+- `openai.agents.examples` (docs.examples) — [vendor docs](https://github.com/openai/openai-agents-js/tree/main/examples)
+- `openai.agents.guardrails` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/guardrails/)
+- `openai.agents.handoff` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-js/guides/handoffs/)
+- `openai.agents.lifecycle` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/lifecycle/)
+- `openai.agents.mcp` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-js/guides/mcp/)
+- `openai.agents.memory` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/memory/)
+- `openai.agents.models` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/models/)
+- `openai.agents.observability` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/observability/)
+- `openai.agents.results_state` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/results/)
+- `openai.agents.sandbox` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/sandbox/)
+- `openai.agents.sdk` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/)
+- `openai.agents.sdk_python` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/)
+- `openai.agents.session_memory` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/sessions/)
+- `openai.agents.streaming` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/streaming/)
+- `openai.agents.tracing` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-js/guides/tracing/)
+- `openai.agents.voice` (realtime.session.create) — [vendor docs](https://openai.github.io/openai-agents-js/guides/voice-agents/)
+- `openai.cadence.context_window_self_management` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/conversation-state-compaction)
+- `openai.cadence.cross_provider_routing` (provider.admin.read) — [vendor docs](https://openai.github.io/openai-agents-python/models/)
+- `openai.cadence.dynamic_instructions` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/agents/)
+- `openai.cadence.failure_compensation` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/ref/exceptions/)
+- `openai.cadence.model_routing` (provider.admin.read) — [vendor docs](https://openai.github.io/openai-agents-python/models/)
+- `openai.cadence.observability_export` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/tracing/)
+- `openai.cadence.policy_layer` (agent.event.append) — [vendor docs](https://openai.github.io/openai-agents-python/guardrails/)
+- `openai.cadence.subagent_orchestration` (agent.handoff.create) — [vendor docs](https://openai.github.io/openai-agents-python/handoffs/)
+- `openai.cadence.tool_dynamic_filter` (tool.call) — [vendor docs](https://openai.github.io/openai-agents-python/tools/)
+- `openai.codex.cli` (codex.cli) — [vendor docs](https://developers.openai.com/codex/cli)
+- `openai.codex.config` (codex.cli) — [vendor docs](https://developers.openai.com/codex/cli)
+- `openai.codex.exec` (codex.cli) — [vendor docs](https://developers.openai.com/codex/cli)
+- `openai.codex.ide_extension` (codex.ide) — [vendor docs](https://developers.openai.com/codex/ide)
+- `openai.codex.mcp_server` (codex.cli) — [vendor docs](https://developers.openai.com/codex/cli)
+- `openai.codex.review` (codex.app) — [vendor docs](https://developers.openai.com/codex/app)
+- `openai.codex.sandboxing` (codex.cli) — [vendor docs](https://developers.openai.com/codex/cli)
+- `openai.codex.sdk` (codex.agent.run) — [vendor docs](https://github.com/openai/codex-sdk)
+- `openai.mcp.apps_sdk_server` (tool.call) — [vendor docs](https://developers.openai.com/apps-sdk)
+- `openai.mcp.codex_server` (tool.call) — [vendor docs](https://developers.openai.com/codex/cli)
+- `openai.mcp.dynamic_registration` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.mcp.hosted_remote` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.mcp.list_tools` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.mcp.oauth_dynamic` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-connectors-mcp)
+- `openai.mcp.realtime_remote` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-mcp)
+- `openai.sdk.azure_openai` (provider.admin.read) — [vendor docs](https://learn.microsoft.com/azure/ai-services/openai/reference)
+- `openai.sdk.cli` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.config.base_url` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.config.default_headers` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.config.max_retries` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.config.organization` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.config.project` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.config.timeout` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.deno` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-deno-build)
+- `openai.sdk.dotnet` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-dotnet)
+- `openai.sdk.go` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-go)
+- `openai.sdk.helpers.beta_chat` (llm.complete) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.helpers.parse` (llm.complete) — [vendor docs](https://github.com/openai/openai-python/blob/main/helpers.md)
+- `openai.sdk.helpers.realtime` (realtime.session.create) — [vendor docs](https://github.com/openai/openai-python/blob/main/helpers.md)
+- `openai.sdk.helpers.responses_stream` (llm.stream) — [vendor docs](https://github.com/openai/openai-python/blob/main/helpers.md)
+- `openai.sdk.helpers.streaming` (llm.stream) — [vendor docs](https://github.com/openai/openai-python/blob/main/helpers.md)
+- `openai.sdk.helpers.zod_response_format` (llm.complete) — [vendor docs](https://github.com/openai/openai-node/blob/master/helpers.md)
+- `openai.sdk.java` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-java)
+- `openai.sdk.node` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-node)
+- `openai.sdk.python` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.raw_response` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.vertex_anthropic_compat` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
+- `openai.sdk.with_options` (provider.admin.read) — [vendor docs](https://github.com/openai/openai-python)
 
-### Hosted compute/context (26/31 usable)
+**Parameters** (163):
 
-- `openai.chatkit.sessions` (agent.event.append)
-- `openai.chatkit.sessions.create` (agent.event.append)
-- `openai.chatkit.threads` (agent.event.append)
-- `openai.chatkit.threads.delete` (agent.event.append)
-- `openai.chatkit.threads.list` (agent.event.append)
-- `openai.chatkit.threads.retrieve` (agent.event.append)
-- `openai.containers.attach_files` (container.attach_files)
-- `openai.containers.create` (container.create)
-- `openai.containers.delete` (container.create)
-- `openai.containers.expires_after` (container.create)
-- `openai.containers.files.content` (container.attach_files)
-- `openai.containers.files.create` (container.attach_files)
-- `openai.containers.files.delete` (container.attach_files)
-- `openai.containers.files.list` (container.attach_files)
-- `openai.containers.files.retrieve` (container.attach_files)
-- `openai.containers.list` (container.create)
-- `openai.containers.retrieve` (container.create)
-- `openai.skills.create` (tool.skills.crud)
-- `openai.skills.delete` (tool.skills.crud)
-- `openai.skills.list` (provider.skill.list)
-- `openai.skills.retrieve` (provider.skill.list)
-- `openai.skills.update` (tool.skills.crud)
-- `openai.skills.versions.content` (tool.skills.versions)
-- `openai.skills.versions.create` (tool.skills.versions)
-- `openai.skills.versions.list` (tool.skills.versions)
-- `openai.skills.versions.retrieve` (tool.skills.versions)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-js/guides/realtime-agents/) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/realtime/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/realtime/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/realtime/) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/ref/voice/input/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/voice/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/ref/voice/workflow/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/ref/voice/input/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/ref/voice/workflow/) |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-python/ref/voice/utils/) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `agent_id` | string | — | — | low | [docs](https://developers.openai.com/api/docs/agents-sdk/overview) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://openai.github.io/openai-agents-js/guides/voice-agents/) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `sandbox_mode` | enum | `"workspace-write"` | `"read-only"`, `"workspace-write"`, `"danger-full-access"` | high | High risk — danger-full-access permits arbitrary file/process operations. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/realtime-mcp) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://github.com/openai/openai-python/blob/main/helpers.md) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
 
-### Model optimization (3/24 usable)
+## Core generation
 
-- `openai.tuning.grader_run` (tuning.job.create)
-- `openai.tuning.grader_validate` (tuning.job.create)
-- `openai.tuning.list` (tuning.job.create)
+**Capabilities** (55/59 rows usable):
 
-### Platform data (54/59 usable)
+- `openai.chat.completions` (llm.complete) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/reference/chat/create)
+- `openai.chat.completions.delete` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/delete)
+- `openai.chat.completions.list` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/list)
+- `openai.chat.completions.messages` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/getMessages)
+- `openai.chat.completions.retrieve` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/get)
+- `openai.chat.completions.stream` (llm.stream) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/reference/chat/streaming)
+- `openai.chat.completions.update` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/chat/update)
+- `openai.conversations.create` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/conversations/create)
+- `openai.conversations.delete` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/conversations/delete)
+- `openai.conversations.items` (llm.conversations.items) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.conversations.items.create` (llm.conversations.items) — [vendor docs](https://developers.openai.com/api/reference/conversations/items/create)
+- `openai.conversations.items.delete` (llm.conversations.items) — [vendor docs](https://developers.openai.com/api/reference/conversations/items/delete)
+- `openai.conversations.items.list` (llm.conversations.items) — [vendor docs](https://developers.openai.com/api/reference/conversations/items/list)
+- `openai.conversations.items.retrieve` (llm.conversations.items) — [vendor docs](https://developers.openai.com/api/reference/conversations/items/retrieve)
+- `openai.conversations.retrieve` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/conversations/retrieve)
+- `openai.conversations.update` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/conversations/update)
+- `openai.responses.cancel` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/cancel)
+- `openai.responses.create` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.delete` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/delete)
+- `openai.responses.include` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.input_items` (llm.responses.input_items) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.responses.item.code_interpreter_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.computer_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.computer_call_output` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.custom_tool_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.custom_tool_call_output` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.file_search_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.function_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.function_call_output` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.image_generation_call` (media.image.generate) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.item_reference` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.mcp_approval_request` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.mcp_approval_response` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.mcp_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.mcp_list_tools` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.message` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.reasoning` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.item.web_search_call` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/responses/object)
+- `openai.responses.json_schema_strict` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/structured-outputs)
+- `openai.responses.max_output_tokens` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.metadata` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.parallel_tool_calls` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.previous_response_id` (llm.state.continue) — [vendor docs](https://developers.openai.com/api/docs/guides/conversation-state)
+- `openai.responses.prompt_object` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.reasoning` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning)
+- `openai.responses.reasoning_summaries` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning)
+- `openai.responses.refusal` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/structured-outputs)
+- `openai.responses.retrieve` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/retrieve)
+- `openai.responses.safety_identifier` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.store` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.stream` (llm.stream) — [vendor docs](https://developers.openai.com/api/reference/responses/streaming)
+- `openai.responses.structured_output` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/structured-outputs)
+- `openai.responses.temperature` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.text_format` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
+- `openai.responses.tool_choice` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/responses/create)
 
-- `openai.batches.cancel` (batch.cancel)
-- `openai.batches.create` (batch.run)
-- `openai.batches.endpoint_chat` (batch.run)
-- `openai.batches.endpoint_completions` (batch.run)
-- `openai.batches.endpoint_embeddings` (batch.run)
-- `openai.batches.endpoint_responses` (batch.run)
-- `openai.batches.list` (batch.run)
-- `openai.batches.status` (batch.status)
-- `openai.files.delete` (file.delete)
-- `openai.files.list` (file.read)
-- `openai.files.purpose_assistants` (file.upload)
-- `openai.files.purpose_batch` (file.upload)
-- `openai.files.purpose_evals` (file.upload)
-- `openai.files.purpose_fine_tune` (file.upload)
-- `openai.files.purpose_user_data` (file.upload)
-- `openai.files.purpose_vision` (file.upload)
-- `openai.files.read` (file.read)
-- `openai.files.upload` (file.upload)
-- `openai.models.gpt_4_1` (llm.complete)
-- `openai.models.gpt_4o` (llm.complete)
-- `openai.models.gpt_5` (llm.complete)
-- `openai.models.gpt_5_codex` (llm.complete)
-- `openai.models.gpt_5_mini` (llm.complete)
-- `openai.models.gpt_5_nano` (llm.complete)
-- `openai.models.gpt_5_pro` (llm.complete)
-- `openai.models.gpt_realtime` (realtime.session.create)
-- `openai.models.list` (provider.admin.read)
-- `openai.models.o3` (llm.complete)
-- `openai.models.o3_mini` (llm.complete)
-- `openai.models.o4_mini` (llm.complete)
-- `openai.models.retrieve` (provider.admin.read)
-- `openai.uploads.add_part` (file.upload)
-- `openai.uploads.cancel` (file.upload)
-- `openai.uploads.complete` (file.upload)
-- `openai.uploads.multipart` (file.upload)
-- `openai.vector_stores.chunking_strategy` (vector_store.create)
-- `openai.vector_stores.create` (vector_store.create)
-- `openai.vector_stores.delete` (vector_store.create)
-- `openai.vector_stores.expires_after` (vector_store.create)
-- `openai.vector_stores.file_batches` (vector_store.add_files)
-- `openai.vector_stores.file_batches.create` (vector_store.add_files)
-- `openai.vector_stores.file_batches.list_files` (vector_store.add_files)
-- `openai.vector_stores.file_batches.retrieve` (vector_store.add_files)
-- `openai.vector_stores.files` (vector_store.files)
-- `openai.vector_stores.files.content` (vector_store.files)
-- `openai.vector_stores.files.create` (vector_store.files)
-- `openai.vector_stores.files.delete` (vector_store.files)
-- `openai.vector_stores.files.list` (vector_store.files)
-- `openai.vector_stores.files.retrieve` (vector_store.files)
-- `openai.vector_stores.files.update` (vector_store.files)
-- `openai.vector_stores.list` (vector_store.create)
-- `openai.vector_stores.retrieve` (vector_store.create)
-- `openai.vector_stores.search` (vector_store.search)
-- `openai.vector_stores.update` (vector_store.create)
+**Parameters** (56):
 
-### Realtime (55/68 usable)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `completion_id` | string | — | — | medium | Destructive: removes the stored chat server-side. |
+| `limit` | number | — | — | low | Indexes only chats stored with store=true. |
+| `completion_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/chat/getMessages) |
+| `completion_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/chat/get) |
+| `metadata` | object | — | — | low | [docs](https://developers.openai.com/api/reference/chat/update) |
+| `metadata` | object | — | — | low | [docs](https://developers.openai.com/api/reference/conversations/create) |
+| `conversation_id` | string | — | — | medium | Destructive: removes the conversation server-side. |
+| `items[]` | array | — | — | low | [docs](https://developers.openai.com/api/reference/conversations/items/create) |
+| `item_id` | string | — | — | medium | Destructive: removes the item from the conversation server-side. |
+| `items[]` | array | — | — | low | [docs](https://developers.openai.com/api/reference/overview) |
+| `limit` | number | — | — | low | [docs](https://developers.openai.com/api/reference/conversations/items/list) |
+| `item_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/conversations/items/retrieve) |
+| `conversation_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/conversations/retrieve) |
+| `metadata` | object | — | — | low | [docs](https://developers.openai.com/api/reference/conversations/update) |
+| `response_id` | string | — | — | low | Only meaningful for background-mode runs. |
+| `max_output_tokens` | number | `1024` | — | medium | Hard cap on tokens emitted; medium risk because misconfiguration burns cost. |
+| `model` | string | `"gpt-4.1-mini"` | — | low | [docs](https://developers.openai.com/api/reference/responses/create) |
+| `store` | boolean | `false` | `true`, `false` | low | Setting true opts in to OpenAI-side stored Responses lifecycle. |
+| `temperature` | number | `1` | — | low | [docs](https://developers.openai.com/api/reference/responses/create) |
+| `response_id` | string | — | — | medium | Destructive: removes the stored response server-side. |
+| `include` | array | — | — | low | Response-extras selectors (file_search_call.results, reasoning.encrypted_content, message.output_text.logprobs, ...). |
+| `response_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/overview) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `text.format.strict` | boolean | `true` | `true`, `false` | medium | Strict schema adherence; medium risk because schemas outside the strict subset reject the call. |
+| `max_output_tokens` | number | `1024` | — | medium | Hard cap on tokens emitted; medium risk because misconfiguration burns cost. |
+| `metadata` | object | — | — | low | Max 16 KV pairs; string keys/values. |
+| `parallel_tool_calls` | boolean | `true` | `true`, `false` | low | [docs](https://developers.openai.com/api/reference/responses/create) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `reasoning.summary` | enum | `"auto"` | `"auto"`, `"concise"`, `"detailed"` | low | Rides the reasoning block; only reasoning-capable models emit summaries. |
+| `reasoning.effort` | enum | `"medium"` | `"minimal"`, `"low"`, `"medium"`, `"high"` | medium | [docs](https://developers.openai.com/api/docs/guides/reasoning) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `response_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/responses/retrieve) |
+| `safety_identifier` | string | — | — | low | Stable per-end-user identifier for OpenAI trust + safety routing; never a knob that changes output. |
+| `store` | boolean | `false` | `true`, `false` | low | Setting true opts in to OpenAI-side stored Responses lifecycle. |
+| `stream` | boolean | `true` | `true` | low | Streaming row exists specifically so stream:true is the contract. |
+| `text.format.type` | enum | `"json_schema"` | `"json_schema"`, `"json_object"` | low | [docs](https://developers.openai.com/api/docs/guides/structured-outputs) |
+| `text.format.json_schema` | object | — | — | medium | JSON Schema; medium risk because malformed schema rejects the call. |
+| `temperature` | number | `1` | — | low | Per-parameter catalog row; the knob also covers top_p (same row). |
+| `text.format` | object | — | — | medium | text vs json_object vs json_schema; medium risk because malformed schema rejects the call. |
+| `tool_choice` | enum | `"auto"` | `"auto"`, `"none"`, `"required"` | medium | Specific-tool object form (&#123;type:"function",name&#125;) is also accepted by the API. |
 
-- `openai.realtime.client_event.conversation_item_create` (realtime.session.create)
-- `openai.realtime.client_event.conversation_item_delete` (realtime.session.create)
-- `openai.realtime.client_event.conversation_item_retrieve` (realtime.session.create)
-- `openai.realtime.client_event.conversation_item_truncate` (realtime.session.create)
-- `openai.realtime.client_event.input_audio_buffer_append` (realtime.session.create)
-- `openai.realtime.client_event.input_audio_buffer_clear` (realtime.session.create)
-- `openai.realtime.client_event.input_audio_buffer_commit` (realtime.session.create)
-- `openai.realtime.client_event.response_cancel` (realtime.session.create)
-- `openai.realtime.client_event.response_create` (realtime.session.create)
-- `openai.realtime.client_event.session_update` (realtime.session.create)
-- `openai.realtime.client_secret` (realtime.session.create)
-- `openai.realtime.conversation_events` (realtime.session.create)
-- `openai.realtime.input_audio_transcription` (media.audio.transcribe)
-- `openai.realtime.mcp` (realtime.session.create)
-- `openai.realtime.server_event.conversation_item_added` (realtime.session.create)
-- `openai.realtime.server_event.conversation_item_deleted` (realtime.session.create)
-- `openai.realtime.server_event.conversation_item_input_audio_transcription_completed` (media.audio.transcribe)
-- `openai.realtime.server_event.conversation_item_input_audio_transcription_delta` (media.audio.transcribe)
-- `openai.realtime.server_event.conversation_item_retrieved` (realtime.session.create)
-- `openai.realtime.server_event.conversation_item_truncated` (realtime.session.create)
-- `openai.realtime.server_event.error` (realtime.session.create)
-- `openai.realtime.server_event.input_audio_buffer_cleared` (realtime.session.create)
-- `openai.realtime.server_event.input_audio_buffer_committed` (realtime.session.create)
-- `openai.realtime.server_event.input_audio_buffer_speech_started` (realtime.session.create)
-- `openai.realtime.server_event.input_audio_buffer_speech_stopped` (realtime.session.create)
-- `openai.realtime.server_event.rate_limits_updated` (realtime.session.create)
-- `openai.realtime.server_event.response_audio_delta` (media.audio.speak)
-- `openai.realtime.server_event.response_audio_done` (media.audio.speak)
-- `openai.realtime.server_event.response_audio_transcript_delta` (realtime.session.create)
-- `openai.realtime.server_event.response_audio_transcript_done` (realtime.session.create)
-- `openai.realtime.server_event.response_content_part_added` (realtime.session.create)
-- `openai.realtime.server_event.response_content_part_done` (realtime.session.create)
-- `openai.realtime.server_event.response_created` (realtime.session.create)
-- `openai.realtime.server_event.response_done` (realtime.session.create)
-- `openai.realtime.server_event.response_function_call_arguments_delta` (tool.call)
-- `openai.realtime.server_event.response_function_call_arguments_done` (tool.call)
-- `openai.realtime.server_event.response_mcp_call_arguments_delta` (tool.call)
-- `openai.realtime.server_event.response_mcp_call_arguments_done` (tool.call)
-- `openai.realtime.server_event.response_mcp_call_completed` (tool.call)
-- `openai.realtime.server_event.response_mcp_call_in_progress` (tool.call)
-- `openai.realtime.server_event.response_output_item_added` (realtime.session.create)
-- `openai.realtime.server_event.response_output_item_done` (realtime.session.create)
-- `openai.realtime.server_event.response_text_delta` (realtime.session.create)
-- `openai.realtime.server_event.response_text_done` (realtime.session.create)
-- `openai.realtime.server_event.session_created` (realtime.session.create)
-- `openai.realtime.server_event.session_updated` (realtime.session.create)
-- `openai.realtime.session_events` (realtime.session.create)
-- `openai.realtime.tools` (tool.call)
-- `openai.realtime.transcription` (media.audio.transcribe)
-- `openai.realtime.transcription_session_create` (media.audio.transcribe)
-- `openai.realtime.turn_detection` (realtime.session.create)
-- `openai.realtime.voice_agents` (realtime.session.create)
-- `openai.realtime.webhooks` (realtime.session.create)
-- `openai.realtime.webrtc` (realtime.session.create)
-- `openai.realtime.websocket` (realtime.session.create)
+## Evaluation
 
-### Run and scale (34/38 usable)
+**Capabilities** (22/26 rows usable):
 
-- `openai.platform.webhooks` (provider.webhooks)
-- `openai.responses.compact` (llm.responses.compact)
-- `openai.responses.input_tokens_count` (llm.responses.token_count)
-- `openai.run.background` (llm.complete)
-- `openai.run.compaction` (llm.complete)
-- `openai.run.error_codes` (llm.complete)
-- `openai.run.file_inputs` (file.upload)
-- `openai.run.flex_processing` (llm.complete) — *model-dependent*: service_tier=flex plumbed through harness sdk_config (service_tier) → Responses request builder; honored only on flex-eligible models (o3, o4-mini, gpt-5 family per the scale-tiers guide).
-- `openai.run.idempotency` (llm.complete) — *partial-compatible*: Closed 2026-06-12 as terminal partial-compatible: equivalent transport/header behavior is live-proven through adjacent harness probes, but this synthetic run-surface row is not promoted to implemented until a row-specific source fixture/probe is attached. Source: https://developers.openai.com/api/docs/guides/error-codes (checked 2026-06-12). Previous evidence: Idempotency-Key header live-verified (POST /v1/responses accepts it 2026-06-11; probe pc-cat.openai.w3-run-idempotency registered) but the row stays deferred until it gains an llms.txt fixture heading — the source-audit gate requires implemented rows be fixture-present, and this synthetic run.* row is fixture-absent (allowlisted).
-- `openai.run.image_inputs` (media.image.input)
-- `openai.run.priority_processing` (llm.complete) — *model-dependent*: service_tier=priority plumbed through harness sdk_config (service_tier) → Responses request builder; honored only on priority-eligible models (gpt-5 family, gpt-4.1 family, o3/o4-mini per the scale-tiers guide).
-- `openai.run.prompt_caching` (llm.complete) — *partial-compatible*: prompt_cache_key + prompt_cache_retention are compiled by Think Harness and forwarded through OpenAI Responses / Operator runtime config; provider-live probe registration is pending before this row can be marked implemented.
-- `openai.run.rate_limits` (provider.admin.read) — *partial-compatible*: Closed 2026-06-12 as terminal partial-compatible: equivalent transport/header behavior is live-proven through adjacent harness probes, but this synthetic run-surface row is not promoted to implemented until a row-specific source fixture/probe is attached. Source: https://developers.openai.com/api/docs/guides/rate-limits (checked 2026-06-12). Previous evidence: Rate-limit response headers live-verified on GET /v1/models (x-ratelimit-limit-requests present 2026-06-11; probe pc-cat.openai.w3-run-rate-limits registered) but the row stays deferred until it gains an llms.txt fixture heading — source-audit requires implemented rows be fixture-present; this run.* row is fixture-absent (allowlisted).
-- `openai.run.reasoning_practices` (llm.complete)
-- `openai.run.service_tier` (llm.complete)
-- `openai.run.streaming_modes` (llm.stream)
-- `openai.run.token_counting` (llm.count_tokens)
-- `openai.run.websocket` (llm.stream) — *partial-compatible*: Closed 2026-06-12 as terminal partial-compatible: equivalent transport/header behavior is live-proven through adjacent harness probes, but this synthetic run-surface row is not promoted to implemented until a row-specific source fixture/probe is attached. Source: https://developers.openai.com/api/docs/guides/realtime-websocket (checked 2026-06-12). Previous evidence: WebSocket transport mode shared with Realtime — deferred to PUP-C realtime sub-lane.
-- `openai.webhooks.batch_cancelled` (provider.webhooks)
-- `openai.webhooks.batch_completed` (provider.webhooks)
-- `openai.webhooks.batch_expired` (provider.webhooks)
-- `openai.webhooks.batch_failed` (provider.webhooks)
-- `openai.webhooks.eval_run_canceled` (provider.webhooks)
-- `openai.webhooks.eval_run_failed` (provider.webhooks)
-- `openai.webhooks.eval_run_succeeded` (provider.webhooks)
-- `openai.webhooks.fine_tuning_cancelled` (provider.webhooks)
-- `openai.webhooks.fine_tuning_failed` (provider.webhooks)
-- `openai.webhooks.fine_tuning_succeeded` (provider.webhooks)
-- `openai.webhooks.realtime_call_incoming` (provider.webhooks)
-- `openai.webhooks.response_cancelled` (provider.webhooks)
-- `openai.webhooks.response_completed` (provider.webhooks)
-- `openai.webhooks.response_failed` (provider.webhooks)
-- `openai.webhooks.response_incomplete` (provider.webhooks)
-- `openai.webhooks.signature_verify` (provider.webhooks)
+- `openai.evals.create` (eval.create) — [vendor docs](https://developers.openai.com/api/reference/evals/create)
+- `openai.evals.data_source.completions` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/create)
+- `openai.evals.data_source.jsonl` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/create)
+- `openai.evals.data_source.responses` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/create)
+- `openai.evals.data_source.stored_completions` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/create)
+- `openai.evals.delete` (eval.create) — [vendor docs](https://developers.openai.com/api/reference/evals/delete)
+- `openai.evals.graders` (eval.run) — [vendor docs](https://developers.openai.com/api/docs/guides/evals-graders)
+- `openai.evals.graders.model` (eval.run) — [vendor docs](https://developers.openai.com/api/docs/guides/evals-graders)
+- `openai.evals.graders.multi` (eval.run) — [vendor docs](https://developers.openai.com/api/docs/guides/evals-graders)
+- `openai.evals.graders.python` (eval.run) — [vendor docs](https://developers.openai.com/api/docs/guides/evals-graders)
+- `openai.evals.graders.string_check` (eval.run) — [vendor docs](https://developers.openai.com/api/docs/guides/evals-graders)
+- `openai.evals.graders.text_similarity` (eval.run) — [vendor docs](https://developers.openai.com/api/docs/guides/evals-graders)
+- `openai.evals.list` (eval.create) — [vendor docs](https://developers.openai.com/api/reference/evals/list)
+- `openai.evals.output_items` (eval.output.list) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/output_items/list)
+- `openai.evals.output_items.retrieve` (eval.output.list) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/output_items/get)
+- `openai.evals.retrieve` (eval.create) — [vendor docs](https://developers.openai.com/api/reference/evals/retrieve)
+- `openai.evals.run` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/create)
+- `openai.evals.runs.cancel` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/cancel)
+- `openai.evals.runs.delete` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/delete)
+- `openai.evals.runs.list` (eval.run) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/list)
+- `openai.evals.status` (eval.status) — [vendor docs](https://developers.openai.com/api/reference/evals/runs/get)
+- `openai.evals.update` (eval.create) — [vendor docs](https://developers.openai.com/api/reference/evals/update)
 
-### Specialized models (23/52 usable)
+**Parameters** (23):
 
-- `openai.deep_research` (llm.complete)
-- `openai.deep_research.background` (llm.complete)
-- `openai.deep_research.model_o3` (llm.complete)
-- `openai.deep_research.model_o4_mini` (llm.complete)
-- `openai.embeddings` (llm.embed)
-- `openai.embeddings.dimensions` (llm.embed)
-- `openai.embeddings.model_3_large` (llm.embed)
-- `openai.embeddings.model_3_small` (llm.embed)
-- `openai.embeddings.model_ada_002` (llm.embed)
-- `openai.media.audio.model_gpt_4o_mini_tts` (media.audio.speak)
-- `openai.media.audio.model_gpt_4o_transcribe` (media.audio.transcribe)
-- `openai.media.audio.model_tts_1` (media.audio.speak)
-- `openai.media.audio.model_whisper_1` (media.audio.transcribe)
-- `openai.media.audio.tts` (media.audio.speak)
-- `openai.media.audio.tts_stream` (media.audio.speak)
-- `openai.media.images.generate` (media.image.generate)
-- `openai.media.images.model_dall_e_3` (media.image.generate) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: the generic image path is implemented, but this legacy model-specific row is usable only if the account/model remains served; current harness default uses the probed gpt-image models. Source: https://developers.openai.com/api/docs/models/dall-e-3 (checked 2026-06-12). Previous evidence: Model "dall-e-3" distinct image generation model with own quality/style knobs.
-- `openai.media.images.model_gpt_image_1` (media.image.generate)
-- `openai.media.images.model_gpt_image_1_5` (media.image.generate)
-- `openai.media.images.model_gpt_image_2` (media.image.generate)
-- `openai.media.video.model_sora_2` (media.video.generate)
-- `openai.moderation` (llm.complete)
-- `openai.moderation.model_omni` (llm.complete)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `testing_criteria[].type` | enum | `"string_check"` | `"string_check"`, `"text_similarity"`, `"label_model"`, `"python"`, `"score_model"` | low | Grader family chosen at eval-creation time. |
+| `name` | string | — | — | low | [docs](https://developers.openai.com/api/reference/evals/create) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `eval_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/evals/run) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `run_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/evals/run/get) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
 
-### Tools (28/42 usable)
+## Hosted compute/context
 
-- `openai.skills.crud` (tool.skills.crud)
-- `openai.skills.versions` (tool.skills.versions)
-- `openai.tools.apply_patch` (tool.call)
-- `openai.tools.code_interpreter` (provider.tool.server)
-- `openai.tools.code_interpreter_auto_container` (provider.tool.server)
-- `openai.tools.computer_use` (provider.tool.server)
-- `openai.tools.computer_use_display_size` (provider.tool.server)
-- `openai.tools.connectors` (provider.tool.server)
-- `openai.tools.custom` (tool.call)
-- `openai.tools.custom_grammar_lark` (tool.call)
-- `openai.tools.custom_grammar_regex` (tool.call)
-- `openai.tools.file_search` (provider.tool.server)
-- `openai.tools.file_search_filters` (provider.tool.server)
-- `openai.tools.file_search_ranking` (provider.tool.server)
-- `openai.tools.function` (tool.call)
-- `openai.tools.function_strict` (tool.call)
-- `openai.tools.image_generation` (media.image.generate)
-- `openai.tools.mcp` (provider.tool.server)
-- `openai.tools.mcp_allowed_tools` (provider.tool.server)
-- `openai.tools.mcp_headers` (provider.tool.server)
-- `openai.tools.mcp_require_approval` (provider.tool.server)
-- `openai.tools.retrieval` (provider.tool.server)
-- `openai.tools.shell` (tool.call)
-- `openai.tools.skills` (provider.skill.invoke)
-- `openai.tools.tool_search` (tool.call)
-- `openai.tools.web_search` (provider.tool.server)
-- `openai.tools.web_search_preview` (provider.tool.server)
-- `openai.tools.web_search_user_location` (provider.tool.server)
+**Capabilities** (26/31 rows usable):
 
+- `openai.chatkit.sessions` (agent.event.append) — [vendor docs](https://developers.openai.com/api/reference/chatkit/sessions)
+- `openai.chatkit.sessions.create` (agent.event.append) — [vendor docs](https://developers.openai.com/api/reference/chatkit/sessions/create)
+- `openai.chatkit.threads` (agent.event.append) — [vendor docs](https://developers.openai.com/api/reference/chatkit/threads)
+- `openai.chatkit.threads.delete` (agent.event.append) — [vendor docs](https://developers.openai.com/api/reference/chatkit/threads/delete)
+- `openai.chatkit.threads.list` (agent.event.append) — [vendor docs](https://developers.openai.com/api/reference/chatkit/threads/list)
+- `openai.chatkit.threads.retrieve` (agent.event.append) — [vendor docs](https://developers.openai.com/api/reference/chatkit/threads/retrieve)
+- `openai.containers.attach_files` (container.attach_files) — [vendor docs](https://developers.openai.com/api/docs/guides/containers)
+- `openai.containers.create` (container.create) — [vendor docs](https://developers.openai.com/api/reference/containers/create)
+- `openai.containers.delete` (container.create) — [vendor docs](https://developers.openai.com/api/reference/containers/delete)
+- `openai.containers.expires_after` (container.create) — [vendor docs](https://developers.openai.com/api/reference/containers/object)
+- `openai.containers.files.content` (container.attach_files) — [vendor docs](https://developers.openai.com/api/reference/containers-files/content)
+- `openai.containers.files.create` (container.attach_files) — [vendor docs](https://developers.openai.com/api/reference/containers-files/create)
+- `openai.containers.files.delete` (container.attach_files) — [vendor docs](https://developers.openai.com/api/reference/containers-files/delete)
+- `openai.containers.files.list` (container.attach_files) — [vendor docs](https://developers.openai.com/api/reference/containers-files/list)
+- `openai.containers.files.retrieve` (container.attach_files) — [vendor docs](https://developers.openai.com/api/reference/containers-files/retrieve)
+- `openai.containers.list` (container.create) — [vendor docs](https://developers.openai.com/api/reference/containers/list)
+- `openai.containers.retrieve` (container.create) — [vendor docs](https://developers.openai.com/api/reference/containers/retrieve)
+- `openai.skills.create` (tool.skills.crud) — [vendor docs](https://developers.openai.com/api/reference/skills/create)
+- `openai.skills.delete` (tool.skills.crud) — [vendor docs](https://developers.openai.com/api/reference/skills/delete)
+- `openai.skills.list` (provider.skill.list) — [vendor docs](https://developers.openai.com/api/reference/skills/list)
+- `openai.skills.retrieve` (provider.skill.list) — [vendor docs](https://developers.openai.com/api/reference/skills/retrieve)
+- `openai.skills.update` (tool.skills.crud) — [vendor docs](https://developers.openai.com/api/reference/skills/update)
+- `openai.skills.versions.content` (tool.skills.versions) — [vendor docs](https://developers.openai.com/api/reference/skills/versions/content)
+- `openai.skills.versions.create` (tool.skills.versions) — [vendor docs](https://developers.openai.com/api/reference/skills/versions/create)
+- `openai.skills.versions.list` (tool.skills.versions) — [vendor docs](https://developers.openai.com/api/reference/skills/versions/list)
+- `openai.skills.versions.retrieve` (tool.skills.versions) — [vendor docs](https://developers.openai.com/api/reference/skills/versions/retrieve)
+
+**Parameters** (26):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+
+## Model optimization
+
+**Capabilities** (3/24 rows usable):
+
+- `openai.tuning.grader_run` (tuning.job.create) — [vendor docs](https://developers.openai.com/api/reference/fine-tuning/alpha-graders/run)
+- `openai.tuning.grader_validate` (tuning.job.create) — [vendor docs](https://developers.openai.com/api/reference/fine-tuning/alpha-graders/validate)
+- `openai.tuning.list` (tuning.job.create) — [vendor docs](https://developers.openai.com/api/reference/fine-tuning/list)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+
+## Platform data
+
+**Capabilities** (54/59 rows usable):
+
+- `openai.batches.cancel` (batch.cancel) — [vendor docs](https://developers.openai.com/api/reference/batch/cancel)
+- `openai.batches.create` (batch.run) — [vendor docs](https://developers.openai.com/api/reference/batch/create)
+- `openai.batches.endpoint_chat` (batch.run) — [vendor docs](https://developers.openai.com/api/reference/batch/object)
+- `openai.batches.endpoint_completions` (batch.run) — [vendor docs](https://developers.openai.com/api/reference/batch/object)
+- `openai.batches.endpoint_embeddings` (batch.run) — [vendor docs](https://developers.openai.com/api/reference/batch/object)
+- `openai.batches.endpoint_responses` (batch.run) — [vendor docs](https://developers.openai.com/api/reference/batch/object)
+- `openai.batches.list` (batch.run) — [vendor docs](https://developers.openai.com/api/reference/batch/list)
+- `openai.batches.status` (batch.status) — [vendor docs](https://developers.openai.com/api/reference/batch/retrieve)
+- `openai.files.delete` (file.delete) — [vendor docs](https://developers.openai.com/api/reference/files/delete)
+- `openai.files.list` (file.read) — [vendor docs](https://developers.openai.com/api/reference/files/list)
+- `openai.files.purpose_assistants` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/object)
+- `openai.files.purpose_batch` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/object)
+- `openai.files.purpose_evals` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/object)
+- `openai.files.purpose_fine_tune` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/object)
+- `openai.files.purpose_user_data` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/object)
+- `openai.files.purpose_vision` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/object)
+- `openai.files.read` (file.read) — [vendor docs](https://developers.openai.com/api/reference/files/retrieve)
+- `openai.files.upload` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/files/create)
+- `openai.models.gpt_4_1` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-4.1)
+- `openai.models.gpt_4o` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-4o)
+- `openai.models.gpt_5` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-5)
+- `openai.models.gpt_5_codex` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-5-codex)
+- `openai.models.gpt_5_mini` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-5-mini)
+- `openai.models.gpt_5_nano` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-5-nano)
+- `openai.models.gpt_5_pro` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-5-pro)
+- `openai.models.gpt_realtime` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-realtime)
+- `openai.models.list` (provider.admin.read) — [vendor docs](https://developers.openai.com/api/reference/models/list)
+- `openai.models.o3` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/o3)
+- `openai.models.o3_mini` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/o3-mini)
+- `openai.models.o4_mini` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/o4-mini)
+- `openai.models.retrieve` (provider.admin.read) — [vendor docs](https://developers.openai.com/api/reference/models/retrieve)
+- `openai.uploads.add_part` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/uploads/add-part)
+- `openai.uploads.cancel` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/uploads/cancel)
+- `openai.uploads.complete` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/uploads/complete)
+- `openai.uploads.multipart` (file.upload) — [vendor docs](https://developers.openai.com/api/reference/uploads/create)
+- `openai.vector_stores.chunking_strategy` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/create)
+- `openai.vector_stores.create` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/create)
+- `openai.vector_stores.delete` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/delete)
+- `openai.vector_stores.expires_after` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/object)
+- `openai.vector_stores.file_batches` (vector_store.add_files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/file-batches)
+- `openai.vector_stores.file_batches.create` (vector_store.add_files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-file-batches/create)
+- `openai.vector_stores.file_batches.list_files` (vector_store.add_files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-file-batches/list-files)
+- `openai.vector_stores.file_batches.retrieve` (vector_store.add_files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-file-batches/retrieve)
+- `openai.vector_stores.files` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.vector_stores.files.content` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-files/content)
+- `openai.vector_stores.files.create` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-files/create)
+- `openai.vector_stores.files.delete` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-files/delete)
+- `openai.vector_stores.files.list` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-files/list)
+- `openai.vector_stores.files.retrieve` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-files/retrieve)
+- `openai.vector_stores.files.update` (vector_store.files) — [vendor docs](https://developers.openai.com/api/reference/vector-stores-files/update)
+- `openai.vector_stores.list` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/list)
+- `openai.vector_stores.retrieve` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/retrieve)
+- `openai.vector_stores.search` (vector_store.search) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.vector_stores.update` (vector_store.create) — [vendor docs](https://developers.openai.com/api/reference/vector-stores/update)
+
+**Parameters** (54):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `batch_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/batch/cancel) |
+| `endpoint` | enum | — | — | medium | Bulk async runs bill at the batch rate; cancel before window close to stop processing. |
+| `endpoint` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/batch/object) |
+| `endpoint` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/batch/object) |
+| `endpoint` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/batch/object) |
+| `endpoint` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/batch/object) |
+| `limit` | number | — | — | low | [docs](https://developers.openai.com/api/reference/batch/list) |
+| `batch_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/batch/retrieve) |
+| `file_id` | string | — | — | medium | Destructive: removes the uploaded file server-side. |
+| `limit` | number | — | — | low | [docs](https://developers.openai.com/api/reference/files/list) |
+| `purpose` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/files/object) |
+| `purpose` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/files/object) |
+| `purpose` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/files/object) |
+| `purpose` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/files/object) |
+| `purpose` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/files/object) |
+| `purpose` | enum | — | — | low | [docs](https://developers.openai.com/api/reference/files/object) |
+| `file_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/files/retrieve) |
+| `purpose` | enum | `"assistants"` | `"assistants"`, `"batch"`, `"fine-tune"`, `"vision"`, `"user_data"`, `"evals"` | low | [docs](https://developers.openai.com/api/reference/files/create) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-4.1) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-4o) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-5-codex) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-5-mini) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-5-nano) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-5-pro) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-5) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/models/gpt-realtime) |
+| `` | null | — | — | low | Posture-only: plain index GET, no request knobs. |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/o3-mini) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/o3) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/o4-mini) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/reference/models/retrieve) |
+| `data` | object | — | — | low | [docs](https://developers.openai.com/api/reference/uploads/add-part) |
+| `upload_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/uploads/cancel) |
+| `part_ids[]` | array | — | — | low | [docs](https://developers.openai.com/api/reference/uploads/complete) |
+| `bytes` | number | — | — | low | Declared total size; parts are streamed via add_part. |
+| `chunking_strategy` | object | — | — | low | auto vs static&#123;max_chunk_size_tokens, chunk_overlap_tokens&#125;. |
+| `name` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores/create) |
+| `vector_store_id` | string | — | — | medium | Destructive: removes the vector store server-side. |
+| `expires_after` | object | — | — | low | Anchor + days lifecycle policy. |
+| `file_ids[]` | array | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores-file-batches/create) |
+| `file_ids[]` | array | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores/file-batches) |
+| `batch_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores-file-batches/list-files) |
+| `batch_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores-file-batches/retrieve) |
+| `file_id` | string | — | — | low | Returns parsed chunk content after ingestion completes. |
+| `file_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores-files/create) |
+| `file_id` | string | — | — | medium | Destructive: detaches the file from the store. |
+| `file_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/overview) |
+| `limit` | number | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores-files/list) |
+| `file_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores-files/retrieve) |
+| `attributes` | object | — | — | low | Patchable only after ingestion completes (live 400 mid-ingestion, 2026-06-11). |
+| `limit` | number | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores/list) |
+| `vector_store_id` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores/retrieve) |
+| `query` | string | — | — | low | [docs](https://developers.openai.com/api/reference/overview) |
+| `name` | string | — | — | low | [docs](https://developers.openai.com/api/reference/vector-stores/update) |
+
+## Realtime
+
+**Capabilities** (55/68 rows usable):
+
+- `openai.realtime.client_event.conversation_item_create` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/create)
+- `openai.realtime.client_event.conversation_item_delete` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/delete)
+- `openai.realtime.client_event.conversation_item_retrieve` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/retrieve)
+- `openai.realtime.client_event.conversation_item_truncate` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/truncate)
+- `openai.realtime.client_event.input_audio_buffer_append` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/input_audio_buffer/append)
+- `openai.realtime.client_event.input_audio_buffer_clear` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/input_audio_buffer/clear)
+- `openai.realtime.client_event.input_audio_buffer_commit` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/input_audio_buffer/commit)
+- `openai.realtime.client_event.response_cancel` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/response/cancel)
+- `openai.realtime.client_event.response_create` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/response/create)
+- `openai.realtime.client_event.session_update` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events/session/update)
+- `openai.realtime.client_secret` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime/client-secrets)
+- `openai.realtime.conversation_events` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-client-events)
+- `openai.realtime.input_audio_transcription` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/reference/realtime-sessions/create)
+- `openai.realtime.mcp` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-mcp)
+- `openai.realtime.server_event.conversation_item_added` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events)
+- `openai.realtime.server_event.conversation_item_deleted` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/deleted)
+- `openai.realtime.server_event.conversation_item_input_audio_transcription_completed` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/input_audio_transcription/completed)
+- `openai.realtime.server_event.conversation_item_input_audio_transcription_delta` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/input_audio_transcription/delta)
+- `openai.realtime.server_event.conversation_item_retrieved` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/retrieved)
+- `openai.realtime.server_event.conversation_item_truncated` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/truncated)
+- `openai.realtime.server_event.error` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/error)
+- `openai.realtime.server_event.input_audio_buffer_cleared` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/cleared)
+- `openai.realtime.server_event.input_audio_buffer_committed` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/committed)
+- `openai.realtime.server_event.input_audio_buffer_speech_started` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/speech_started)
+- `openai.realtime.server_event.input_audio_buffer_speech_stopped` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/speech_stopped)
+- `openai.realtime.server_event.rate_limits_updated` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/rate_limits/updated)
+- `openai.realtime.server_event.response_audio_delta` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio/delta)
+- `openai.realtime.server_event.response_audio_done` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio/done)
+- `openai.realtime.server_event.response_audio_transcript_delta` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio_transcript/delta)
+- `openai.realtime.server_event.response_audio_transcript_done` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio_transcript/done)
+- `openai.realtime.server_event.response_content_part_added` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/content_part/added)
+- `openai.realtime.server_event.response_content_part_done` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/content_part/done)
+- `openai.realtime.server_event.response_created` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/created)
+- `openai.realtime.server_event.response_done` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/done)
+- `openai.realtime.server_event.response_function_call_arguments_delta` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/function_call_arguments/delta)
+- `openai.realtime.server_event.response_function_call_arguments_done` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/function_call_arguments/done)
+- `openai.realtime.server_event.response_mcp_call_arguments_delta` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events)
+- `openai.realtime.server_event.response_mcp_call_arguments_done` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events)
+- `openai.realtime.server_event.response_mcp_call_completed` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events)
+- `openai.realtime.server_event.response_mcp_call_in_progress` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events)
+- `openai.realtime.server_event.response_output_item_added` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/output_item/added)
+- `openai.realtime.server_event.response_output_item_done` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/output_item/done)
+- `openai.realtime.server_event.response_text_delta` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/text/delta)
+- `openai.realtime.server_event.response_text_done` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/response/text/done)
+- `openai.realtime.server_event.session_created` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/session/created)
+- `openai.realtime.server_event.session_updated` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events/session/updated)
+- `openai.realtime.session_events` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-server-events)
+- `openai.realtime.tools` (tool.call) — [vendor docs](https://developers.openai.com/api/reference/realtime-sessions/create)
+- `openai.realtime.transcription` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-transcription)
+- `openai.realtime.transcription_session_create` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/reference/realtime-sessions/create_transcription_session)
+- `openai.realtime.turn_detection` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/reference/realtime-sessions/create)
+- `openai.realtime.voice_agents` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/docs/guides/voice-agents)
+- `openai.realtime.webhooks` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-webhooks)
+- `openai.realtime.webrtc` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-webrtc)
+- `openai.realtime.websocket` (realtime.session.create) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-websocket)
+
+**Parameters** (55):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/create) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/delete) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/retrieve) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/conversation/item/truncate) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/input_audio_buffer/append) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/input_audio_buffer/clear) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/input_audio_buffer/commit) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/response/cancel) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/response/create) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events/session/update) |
+| `voice` | enum | `"marin"` | `"alloy"`, `"ash"`, `"ballad"`, `"coral"`, `"echo"`, `"sage"`, `"shimmer"`, `"verse"`, `"marin"`, `"cedar"` | low | [docs](https://developers.openai.com/api/docs/guides/realtime) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-client-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-sessions/create) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/realtime-mcp) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/deleted) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/input_audio_transcription/completed) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/input_audio_transcription/delta) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/retrieved) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/conversation/item/truncated) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/error) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/cleared) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/committed) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/speech_started) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/input_audio_buffer/speech_stopped) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/rate_limits/updated) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio/delta) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio_transcript/delta) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/audio_transcript/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/content_part/added) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/content_part/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/created) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/function_call_arguments/delta) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/function_call_arguments/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/output_item/added) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/output_item/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/text/delta) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/response/text/done) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/session/created) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events/session/updated) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-server-events) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-sessions/create) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-sessions/create_transcription_session) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/realtime-transcription) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/reference/realtime-sessions/create) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/voice-agents) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/realtime-webhooks) |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/realtime-webrtc) |
+| `session.model` | string | — | — | low | Realtime session model resolved by RealtimeAgentRuntime (DEFAULT_REALTIME_MODEL), threaded by the runtime. |
+
+## Run and scale
+
+**Capabilities** (34/38 rows usable):
+
+- `openai.platform.webhooks` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.responses.compact` (llm.responses.compact) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.responses.input_tokens_count` (llm.responses.token_count) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.run.background` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/background)
+- `openai.run.compaction` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/conversation-state-compaction)
+- `openai.run.error_codes` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/error-codes)
+- `openai.run.file_inputs` (file.upload) — [vendor docs](https://developers.openai.com/api/docs/guides/file-inputs)
+- `openai.run.flex_processing` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/scale-tiers)
+- `openai.run.idempotency` (llm.complete) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/error-codes)
+- `openai.run.image_inputs` (media.image.input) — [vendor docs](https://developers.openai.com/api/docs/guides/vision)
+- `openai.run.priority_processing` (llm.complete) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/guides/scale-tiers)
+- `openai.run.prompt_caching` (llm.complete) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/prompt-caching)
+- `openai.run.rate_limits` (provider.admin.read) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/rate-limits)
+- `openai.run.reasoning_practices` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/reasoning-best-practices)
+- `openai.run.service_tier` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/service-tiers)
+- `openai.run.streaming_modes` (llm.stream) — [vendor docs](https://developers.openai.com/api/docs/guides/streaming)
+- `openai.run.token_counting` (llm.count_tokens) — [vendor docs](https://developers.openai.com/api/docs/guides/token-counting)
+- `openai.run.websocket` (llm.stream) · *partial-compatible* — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-websocket)
+- `openai.webhooks.batch_cancelled` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.batch_completed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.batch_expired` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.batch_failed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.eval_run_canceled` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.eval_run_failed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.eval_run_succeeded` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.fine_tuning_cancelled` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.fine_tuning_failed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.fine_tuning_succeeded` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.realtime_call_incoming` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/realtime-webhooks)
+- `openai.webhooks.response_cancelled` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.response_completed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.response_failed` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.response_incomplete` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+- `openai.webhooks.signature_verify` (provider.webhooks) — [vendor docs](https://developers.openai.com/api/docs/guides/webhooks)
+
+**Parameters** (30):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `background` | boolean | `false` | `true`, `false` | medium | Queued server-side run; requires store=true and polling/cancel via the Responses lifecycle endpoints. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `service_tier` | enum | `"flex"` | `"flex"` | medium | flex tier honored only on flex-eligible models per the scale-tiers guide. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `service_tier` | enum | `"priority"` | `"priority"` | high | priority tier honored only on priority-eligible models; bills premium per-token rates. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `service_tier` | enum | `"auto"` | `"auto"`, `"default"`, `"flex"`, `"scale"`, `"priority"` | medium | Medium risk: priority bills premium rates and flex trades latency for cost. |
+| `stream` | boolean | `true` | `true` | low | The deeda Responses runtime always streams (SSE); this row is the streaming-modes contract. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | object | — | — | low | [docs](https://developers.openai.com/api/docs/guides/realtime-webhooks) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+
+## Specialized models
+
+**Capabilities** (23/52 rows usable):
+
+- `openai.deep_research` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/deep-research)
+- `openai.deep_research.background` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/guides/deep-research)
+- `openai.deep_research.model_o3` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/o3-deep-research)
+- `openai.deep_research.model_o4_mini` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/o4-mini-deep-research)
+- `openai.embeddings` (llm.embed) — [vendor docs](https://developers.openai.com/api/reference/embeddings/create)
+- `openai.embeddings.dimensions` (llm.embed) — [vendor docs](https://developers.openai.com/api/reference/embeddings/create)
+- `openai.embeddings.model_3_large` (llm.embed) — [vendor docs](https://developers.openai.com/api/docs/models/text-embedding-3-large)
+- `openai.embeddings.model_3_small` (llm.embed) — [vendor docs](https://developers.openai.com/api/docs/models/text-embedding-3-small)
+- `openai.embeddings.model_ada_002` (llm.embed) — [vendor docs](https://developers.openai.com/api/docs/models/text-embedding-ada-002)
+- `openai.media.audio.model_gpt_4o_mini_tts` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-4o-mini-tts)
+- `openai.media.audio.model_gpt_4o_transcribe` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-4o-transcribe)
+- `openai.media.audio.model_tts_1` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/docs/models/tts-1)
+- `openai.media.audio.model_whisper_1` (media.audio.transcribe) — [vendor docs](https://developers.openai.com/api/docs/models/whisper-1)
+- `openai.media.audio.tts` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/reference/audio/createSpeech)
+- `openai.media.audio.tts_stream` (media.audio.speak) — [vendor docs](https://developers.openai.com/api/reference/audio/createSpeech)
+- `openai.media.images.generate` (media.image.generate) — [vendor docs](https://developers.openai.com/api/reference/images/create)
+- `openai.media.images.model_dall_e_3` (media.image.generate) · *model-dependent* — [vendor docs](https://developers.openai.com/api/docs/models/dall-e-3)
+- `openai.media.images.model_gpt_image_1` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-image-1)
+- `openai.media.images.model_gpt_image_1_5` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-image-1-5)
+- `openai.media.images.model_gpt_image_2` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/models/gpt-image-2)
+- `openai.media.video.model_sora_2` (media.video.generate) — [vendor docs](https://developers.openai.com/api/docs/models/sora-2)
+- `openai.moderation` (llm.complete) — [vendor docs](https://developers.openai.com/api/reference/moderations/create)
+- `openai.moderation.model_omni` (llm.complete) — [vendor docs](https://developers.openai.com/api/docs/models/omni-moderation-latest)
+
+**Parameters** (22):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `dimensions` | number | — | — | low | Matryoshka truncation; only text-embedding-3 family honors it. |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/reference/embeddings/create) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/text-embedding-3-large) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/text-embedding-3-small) |
+| `model` | string | — | — | low | Prior-generation embedding model; still served (live 200, 2026-06-11). |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `model` | enum | `"gpt-image-1"` | `"gpt-image-1"`, `"dall-e-3"`, `"dall-e-2"` | low | [docs](https://developers.openai.com/api/reference/images/create) |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/reference/moderations/create) |
+| `model` | string | — | — | low | [docs](https://developers.openai.com/api/docs/models/omni-moderation-latest) |
+
+## Tools
+
+**Capabilities** (28/42 rows usable):
+
+- `openai.skills.crud` (tool.skills.crud) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.skills.versions` (tool.skills.versions) — [vendor docs](https://developers.openai.com/api/reference/overview)
+- `openai.tools.apply_patch` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-apply-patch)
+- `openai.tools.code_interpreter` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-code-interpreter)
+- `openai.tools.code_interpreter_auto_container` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-code-interpreter)
+- `openai.tools.computer_use` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-computer-use)
+- `openai.tools.computer_use_display_size` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-computer-use)
+- `openai.tools.connectors` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-connectors-mcp)
+- `openai.tools.custom` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/custom-tools)
+- `openai.tools.custom_grammar_lark` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/custom-tools)
+- `openai.tools.custom_grammar_regex` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/custom-tools)
+- `openai.tools.file_search` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-file-search)
+- `openai.tools.file_search_filters` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-file-search)
+- `openai.tools.file_search_ranking` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-file-search)
+- `openai.tools.function` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/function-calling)
+- `openai.tools.function_strict` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/function-calling)
+- `openai.tools.image_generation` (media.image.generate) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-image-generation)
+- `openai.tools.mcp` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.tools.mcp_allowed_tools` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.tools.mcp_headers` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.tools.mcp_require_approval` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-remote-mcp)
+- `openai.tools.retrieval` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/retrieval)
+- `openai.tools.shell` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-shell)
+- `openai.tools.skills` (provider.skill.invoke) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-skills)
+- `openai.tools.tool_search` (tool.call) — [vendor docs](https://developers.openai.com/api/docs/guides/tool-search)
+- `openai.tools.web_search` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-web-search)
+- `openai.tools.web_search_preview` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-web-search)
+- `openai.tools.web_search_user_location` (provider.tool.server) — [vendor docs](https://developers.openai.com/api/docs/guides/tools-web-search)
+
+**Parameters** (28):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `tools[].display_width` | object | — | — | high | computer_use_display &#123;width,height,environment&#125; selects the older computer_use_preview tool (computer-use-preview model, truncation=auto); same knob covers display_height and environment. |
+| `tools[].type` | boolean | `true` | `true`, `false` | high | Emits the parameterless &#123;type:computer&#125; tool on the operator runtime; high risk because the tool drives arbitrary UI. Gated by harness tool policy (assertRuntimeToolSetAllowed). |
+| `tools[].connector_id` | array | — | — | high | openai_connectors ids map to &#123;type:mcp, connector_id:connector_&lt;id>&#125;; requires a per-connector OAuth token in openai_connector_authorization (the API rejects connector tools without authorization and never stores the token). |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |
+| `` | null | — | — | low | PC-CAT wave-3 posture-only: row wired/verified via probe pc-cat.openai.w3-*; no user-facing knob. |

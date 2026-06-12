@@ -1,0 +1,160 @@
+---
+title: "Snippets: Assemble a Workflow"
+description: "Composable frontmatter blocks — pick one per concern, stack them, validate, dispatch."
+icon: "puzzle-piece"
+---
+
+A `workflow.md` is assembled from independent frontmatter blocks, one per
+concern. Pick the blocks you need, stack them under one `---` fence with an
+`id`, `version`, and `agent`, then validate. **Agents:** this page plus the
+[Workflow Schema](/harness/workflow-schema) is enough to assemble any
+workflow — you do not need the rest of the docs in context.
+
+## Identity (always required)
+
+```yaml
+id: my-workflow
+version: 1.0.0
+```
+
+## Agent (always required)
+
+```yaml
+agent:
+  runtime_key: anthropic-agent-sdk   # see /harness/runtimes
+  provider: anthropic
+  model: claude-opus-4-7             # optional; runtime default otherwise
+  role: worker                       # worker | orchestrator | reviewer ...
+  task_template: "Run {{workflow_id}} for {{issue_ref}}."
+  max_turns: 8
+```
+
+## Selection & fallback (optional)
+
+```yaml
+agent:
+  routing_strategy: single_agent_routine
+  single_agent:
+    select: ordered            # fixed | ordered | vendor_auto
+    candidates:
+      - runtime_key: anthropic-agent-sdk
+        method: sdk
+        dispatch_path: cloud_managed
+      - runtime_key: openai-codex-sdk
+        method: cli
+        dispatch_path: local
+    fallback_on_credit_exhausted: true
+```
+
+## Budget
+
+```yaml
+budget:
+  tokens: 100000
+  wall_clock_minutes: 45
+```
+
+## Sandbox
+
+```yaml
+sandbox:
+  workspace_write: true        # false = read-only run
+  network:                     # allowlist; omit for no network
+    - api.anthropic.com
+```
+
+## Tools
+
+```yaml
+tools:
+  required: [fs.read, fs.write, git]
+  optional: [probes.run, redaction.scan, merge.request_slot]
+```
+
+## Retry & failure fallback
+
+```yaml
+retry:
+  max_attempts: 2
+  backoff_ms: 250
+  retryable_runtime_failures: [provider_unavailable, rate_limited, context_window_exceeded]
+  runtime_failure_fallbacks:
+    - failure_class: rate_limited
+      from_provider: anthropic
+      provider: openai
+      runtime_key: openai-codex-sdk
+```
+
+## Review consensus
+
+```yaml
+review_consensus:
+  workflow_id: review-consensus
+  reviewers: 3
+  rule: unanimous-on-block
+  diversity: [anthropic, gemini, openai]
+  runtime_keys:
+    anthropic: anthropic-agent-sdk
+    gemini: gemini-genai-sdk
+    openai: openai-codex-sdk
+  timeout_ms: 5400000
+```
+
+## Cache
+
+```yaml
+cache_policy:
+  enabled: true
+  strategy: auto
+  key_scope: workflow          # workflow | ticket | global
+  ttl: 1h
+```
+
+## Provider knobs (Headroom, thinking, permissions)
+
+```yaml
+harness_config:
+  sdk_settings:
+    anthropic:
+      thinking_type: enabled
+      thinking_budget_tokens: 16000
+      permission_mode: acceptEdits
+      headroom:
+        enabled: true
+        token_budget: 120000
+```
+
+Per-runtime knob lists live on [Runtimes](/harness/runtimes); per-provider
+parameter tables (types, defaults, allowed values, risk) live on the
+[provider pages](/harness/capabilities).
+
+## State machine
+
+```yaml
+state_machine:
+  start: plan
+  stage_order: [plan, implement, review]
+  terminal_states: [done]
+  on_event:
+    plan_completed: implement
+    implementation_completed: review
+    review_clean: done
+    review_blocked: implement
+  loop_caps:
+    total_turns: 10
+    on_exceeded: review
+```
+
+## Workpad & evidence
+
+```yaml
+workpad:
+  required: true
+  evidence_required: true
+```
+
+## Validate, then dispatch
+
+Assemble blocks → validate (`think_workflow_md_validate` from an agent
+session) → dispatch through Cadence. Complete worked combinations are in the
+[Cookbook](/harness/cookbook).

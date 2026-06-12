@@ -1,0 +1,632 @@
+---
+title: "Workflow Schema Reference"
+description: "Every frontmatter field Cadence validates — types, required flags, enums, constraints."
+icon: "list-tree"
+---
+
+{/* GENERATED (workflow-schema) — do not edit by hand. Regenerate: node scripts/gen-from-harness.mjs. See DOCS-FORMAT.md. */}
+
+This is the **exact contract** Cadence validates `workflow.md` frontmatter
+against — generated from the same JSON Schema the validator loads, so it
+cannot drift. Use it like `--help` for workflow authoring: every field,
+type, required flag, enum, and constraint below is enforceable truth.
+
+Numeric and boolean fields also accept `{{var}}` template strings,
+resolved from workflow `arguments` at dispatch time.
+
+## Top-level fields
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| [`id`](#id) | string | yes | non-empty |
+| [`version`](#version) | string | yes | non-empty |
+| [`aliases`](#aliases) | array of string | no | — |
+| [`applies_to`](#applies-to) | object | no | — |
+| [`library`](#library) | object | no | — |
+| [`agent`](#agent) | object | no | — |
+| [`participants`](#participants) | array of object | no | — |
+| [`pair_profiles`](#pair-profiles) | object | no | — |
+| [`context`](#context) | object | no | — |
+| [`channel`](#channel) | object | no | — |
+| [`budget`](#budget) | object | no | — |
+| [`sandbox`](#sandbox) | object | no | — |
+| [`tools`](#tools) | object | no | — |
+| [`tool_policy`](#tool-policy) | `read-only` \| `edit` \| `full` \| `network` | no | — |
+| [`sandbox_profile`](#sandbox-profile) | `read-only` \| `edit` \| `full` \| `network` | no | — |
+| [`cadence`](#cadence) | object | no | — |
+| [`review_consensus`](#review-consensus) | object \| `false` | no | — |
+| [`retry`](#retry) | object | no | — |
+| [`merge_admission`](#merge-admission) | object | no | — |
+| [`workpad`](#workpad) | object | no | — |
+| [`cache_policy`](#cache-policy) | object | no | — |
+| [`hot_reload`](#hot-reload) | boolean \| object | no | — |
+| [`state_machine`](#state-machine) | object | no | — |
+| [`arguments`](#arguments) | object | no | — |
+| [`roster`](#roster) | array of object | no | — |
+| [`adherence`](#adherence) | array of string | no | — |
+| [`attestations_required`](#attestations-required) | array of string | no | — |
+| [`triggers`](#triggers) | array of string \| unknown | no | — |
+| [`execution`](#execution) | object | no | — |
+| [`workspace_mode`](#workspace-mode) | `full_worktree` \| `workleaf_readonly` | no | — |
+| [`max_full_worktrees_per_run`](#max-full-worktrees-per-run) | integer | no | min 0 |
+| [`mutating_parallel_branches`](#mutating-parallel-branches) | boolean | no | — |
+
+## `applies_to`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `labels` | array of string | no | — |
+| `pair_state` | array of string | no | — |
+| `plugins` | array of string | no | — |
+
+## `library`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `selectable` | boolean | no | — |
+| `family` | string | no | non-empty |
+| `product_mode` | `single` \| `pair` \| `collab` | no | — |
+| `display_name` | string | no | non-empty |
+| `description` | string | no | — |
+| `maturity` | `stable` \| `experimental` \| `hidden` \| `deprecated` | no | — |
+| `recommended_for` | array of string | no | — |
+| `locks_after` | `cadence_claim` \| `dispatch` \| `never` | no | — |
+
+## `agent`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `runtime_key` | string | no | non-empty |
+| `provider` | string | no | — |
+| `model` | string | no | — |
+| `role` | string | no | — |
+| `task_template` | string | no | — |
+| `max_turns` | integer (or `{{var}}` template) | no | — |
+| `max_concurrent_agents` | integer (or `{{var}}` template) | no | — |
+| `reasoning_effort` | string | no | — |
+| `thinking` | object | no | — |
+| `cache_policy` | object | no | — |
+| `budget` | object | no | — |
+| `display_name` | string | no | — |
+| `naming_mode` | `first-and-last` \| `first-only` \| `last-only` | no | — |
+| `routing_strategy` | `pair_programming` \| `single_agent_routine` | no | — |
+| `single_agent` | object | no | — |
+| `agent_tier` | `opus` \| `sonnet` \| `haiku` | no | — |
+| `dispatch_path` | `local` \| `cloud_managed` \| `auto` | no | — |
+
+### `agent.thinking`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `type` | `enabled` \| `disabled` \| `adaptive` | no | — |
+| `budget_tokens` | integer (or `{{var}}` template) | no | — |
+
+### `agent.cache_policy`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `enabled` | boolean | no | — |
+| `strategy` | `auto` \| `explicit` | no | — |
+| `ttl` | `provider_default` \| `5m` \| `1h` \| `24h` | no | — |
+| `min_tokens` | `enforce` \| `best_effort` | no | — |
+| `key_scope` | `workflow` \| `project` \| `conversation` \| `issue` \| `lane` | no | — |
+| `cached_content_id` | string | no | — |
+
+### `agent.budget`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `tokens` | integer (or `{{var}}` template) | no | — |
+| `wall_clock_minutes` | integer (or `{{var}}` template) | no | — |
+| `minutes` | integer (or `{{var}}` template) | no | — |
+
+### `agent.single_agent`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `select` | `fixed` \| `vendor_auto` \| `ordered` | yes | — |
+| `runtime_key` | string | no | non-empty |
+| `method` | `api` \| `sdk` \| `mcp` \| `cli` \| `desktop_app` | no | — |
+| `dispatch_path` | `local` \| `cloud_managed` | no | — |
+| `candidates` | array of object | no | — |
+| `fallback_on_credit_exhausted` | boolean | no | — |
+
+#### `agent.single_agent.candidates[]`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `runtime_key` | string | yes | non-empty |
+| `method` | `api` \| `sdk` \| `mcp` \| `cli` \| `desktop_app` | yes | — |
+| `dispatch_path` | `local` \| `cloud_managed` | yes | — |
+
+## `participants[]`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `provider` | string | no | — |
+| `runtime_key` | string | no | non-empty |
+| `model` | string | no | — |
+| `method` | `api` \| `sdk` \| `mcp` \| `cli` \| `desktop_app` | no | — |
+| `harness` | `claude_code` \| `custom` \| `default` | no | — |
+| `dispatch_path` | `local` \| `cloud_managed` \| `auto` | no | — |
+| `mcp_server_config` | object | no | — |
+| `cli_flags` | object | no | — |
+| `cli` | object | no | — |
+| `workspace_mode` | `full_worktree` \| `workleaf_readonly` | no | — |
+| `participant_id` | string | yes | non-empty |
+| `role` | string | no | — |
+| `aliases` | array of string | no | — |
+| `reasoning_effort` | string | no | — |
+| `thinking` | object | no | — |
+
+### `participants[].cli`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `profile` | string | no | non-empty |
+| `binary` | string | no | non-empty |
+| `startup` | object | no | — |
+| `mcp` | object | no | — |
+| `skills` | object | no | — |
+| `hooks` | object | no | — |
+| `routine` | object | no | — |
+| `experimental` | object | no | — |
+
+#### `participants[].cli.startup`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `approval_mode` | `supervised` \| `auto` \| `plan` \| `dontAsk` \| `bypass` | no | — |
+| `sandbox` | `read-only` \| `workspace-write` \| `danger-full-access` | no | — |
+| `resume` | boolean | no | — |
+
+#### `participants[].cli.mcp`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `servers` | array of string | no | — |
+| `allowed_tools` | array of string | no | — |
+
+#### `participants[].cli.skills`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `include` | array of string | yes | — |
+
+#### `participants[].cli.hooks`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `include` | array of string | yes | — |
+
+#### `participants[].cli.routine`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `trigger` | string | no | non-empty |
+| `steerable` | boolean | no | — |
+
+#### `participants[].cli.experimental`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `raw` | object | yes | — |
+
+### `participants[].thinking`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `type` | `enabled` \| `disabled` \| `adaptive` | no | — |
+| `budget_tokens` | integer (or `{{var}}` template) | no | — |
+
+## `context`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `mode` | `off` \| `brief` | no | — |
+| `max_input_tokens` | integer | no | min > 0 |
+| `max_output_tokens` | integer | no | min > 0 |
+| `dynamic_budget_tokens` | integer | no | min 0 |
+| `context_pack_budget_tokens` | integer | no | min 0, max 3000 |
+| `governed_query_limit` | integer | no | min 0 |
+| `recent_thinkids_limit` | integer | no | min 0 |
+| `graph_focus_limit` | integer | no | min 0 |
+| `cat_recall_limit` | integer | no | min 0 |
+| `evidence_excerpt_budget_tokens` | integer | no | min 0 |
+| `raw_prior_output_policy` | `forbid` \| `digest_only` \| `allow` | no | — |
+| `compression_policy` | `deterministic_digest` \| `none` | no | — |
+| `provider_cache` | object | no | — |
+
+### `context.provider_cache`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `stable_prefix` | boolean | no | — |
+| `dynamic_suffix` | boolean | no | — |
+
+## `channel`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `mode` | `off` \| `live` | no | — |
+| `topology` | `human_pair` \| `pair` \| `small_team` \| `review_panel` | no | — |
+| `transport` | `in_process` \| `local_socket` | no | — |
+| `human_seat` | boolean | no | — |
+| `max_participants` | integer | no | min > 0, max 5 |
+| `max_hops` | integer | no | min > 0, max 3 |
+| `idle_timeout_s` | integer | no | min > 0 |
+| `max_messages_per_stage` | integer | no | min > 0 |
+| `max_bounces_per_pair` | integer | no | min > 0 |
+| `message_budget_tokens` | integer | no | min > 0 |
+| `stage_digest_budget_tokens` | integer | no | min > 0 |
+| `transcript_policy` | `digest_only` | no | — |
+| `artifact_policy` | `refs_only` | no | — |
+| `redaction_policy` | `standard` | no | — |
+| `per_channel_lifetime_tokens` | integer | no | min > 0 |
+| `per_channel_lifetime_cost_usd` | number | no | min > 0 |
+| `floor` | object | no | — |
+| `external_a2a` | `false` | no | — |
+
+### `channel.floor`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `order` | `fifo` \| `round_robin` | no | — |
+| `turn_cap_seconds` | integer | no | min > 0 |
+| `chat_char_cap` | integer | no | min > 0 |
+| `audio_mode` | `speak` \| `quiet` | no | — |
+| `broadcast_aliases` | array of string | no | — |
+
+## `budget`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `tokens` | integer (or `{{var}}` template) | no | — |
+| `wall_clock_minutes` | integer (or `{{var}}` template) | no | — |
+| `minutes` | integer (or `{{var}}` template) | no | — |
+
+## `sandbox`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `workspace_write` | boolean | no | — |
+| `network` | boolean \| array of string | no | — |
+| `filesystem` | object | no | — |
+
+### `sandbox.filesystem`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `allow` | array of string | no | — |
+| `deny` | array of string | no | — |
+
+## `tools`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `required` | array of string | no | — |
+| `optional` | array of string | no | — |
+
+## `cadence`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `owner` | `cadence` | yes | — |
+| `domains` | array of `wiki` \| `graph_memory_cat_thinkid` \| `agent_conversation` \| `magic_canvas` \| `computer_control` \| `release` | yes | — |
+| `run_contract` | object | yes | — |
+| `resource_lifecycle` | object | yes | — |
+| `event_contract` | object | no | — |
+| `existing_resource_policy` | `reuse_or_ask` \| `reuse_existing` \| `create_new` | no | — |
+
+### `cadence.run_contract`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `goal` | string | yes | non-empty |
+| `success_criteria` | array of string | yes | — |
+| `done_when` | array of string | yes | — |
+| `non_goals` | array of string | no | — |
+
+### `cadence.resource_lifecycle`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `leases` | array of string | no | — |
+| `release` | array of string | yes | — |
+| `terminal_cleanup` | boolean | no | — |
+
+### `cadence.event_contract`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `progress` | array of string | no | — |
+| `completion` | string | yes | non-empty |
+| `failure` | string | no | non-empty |
+
+## `retry`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `max_attempts` | integer | no | min > 0 |
+| `backoff_ms` | integer | no | min 0 |
+| `retryable_runtime_failures` | array of string | no | — |
+| `runtime_failure_fallbacks` | array of object | no | — |
+| `stale_base_merge_retry` | boolean | no | — |
+| `human_review_after_attempts` | integer | no | min > 0 |
+
+### `retry.runtime_failure_fallbacks[]`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `failure_class` | string | no | — |
+| `from_provider` | string | no | — |
+| `from_runtime_key` | string | no | — |
+| `provider` | string | no | — |
+| `runtime_key` | string | no | — |
+| `agent_runtime_key` | string | no | — |
+| `model` | string | no | — |
+
+## `merge_admission`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `request_slot` | boolean | no | — |
+| `stale_base_retry` | boolean | no | — |
+| `required_axes` | array of string | no | — |
+| `fail_codes` | array of string | no | — |
+
+## `workpad`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `required` | boolean | no | — |
+| `evidence_required` | boolean | no | — |
+
+## `cache_policy`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `enabled` | boolean | no | — |
+| `strategy` | `auto` \| `explicit` | no | — |
+| `ttl` | `provider_default` \| `5m` \| `1h` \| `24h` | no | — |
+| `min_tokens` | `enforce` \| `best_effort` | no | — |
+| `key_scope` | `workflow` \| `project` \| `conversation` \| `issue` \| `lane` | no | — |
+| `cached_content_id` | string | no | — |
+
+## `state_machine`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `type` | string | no | — |
+| `start` | string | no | — |
+| `stage_order` | array of string | no | — |
+| `terminal_states` | array of string | no | — |
+| `on_event` | object | no | — |
+| `loop_caps` | object | no | — |
+| `concurrency` | `sequential` \| `pipeline` | no | — |
+| `states` | object | no | — |
+| `loop` | object | no | — |
+| `gate` | object | no | — |
+
+### `state_machine.states.<name>`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `agent` | object | no | — |
+| `output_schema` | object | no | — |
+| `fan_out` | object | no | — |
+| `gate` | object | no | — |
+| `loop` | object | no | — |
+
+#### `state_machine.states.<name>.agent`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `runtime_key` | string | no | non-empty |
+| `provider` | string | no | — |
+| `model` | string | no | — |
+| `role` | string | no | — |
+| `task_template` | string | no | — |
+| `max_turns` | integer (or `{{var}}` template) | no | — |
+| `max_concurrent_agents` | integer (or `{{var}}` template) | no | — |
+| `reasoning_effort` | string | no | — |
+| `thinking` | object | no | — |
+| `cache_policy` | object | no | — |
+| `budget` | object | no | — |
+| `display_name` | string | no | — |
+| `naming_mode` | `first-and-last` \| `first-only` \| `last-only` | no | — |
+| `routing_strategy` | `pair_programming` \| `single_agent_routine` | no | — |
+| `single_agent` | object | no | — |
+| `agent_tier` | `opus` \| `sonnet` \| `haiku` | no | — |
+| `dispatch_path` | `local` \| `cloud_managed` \| `auto` | no | — |
+
+##### `state_machine.states.<name>.agent.thinking`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `type` | `enabled` \| `disabled` \| `adaptive` | no | — |
+| `budget_tokens` | integer (or `{{var}}` template) | no | — |
+
+##### `state_machine.states.<name>.agent.cache_policy`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `enabled` | boolean | no | — |
+| `strategy` | `auto` \| `explicit` | no | — |
+| `ttl` | `provider_default` \| `5m` \| `1h` \| `24h` | no | — |
+| `min_tokens` | `enforce` \| `best_effort` | no | — |
+| `key_scope` | `workflow` \| `project` \| `conversation` \| `issue` \| `lane` | no | — |
+| `cached_content_id` | string | no | — |
+
+##### `state_machine.states.<name>.agent.budget`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `tokens` | integer (or `{{var}}` template) | no | — |
+| `wall_clock_minutes` | integer (or `{{var}}` template) | no | — |
+| `minutes` | integer (or `{{var}}` template) | no | — |
+
+##### `state_machine.states.<name>.agent.single_agent`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `select` | `fixed` \| `vendor_auto` \| `ordered` | yes | — |
+| `runtime_key` | string | no | non-empty |
+| `method` | `api` \| `sdk` \| `mcp` \| `cli` \| `desktop_app` | no | — |
+| `dispatch_path` | `local` \| `cloud_managed` | no | — |
+| `candidates` | array of object | no | — |
+| `fallback_on_credit_exhausted` | boolean | no | — |
+
+##### `state_machine.states.<name>.agent.single_agent.candidates[]`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `runtime_key` | string | yes | non-empty |
+| `method` | `api` \| `sdk` \| `mcp` \| `cli` \| `desktop_app` | yes | — |
+| `dispatch_path` | `local` \| `cloud_managed` | yes | — |
+
+#### `state_machine.states.<name>.output_schema`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `type` | `object` \| `array` \| `string` \| `number` \| `boolean` | no | — |
+| `properties` | object | no | — |
+| `items` | object | no | — |
+| `required` | array of string | no | — |
+
+##### `state_machine.states.<name>.output_schema.items`
+
+Recursive structure — same shape as `__schema0` above.
+
+#### `state_machine.states.<name>.fan_out`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `over` | string | yes | non-empty |
+| `as` | string | yes | non-empty |
+| `max_concurrency` | integer | no | min > 0 |
+| `background` | boolean | no | — |
+
+#### `state_machine.states.<name>.gate`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `human` | boolean | yes | — |
+
+#### `state_machine.states.<name>.loop`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `while_budget_remaining_gt` | integer | yes | min 0 |
+
+### `state_machine.loop`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `while_budget_remaining_gt` | integer | yes | min 0 |
+
+### `state_machine.gate`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `human` | boolean | yes | — |
+
+## `roster[]`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `provider` | string | yes | non-empty |
+| `runtime_key` | string | yes | non-empty |
+| `model` | string | no | — |
+| `method` | `api` \| `sdk` \| `mcp` \| `cli` \| `desktop_app` | no | — |
+| `harness` | `claude_code` \| `custom` \| `default` | no | — |
+| `dispatch_path` | `local` \| `cloud_managed` \| `auto` | no | — |
+| `mcp_server_config` | object | no | — |
+| `cli_flags` | object | no | — |
+| `cli` | object | no | — |
+| `workspace_mode` | `full_worktree` \| `workleaf_readonly` | no | — |
+| `alias` | array of string | yes | — |
+| `voice` | string | no | non-empty |
+| `voice_name` | string | no | non-empty |
+| `data_source` | object | no | — |
+| `allowed_tools` | array of string | no | — |
+| `context_budget_tokens` | integer | no | min > 0, max 200000 |
+
+### `roster[].cli`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `profile` | string | no | non-empty |
+| `binary` | string | no | non-empty |
+| `startup` | object | no | — |
+| `mcp` | object | no | — |
+| `skills` | object | no | — |
+| `hooks` | object | no | — |
+| `routine` | object | no | — |
+| `experimental` | object | no | — |
+
+#### `roster[].cli.startup`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `approval_mode` | `supervised` \| `auto` \| `plan` \| `dontAsk` \| `bypass` | no | — |
+| `sandbox` | `read-only` \| `workspace-write` \| `danger-full-access` | no | — |
+| `resume` | boolean | no | — |
+
+#### `roster[].cli.mcp`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `servers` | array of string | no | — |
+| `allowed_tools` | array of string | no | — |
+
+#### `roster[].cli.skills`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `include` | array of string | yes | — |
+
+#### `roster[].cli.hooks`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `include` | array of string | yes | — |
+
+#### `roster[].cli.routine`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `trigger` | string | no | non-empty |
+| `steerable` | boolean | no | — |
+
+#### `roster[].cli.experimental`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `raw` | object | yes | — |
+
+### `roster[].data_source`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `domain` | string | yes | non-empty |
+| `symbols` | array of string | no | — |
+
+## `execution`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `trigger_owner` | `cadence` \| `provider` | no | — |
+| `provider_native_routine` | object | no | — |
+
+### `execution.provider_native_routine`
+
+| Field | Type | Required | Constraints |
+|---|---|---|---|
+| `enabled` | boolean | yes | — |
+
+## Validating
+
+Validate before dispatch — Cadence rejects invalid frontmatter at load
+time. From an agent session, call the `think_workflow_md_validate` tool
+with your draft; it returns the same errors this schema produces.

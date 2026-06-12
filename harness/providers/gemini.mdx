@@ -1,642 +1,1383 @@
 ---
 title: "Google Gemini"
-description: "466 of 696 catalog rows usable today."
+description: "466 usable capability rows, 394 documented parameters."
 ---
 
-{/* GENERATED (providers/gemini) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
-
-Everything you can do with **Google Gemini** through the deeda harness,
-grouped by feature family. Caveats are inline; rows without a caveat are
-implemented end-to-end and probed.
-
-### Agent Development Kit (46/55 usable)
-
-- `gemini.adk.a2a.protocol` (agent.adk_multi)
-- `gemini.adk.agent.custom` (agent.adk_runtime)
-- `gemini.adk.agent.llm` (agent.adk_runtime)
-- `gemini.adk.agent.loop` (agent.adk_workflow)
-- `gemini.adk.agent.parallel` (agent.adk_workflow)
-- `gemini.adk.agent.sequential` (agent.adk_workflow)
-- `gemini.adk.artifact.in_memory` (agent.adk_runtime)
-- `gemini.adk.callback.after_agent` (agent.adk_runtime)
-- `gemini.adk.callback.after_model` (agent.adk_runtime)
-- `gemini.adk.callback.after_tool` (agent.adk_runtime)
-- `gemini.adk.callback.before_agent` (agent.adk_runtime)
-- `gemini.adk.callback.before_model` (agent.adk_runtime)
-- `gemini.adk.callback.before_tool` (agent.adk_runtime)
-- `gemini.adk.callbacks` (agent.adk_runtime)
-- `gemini.adk.cli.api_server` (agent.adk_runtime)
-- `gemini.adk.cli.eval` (eval.adk)
-- `gemini.adk.cli.run` (agent.adk_runtime)
-- `gemini.adk.cli.web` (agent.adk_runtime)
-- `gemini.adk.eval.criteria` (eval.adk)
-- `gemini.adk.evaluate` (eval.adk)
-- `gemini.adk.events` (agent.event.append)
-- `gemini.adk.input_schema` (agent.adk_runtime)
-- `gemini.adk.loop_agent.max_iterations` (agent.adk_workflow)
-- `gemini.adk.memory.in_memory` (agent.event.append)
-- `gemini.adk.multi_agent` (agent.adk_multi)
-- `gemini.adk.output_key` (agent.event.append)
-- `gemini.adk.output_schema` (agent.adk_runtime)
-- `gemini.adk.pattern.escalate` (agent.adk_runtime)
-- `gemini.adk.pattern.sub_agents` (agent.adk_multi)
-- `gemini.adk.pattern.transfer` (agent.adk_multi)
-- `gemini.adk.run_config.streaming` (agent.adk_streaming)
-- `gemini.adk.runner` (agent.adk_runtime)
-- `gemini.adk.session.database` (agent.event.append)
-- `gemini.adk.session.in_memory` (agent.event.append)
-- `gemini.adk.state.app_scope` (agent.event.append)
-- `gemini.adk.state.shared` (agent.event.append)
-- `gemini.adk.state.temp_scope` (agent.event.append)
-- `gemini.adk.state.user_scope` (agent.event.append)
-- `gemini.adk.streaming` (agent.adk_streaming)
-- `gemini.adk.tools.agent_tool` (tool.call)
-- `gemini.adk.tools.function_tool` (tool.call)
-- `gemini.adk.tools.long_running_function_tool` (tool.call)
-- `gemini.adk.tools.mcp_toolset` (tool.mcp)
-- `gemini.adk.tools.openapi` (tool.call)
-- `gemini.adk.tools.toolbox` (tool.call)
-- `gemini.adk.workflow_agents` (agent.adk_workflow)
-
-### Antigravity Auth (4/4 usable)
-
-- `gemini.antigravity.auth.gemini_api_key_env` (provider.auth.api_key)
-- `gemini.antigravity.auth.gemini_config_api_key` (provider.auth.api_key)
-- `gemini.antigravity.auth.harness_path_env` (provider.binary.override)
-- `gemini.antigravity.auth.vertex` (provider.auth.vertex)
-
-### Antigravity Built-in Tools (8/12 usable)
-
-- `gemini.antigravity.tool.custom_python` (tool.custom.python)
-- `gemini.antigravity.tool.edit_file` (tool.fs.edit)
-- `gemini.antigravity.tool.find_file` (tool.fs.find)
-- `gemini.antigravity.tool.finish` (agent.finish)
-- `gemini.antigravity.tool.list_directory` (tool.fs.list)
-- `gemini.antigravity.tool.search_directory` (tool.fs.grep)
-- `gemini.antigravity.tool.start_subagent` (agent.subagent.spawn)
-- `gemini.antigravity.tool.view_file` (tool.fs.read)
-
-### Antigravity CLI (5/13 usable)
-
-- `gemini.antigravity.cli.add_dir` (agent.workspace.scope)
-- `gemini.antigravity.cli.conversation_resume` (agent.session.resume)
-- `gemini.antigravity.cli.print` (agent.run.print)
-- `gemini.antigravity.cli.print_timeout` (agent.run.print)
-- `gemini.antigravity.cli.subcommand.help` (agent.help)
-
-### Antigravity Connections (1/2 usable)
-
-- `gemini.antigravity.connection.local` (agent.connection.local)
-
-### Antigravity Distribution (2/6 usable)
-
-- `gemini.antigravity.distribution.cli_install_script` (provider.distribution.install)
-- `gemini.antigravity.distribution.sdk_pypi` (provider.distribution.pypi)
-
-### Antigravity Errors (3/3 usable)
-
-- `gemini.antigravity.error.connection` (agent.error.connection)
-- `gemini.antigravity.error.execution` (agent.error.execution)
-- `gemini.antigravity.error.validation` (agent.error.validation)
-
-### Antigravity Hooks (7/9 usable)
-
-- `gemini.antigravity.hook.on_session_end` (agent.hook.session_end)
-- `gemini.antigravity.hook.on_session_start` (agent.hook.session_start)
-- `gemini.antigravity.hook.on_tool_error` (agent.hook.tool_error)
-- `gemini.antigravity.hook.post_tool_call` (agent.hook.post_tool)
-- `gemini.antigravity.hook.post_turn` (agent.hook.post_turn)
-- `gemini.antigravity.hook.pre_tool_call_decide` (agent.hook.pre_tool)
-- `gemini.antigravity.hook.pre_turn` (agent.hook.pre_turn)
-
-### Antigravity MCP (3/4 usable)
-
-- `gemini.antigravity.mcp.bridge` (provider.mcp.bridge)
-- `gemini.antigravity.mcp.http` (provider.mcp.client)
-- `gemini.antigravity.mcp.stdio` (provider.mcp.client)
-
-### Antigravity Models (3/4 usable)
-
-- `gemini.antigravity.model.gemini_2_5_pro` (llm.complete)
-- `gemini.antigravity.model.gemini_3_1_pro_preview` (llm.complete)
-- `gemini.antigravity.model.gemini_3_5_flash` (llm.complete)
-
-### Antigravity Multimodal (5/5 usable)
-
-- `gemini.antigravity.input.audio` (media.audio.understand)
-- `gemini.antigravity.input.document` (media.document.understand)
-- `gemini.antigravity.input.from_file` (media.from_file)
-- `gemini.antigravity.input.image` (media.image.understand)
-- `gemini.antigravity.input.video` (media.video.understand)
-
-### Antigravity Policies (7/8 usable)
-
-- `gemini.antigravity.policy.allow` (agent.policy.allow)
-- `gemini.antigravity.policy.ask_user` (agent.policy.ask_user)
-- `gemini.antigravity.policy.confirm_run_command` (agent.policy.confirm)
-- `gemini.antigravity.policy.deny` (agent.policy.deny)
-- `gemini.antigravity.policy.deny_all` (agent.policy.deny)
-- `gemini.antigravity.policy.safe_defaults` (agent.policy.safe_defaults)
-- `gemini.antigravity.policy.workspace_only` (agent.policy.workspace_scope)
-
-### Antigravity SDK (12/12 usable)
-
-- `gemini.antigravity.sdk.agent_class` (agent.lifecycle)
-- `gemini.antigravity.sdk.agent_config` (agent.config)
-- `gemini.antigravity.sdk.capabilities_config` (agent.capabilities)
-- `gemini.antigravity.sdk.conversation` (agent.conversation.lifecycle)
-- `gemini.antigravity.sdk.gemini_config` (provider.auth)
-- `gemini.antigravity.sdk.generation_config` (llm.complete)
-- `gemini.antigravity.sdk.local_agent_config` (agent.config)
-- `gemini.antigravity.sdk.model_config` (llm.model.select)
-- `gemini.antigravity.sdk.model_entry` (llm.model.select)
-- `gemini.antigravity.sdk.thinking_level` (llm.thinking)
-- `gemini.antigravity.sdk.tool_context` (tool.context)
-- `gemini.antigravity.sdk.usage_metadata` (agent.observability.usage)
-
-### Antigravity Streaming (5/5 usable)
-
-- `gemini.antigravity.stream.chat_response` (llm.stream)
-- `gemini.antigravity.stream.structured_output` (llm.structured_output)
-- `gemini.antigravity.stream.text_deltas` (llm.stream)
-- `gemini.antigravity.stream.thoughts` (llm.thinking)
-- `gemini.antigravity.stream.tool_calls` (tool.call)
-
-### Antigravity System Instructions (2/2 usable)
-
-- `gemini.antigravity.system.custom` (agent.system_instructions)
-- `gemini.antigravity.system.templated` (agent.system_instructions)
-
-### Antigravity Triggers (4/5 usable)
-
-- `gemini.antigravity.trigger.context` (agent.trigger.context)
-- `gemini.antigravity.trigger.decorator` (agent.trigger.decorator)
-- `gemini.antigravity.trigger.every` (agent.trigger.interval)
-- `gemini.antigravity.trigger.on_file_change` (agent.trigger.file_watch)
-
-### Audio generation (18/21 usable)
-
-- `gemini.chirp.chirp_3` (media.audio.tts)
-- `gemini.lyria.generate_music` (media.music.generate)
-- `gemini.lyria.realtime` (realtime.music)
-- `gemini.tts` (media.audio.tts)
-- `gemini.tts.gemini_25_flash` (media.audio.tts)
-- `gemini.tts.gemini_25_pro` (media.audio.tts)
-- `gemini.tts.language_code` (media.audio.tts)
-- `gemini.tts.multispeaker` (media.audio.tts_multispeaker)
-- `gemini.tts.params.audio_encoding.linear16` (media.audio.tts)
-- `gemini.tts.params.audio_encoding.mp3` (media.audio.tts)
-- `gemini.tts.params.audio_encoding.ogg_opus` (media.audio.tts)
-- `gemini.tts.params.effects_profile` (media.audio.tts)
-- `gemini.tts.params.pitch` (media.audio.tts)
-- `gemini.tts.params.sample_rate` (media.audio.tts)
-- `gemini.tts.params.speaking_rate` (media.audio.tts)
-- `gemini.tts.params.volume_gain` (media.audio.tts)
-- `gemini.tts.style_control` (media.audio.tts)
-- `gemini.tts.voice.prebuilt` (media.audio.tts)
-
-### Auth (1/4 usable)
-
-- `gemini.auth.api_key` (provider.admin.read)
-
-### Batch (8/8 usable)
-
-- `gemini.batch` (batch.run)
-- `gemini.batches.cancel` (batch.run)
-- `gemini.batches.create` (batch.run)
-- `gemini.batches.delete` (batch.run)
-- `gemini.batches.file_input` (batch.run)
-- `gemini.batches.get` (batch.run)
-- `gemini.batches.inline_input` (batch.run)
-- `gemini.batches.list` (batch.run)
-
-### Caching (10/10 usable)
-
-- `gemini.caches.create` (llm.cache.create)
-- `gemini.caches.delete` (llm.cache.delete)
-- `gemini.caches.get` (llm.cache.get)
-- `gemini.caches.list` (llm.cache.list)
-- `gemini.caches.system_instruction` (llm.cache.create)
-- `gemini.caches.tools` (llm.cache.create)
-- `gemini.caches.ttl` (llm.cache.update)
-- `gemini.caches.update` (llm.cache.update)
-- `gemini.context_caching` (llm.complete) — *partial-compatible*: Think Harness forwards cachedContentId into @google/genai generateContent config; cache create/list/update/delete management rows remain separate deferred surfaces and provider-live probe registration is pending before this row can be marked implemented.
-- `gemini.context_caching.implicit` (llm.implicit_cache)
-
-### Chats (1/1 usable)
-
-- `gemini.chats.create` (llm.chats_create)
-
-### Core generation (8/8 usable)
-
-- `gemini.flex_inference` (llm.flex_inference)
-- `gemini.generate_content` (llm.complete)
-- `gemini.generate_content.multi_turn` (llm.complete)
-- `gemini.generate_content.stream` (llm.stream)
-- `gemini.generate_content.system_instruction` (llm.complete)
-- `gemini.interactions` (llm.interactions)
-- `gemini.openai_compat` (llm.complete) — *partial-compatible*: OpenAI compatibility kept as compat path; native default per PUP-E gate.
-- `gemini.priority_inference` (llm.priority_inference)
-
-### Embeddings (12/13 usable)
-
-- `gemini.embeddings` (llm.embed)
-- `gemini.embeddings.batch` (batch.embeddings)
-- `gemini.embeddings.output_dimensionality` (llm.embed)
-- `gemini.embeddings.task_type.classification` (llm.embed)
-- `gemini.embeddings.task_type.clustering` (llm.embed)
-- `gemini.embeddings.task_type.code_retrieval_query` (llm.embed)
-- `gemini.embeddings.task_type.fact_verification` (llm.embed)
-- `gemini.embeddings.task_type.question_answering` (llm.embed)
-- `gemini.embeddings.task_type.retrieval_document` (llm.embed)
-- `gemini.embeddings.task_type.retrieval_query` (llm.embed)
-- `gemini.embeddings.task_type.semantic_similarity` (llm.embed)
-- `gemini.embeddings.title` (llm.embed)
-
-### File search (8/9 usable)
-
-- `gemini.file_search.documents.get` (vector_store.documents.get)
-- `gemini.file_search.documents.list` (vector_store.documents.list)
-- `gemini.file_search.stores.create` (vector_store.create)
-- `gemini.file_search.stores.delete` (vector_store.delete)
-- `gemini.file_search.stores.get` (vector_store.get)
-- `gemini.file_search.stores.import` (vector_store.import)
-- `gemini.file_search.stores.list` (vector_store.list)
-- `gemini.file_search.stores.upload` (vector_store.upload)
-
-### Files (6/6 usable)
-
-- `gemini.files.delete` (file.delete)
-- `gemini.files.get` (file.get)
-- `gemini.files.list` (file.list)
-- `gemini.files.media_upload` (file.upload)
-- `gemini.files.upload` (file.upload)
-- `gemini.files.uri_reference` (file.get)
-
-### Function calling (10/11 usable)
-
-- `gemini.function_calling` (tool.call)
-- `gemini.function_calling.allowed_function_names` (tool.call)
-- `gemini.function_calling.compositional` (tool.compositional_calls)
-- `gemini.function_calling.declarations` (tool.call)
-- `gemini.function_calling.mcp` (tool.mcp)
-- `gemini.function_calling.mode.any` (tool.call)
-- `gemini.function_calling.mode.auto` (tool.call)
-- `gemini.function_calling.mode.none` (tool.call)
-- `gemini.function_calling.parallel` (tool.parallel_calls)
-- `gemini.function_calling.response_part` (tool.call)
-
-### generationConfig (16/22 usable)
-
-- `gemini.generation_config.candidate_count` (llm.complete)
-- `gemini.generation_config.max_output_tokens` (llm.complete)
-- `gemini.generation_config.media_resolution` (media.image.understand)
-- `gemini.generation_config.response_mime_type` (llm.complete)
-- `gemini.generation_config.response_modalities.audio` (media.audio.tts)
-- `gemini.generation_config.response_modalities.image` (media.image.generate)
-- `gemini.generation_config.response_modalities.text` (llm.complete)
-- `gemini.generation_config.response_schema` (llm.complete)
-- `gemini.generation_config.seed` (llm.complete)
-- `gemini.generation_config.speech_config` (media.audio.tts)
-- `gemini.generation_config.stop_sequences` (llm.complete)
-- `gemini.generation_config.temperature` (llm.complete)
-- `gemini.generation_config.thinking_config.include_thoughts` (llm.complete)
-- `gemini.generation_config.thinking_config.thinking_budget` (llm.complete)
-- `gemini.generation_config.top_k` (llm.complete)
-- `gemini.generation_config.top_p` (llm.complete)
-
-### Grounding (6/8 usable)
-
-- `gemini.grounding.google_maps` (tool.maps)
-- `gemini.grounding.google_search` (provider.tool.server)
-- `gemini.grounding.grounding_chunks` (provider.tool.server)
-- `gemini.grounding.grounding_supports` (provider.tool.server)
-- `gemini.grounding.search_entry_point` (provider.tool.server)
-- `gemini.grounding.web_search_queries` (provider.tool.server)
-
-### Image generation (13/26 usable)
-
-- `gemini.image_generation` (media.image.generate)
-- `gemini.image_generation.edit` (media.image.edit)
-- `gemini.imagen.aspect_ratio` (media.image.predict)
-- `gemini.imagen.imagen_4` (media.image.predict)
-- `gemini.imagen.imagen_4_fast` (media.image.predict)
-- `gemini.imagen.imagen_4_ultra` (media.image.predict)
-- `gemini.imagen.params.compression_quality` (media.image.predict)
-- `gemini.imagen.params.guidance_scale` (media.image.predict)
-- `gemini.imagen.params.output_format` (media.image.predict)
-- `gemini.imagen.params.sample_count` (media.image.predict)
-- `gemini.imagen.person_generation` (provider.safety_filters)
-- `gemini.imagen.predict` (media.image.predict)
-- `gemini.imagen.safety_filter_level` (provider.safety_filters)
-
-### Live API (30/34 usable)
-
-- `gemini.live_api` (realtime.session.create)
-- `gemini.live.affective_dialog` (realtime.affective_dialog)
-- `gemini.live.audio_transcription` (realtime.transcription)
-- `gemini.live.barge_in` (realtime.barge_in)
-- `gemini.live.context_window_compression` (realtime.session)
-- `gemini.live.ephemeral_tokens` (realtime.ephemeral_token)
-- `gemini.live.event.bidi_client_content` (realtime.session)
-- `gemini.live.event.bidi_realtime_input` (realtime.session)
-- `gemini.live.event.bidi_server_content` (realtime.session)
-- `gemini.live.event.bidi_setup` (realtime.session)
-- `gemini.live.event.bidi_setup_complete` (realtime.session)
-- `gemini.live.event.bidi_tool_call` (realtime.session)
-- `gemini.live.event.bidi_tool_response` (realtime.session)
-- `gemini.live.event.session_resumption_update` (realtime.session)
-- `gemini.live.event.usage_metadata` (realtime.session)
-- `gemini.live.input.audio` (realtime.session)
-- `gemini.live.input.screen` (realtime.session)
-- `gemini.live.input.video` (realtime.session)
-- `gemini.live.interrupted_event` (realtime.session)
-- `gemini.live.language_code` (realtime.session)
-- `gemini.live.modality.audio` (realtime.session)
-- `gemini.live.modality.text` (realtime.session) — *model-dependent*: TEXT response modality is rejected by every served bidi model: live close "The requested combination of response modalities (TEXT) is not supported by the model" on gemini-3.1-flash-live-preview AND gemini-2.5-flash-native-audio-latest (probed 2026-06-11). Audio-out sessions are fully live-proven; TEXT needs a future text-capable live model.
-- `gemini.live.proactive_audio` (realtime.proactive_audio)
-- `gemini.live.session_management` (realtime.session)
-- `gemini.live.tools.function_calling` (realtime.session)
-- `gemini.live.turn_complete` (realtime.session)
-- `gemini.live.vad.automatic` (realtime.session)
-- `gemini.live.vad.manual` (realtime.session)
-- `gemini.live.voice_config` (realtime.session)
-- `gemini.live.websocket` (realtime.websocket)
-
-### MCP (2/6 usable)
-
-- `gemini.mcp.adk_toolset_client` (tool.mcp)
-- `gemini.mcp.toolbox_databases` (tool.mcp)
-
-### MCP Toolbox (3/14 usable)
-
-- `gemini.mcp.toolbox.http` (tool.mcp)
-- `gemini.mcp.toolbox.parameterized_sql` (tool.mcp)
-- `gemini.mcp.toolbox.sqlite` (tool.mcp)
-
-### MIME types (18/18 usable)
-
-- `gemini.mime.application.pdf` (media.document.understand)
-- `gemini.mime.audio.aac` (media.audio.understand)
-- `gemini.mime.audio.aiff` (media.audio.understand)
-- `gemini.mime.audio.flac` (media.audio.understand)
-- `gemini.mime.audio.mp3` (media.audio.understand)
-- `gemini.mime.audio.ogg` (media.audio.understand)
-- `gemini.mime.audio.wav` (media.audio.understand)
-- `gemini.mime.image.heic` (media.image.understand)
-- `gemini.mime.image.heif` (media.image.understand)
-- `gemini.mime.image.jpeg` (media.image.understand)
-- `gemini.mime.image.png` (media.image.understand)
-- `gemini.mime.image.webp` (media.image.understand)
-- `gemini.mime.video.avi` (media.video.understand)
-- `gemini.mime.video.mov` (media.video.understand)
-- `gemini.mime.video.mp4` (media.video.understand)
-- `gemini.mime.video.mpeg` (media.video.understand)
-- `gemini.mime.video.threegpp` (media.video.understand)
-- `gemini.mime.video.webm` (media.video.understand)
-
-### Models (13/43 usable)
-
-- `gemini.model.context_window.1m` (llm.complete)
-- `gemini.model.gemini_25_flash` (llm.complete)
-- `gemini.model.gemini_25_flash_image` (media.image.generate)
-- `gemini.model.gemini_25_flash_lite` (llm.complete)
-- `gemini.model.gemini_25_pro` (llm.complete)
-- `gemini.model.gemini_3_flash` (llm.complete)
-- `gemini.model.gemini_3_pro_image` (media.image.generate)
-- `gemini.model.gemini_embedding_001` (llm.embed)
-- `gemini.model.gemini_embedding_2` (llm.embed)
-- `gemini.models.get` (provider.models_list)
-- `gemini.models.list` (provider.models_list)
-- `gemini.models.predict` (llm.complete)
-- `gemini.models.predict_long_running` (provider.long_running_operations)
-
-### Multimodal (9/9 usable)
-
-- `gemini.multimodal.audio_understanding` (media.audio.understand)
-- `gemini.multimodal.audio.timestamp` (media.audio.understand)
-- `gemini.multimodal.document_understanding` (media.document.understand)
-- `gemini.multimodal.image_understanding` (media.image.understand)
-- `gemini.multimodal.inline_data` (media.image.understand)
-- `gemini.multimodal.video_understanding` (media.video.understand)
-- `gemini.multimodal.video.clip` (media.video.understand)
-- `gemini.multimodal.video.fps` (media.video.understand)
-- `gemini.multimodal.video.youtube_url` (media.video.understand)
-
-### Observability (5/10 usable)
-
-- `gemini.observability.audit_logs` (provider.admin.read)
-- `gemini.observability.cloud_logging` (agent.adk_runtime)
-- `gemini.observability.cloud_monitoring` (agent.adk_runtime)
-- `gemini.observability.cloud_trace` (agent.adk_runtime)
-- `gemini.observability.quota_metrics` (provider.admin.read)
-
-### Operations (3/5 usable)
-
-- `gemini.operations.get` (provider.long_running_operations)
-- `gemini.operations.list` (provider.long_running_operations)
-- `gemini.operations.poll` (provider.long_running_operations)
-
-### Reasoning/thinking (4/5 usable)
-
-- `gemini.thinking` (llm.complete)
-- `gemini.thinking.disabled` (llm.complete)
-- `gemini.thinking.dynamic` (llm.complete)
-- `gemini.thought_signatures` (llm.thought_signatures)
-
-### Runtime config (9/18 usable)
-
-- `gemini.runtime.dual_mode.developer_api` (llm.complete)
-- `gemini.runtime.dual_mode.vertex_ai` (llm.complete)
-- `gemini.runtime.global_endpoint` (provider.admin.read)
-- `gemini.runtime.http.api_version` (llm.complete)
-- `gemini.runtime.http.base_url` (llm.complete)
-- `gemini.runtime.http.headers` (llm.complete)
-- `gemini.runtime.http.timeout` (llm.complete)
-- `gemini.runtime.location` (provider.admin.read)
-- `gemini.runtime.project_id` (provider.admin.read)
-
-### Safety (7/9 usable)
-
-- `gemini.safety_settings.civic_integrity` (provider.safety_filters)
-- `gemini.safety_settings.dangerous_content` (provider.safety_filters)
-- `gemini.safety_settings.harassment` (provider.safety_filters)
-- `gemini.safety_settings.hate_speech` (provider.safety_filters)
-- `gemini.safety_settings.sexually_explicit` (provider.safety_filters)
-- `gemini.safety_settings.threshold.block_none` (provider.safety_filters)
-- `gemini.safety_settings.threshold.block_only_high` (provider.safety_filters)
-
-### SDK JavaScript (8/12 usable)
-
-- `gemini.sdk.js.batches` (batch.run)
-- `gemini.sdk.js.caches` (llm.cache.create)
-- `gemini.sdk.js.chats` (llm.chats_create)
-- `gemini.sdk.js.files` (file.upload)
-- `gemini.sdk.js.google_genai` (llm.complete)
-- `gemini.sdk.js.live` (realtime.session.create)
-- `gemini.sdk.js.models` (llm.complete)
-- `gemini.sdk.js.operations` (provider.long_running_operations)
-
-### SDK Python (15/17 usable)
-
-- `gemini.sdk.python.async_chats` (llm.complete)
-- `gemini.sdk.python.batches` (batch.run)
-- `gemini.sdk.python.caches` (llm.cache.create)
-- `gemini.sdk.python.chats.create` (llm.chats_create)
-- `gemini.sdk.python.chats.get_history` (llm.complete)
-- `gemini.sdk.python.chats.send_message` (llm.complete)
-- `gemini.sdk.python.chats.send_message_stream` (llm.stream)
-- `gemini.sdk.python.client` (llm.complete)
-- `gemini.sdk.python.client.aio` (llm.complete)
-- `gemini.sdk.python.errors` (llm.complete)
-- `gemini.sdk.python.files` (file.upload)
-- `gemini.sdk.python.live.connect` (realtime.session.create)
-- `gemini.sdk.python.models` (provider.models_list)
-- `gemini.sdk.python.operations` (provider.long_running_operations)
-- `gemini.sdk.python.types` (llm.complete)
-
-### Semantic Retriever (5/24 usable)
-
-- `gemini.corpora.create` (vector_store.create)
-- `gemini.corpora.delete` (vector_store.delete)
-- `gemini.corpora.get` (vector_store.get)
-- `gemini.corpora.list` (vector_store.list)
-- `gemini.generate_answer` (llm.complete)
-
-### Structured output (3/3 usable)
-
-- `gemini.structured_output` (llm.complete)
-- `gemini.structured_output.enum` (llm.complete)
-- `gemini.structured_output.property_ordering` (llm.complete)
-
-### Token counting (4/4 usable)
-
-- `gemini.tokens.compute_cached` (llm.count_tokens)
-- `gemini.tokens.count` (llm.count_tokens)
-- `gemini.tokens.count_message` (llm.count_tokens)
-- `gemini.tokens.usage_metadata` (llm.count_tokens)
-
-### Tools (6/9 usable)
-
-- `gemini.tools.code_execution` (provider.tool.server)
-- `gemini.tools.computer_use` (provider.tool.server)
-- `gemini.tools.file_search` (tool.file_search)
-- `gemini.tools.google_maps` (tool.maps)
-- `gemini.tools.google_search` (provider.tool.server)
-- `gemini.tools.url_context` (provider.tool.server)
-
-### Vertex Agent Engine (16/22 usable)
-
-- `gemini.vertex.agent_engine.create` (agent.adk_runtime)
-- `gemini.vertex.agent_engine.delete` (agent.adk_runtime)
-- `gemini.vertex.agent_engine.get` (agent.adk_runtime)
-- `gemini.vertex.agent_engine.list` (agent.adk_runtime)
-- `gemini.vertex.agent_engine.memories.create` (agent.event.append)
-- `gemini.vertex.agent_engine.memories.delete` (agent.event.append)
-- `gemini.vertex.agent_engine.memories.generate` (agent.event.append)
-- `gemini.vertex.agent_engine.memories.list` (agent.event.append)
-- `gemini.vertex.agent_engine.memories.retrieve` (agent.event.append)
-- `gemini.vertex.agent_engine.patch` (agent.adk_runtime)
-- `gemini.vertex.agent_engine.sessions.append_event` (agent.event.append)
-- `gemini.vertex.agent_engine.sessions.create` (agent.event.append)
-- `gemini.vertex.agent_engine.sessions.delete` (agent.event.append)
-- `gemini.vertex.agent_engine.sessions.get` (agent.event.append)
-- `gemini.vertex.agent_engine.sessions.list` (agent.event.append)
-- `gemini.vertex.agent_engine.sessions.list_events` (agent.event.append)
-
-### Vertex AI (6/10 usable)
-
-- `gemini.vertex` (llm.complete)
-- `gemini.vertex.agent_builder` (agent.agent_builder)
-- `gemini.vertex.batch_prediction` (batch.vertex)
-- `gemini.vertex.grounding_search` (tool.vertex_search)
-- `gemini.vertex.model_garden` (provider.model_garden)
-- `gemini.vertex.safety_filters` (provider.safety_filters)
-
-### Vertex Discovery Engine (11/12 usable)
-
-- `gemini.vertex.discovery.answer` (llm.complete)
-- `gemini.vertex.discovery.data_stores.create` (vector_store.create)
-- `gemini.vertex.discovery.data_stores.delete` (vector_store.delete)
-- `gemini.vertex.discovery.data_stores.get` (vector_store.get)
-- `gemini.vertex.discovery.data_stores.list` (vector_store.list)
-- `gemini.vertex.discovery.documents.import` (vector_store.import)
-- `gemini.vertex.discovery.engines.create` (agent.adk_runtime)
-- `gemini.vertex.discovery.engines.delete` (agent.adk_runtime)
-- `gemini.vertex.discovery.engines.get` (agent.adk_runtime)
-- `gemini.vertex.discovery.engines.list` (agent.adk_runtime)
-- `gemini.vertex.discovery.search` (vector_store.search)
-
-### Vertex Evaluation (12/12 usable)
-
-- `gemini.vertex.eval.computation` (eval.vertex)
-- `gemini.vertex.eval.metric.bleu` (eval.vertex)
-- `gemini.vertex.eval.metric.coherence` (eval.vertex)
-- `gemini.vertex.eval.metric.exact_match` (eval.vertex)
-- `gemini.vertex.eval.metric.fluency` (eval.vertex)
-- `gemini.vertex.eval.metric.groundedness` (eval.vertex)
-- `gemini.vertex.eval.metric.helpfulness` (eval.vertex)
-- `gemini.vertex.eval.metric.rouge` (eval.vertex)
-- `gemini.vertex.eval.metric.safety` (eval.vertex)
-- `gemini.vertex.eval.pairwise` (eval.vertex)
-- `gemini.vertex.eval.pointwise` (eval.vertex)
-- `gemini.vertex.evaluation` (eval.vertex)
-
-### Vertex Model Garden (3/10 usable)
-
-- `gemini.vertex.partner.deepseek` (llm.complete)
-- `gemini.vertex.partner.openai_gpt_oss` (llm.complete)
-- `gemini.vertex.partner.qwen` (llm.complete)
-
-### Vertex Platform (5/25 usable)
-
-- `gemini.vertex.batch_prediction.create` (batch.vertex)
-- `gemini.vertex.datasets` (agent.adk_runtime)
-- `gemini.vertex.endpoints.create` (agent.adk_runtime)
-- `gemini.vertex.experiments.create` (eval.vertex)
-- `gemini.vertex.metadata` (agent.adk_runtime)
-
-### Vertex RAG Engine (17/24 usable)
-
-- `gemini.vertex.rag_engine` (vector_store.rag_engine)
-- `gemini.vertex.rag.augment_prompt` (vector_store.search)
-- `gemini.vertex.rag.chunking_config` (vector_store.import)
-- `gemini.vertex.rag.corpora.create` (vector_store.create)
-- `gemini.vertex.rag.corpora.get` (vector_store.get)
-- `gemini.vertex.rag.corpora.list` (vector_store.list)
-- `gemini.vertex.rag.corpora.patch` (vector_store.create)
-- `gemini.vertex.rag.embedding_model_config` (vector_store.create)
-- `gemini.vertex.rag.evaluation` (eval.vertex)
-- `gemini.vertex.rag.files.delete` (vector_store.documents.delete)
-- `gemini.vertex.rag.files.get` (vector_store.documents.get)
-- `gemini.vertex.rag.files.import` (vector_store.import)
-- `gemini.vertex.rag.files.list` (vector_store.documents.list)
-- `gemini.vertex.rag.files.upload` (vector_store.upload)
-- `gemini.vertex.rag.retrieve_contexts` (vector_store.search)
-- `gemini.vertex.rag.transformations` (vector_store.import)
-- `gemini.vertex.rag.vector_db.ragmanaged_db` (vector_store.create)
-
-### Vertex Vector Search (5/7 usable)
-
-- `gemini.vertex.vector_search.endpoints.create` (vector_store.create)
-- `gemini.vertex.vector_search.indexes.create` (vector_store.create)
-- `gemini.vertex.vector_search.indexes.delete` (vector_store.delete)
-- `gemini.vertex.vector_search.indexes.get` (vector_store.get)
-- `gemini.vertex.vector_search.indexes.list` (vector_store.list)
-
-### Video generation (13/18 usable)
-
-- `gemini.veo.aspect_ratio` (media.video.generate)
-- `gemini.veo.audio_generation` (media.video.generate)
-- `gemini.veo.duration` (media.video.generate)
-- `gemini.veo.generate_videos` (media.video.generate)
-- `gemini.veo.image_to_video` (media.video.generate)
-- `gemini.veo.params.number_of_videos` (media.video.generate)
-- `gemini.veo.params.person_generation` (provider.safety_filters)
-- `gemini.veo.params.resolution` (media.video.generate)
-- `gemini.veo.params.seed` (media.video.generate)
-- `gemini.veo.predict_long_running` (media.video.predict_lro)
-- `gemini.veo.veo_2` (media.video.generate)
-- `gemini.veo.veo_3` (media.video.generate)
-- `gemini.veo.veo_3_fast` (media.video.generate)
+{/* GENERATED (providers/gemini) — do not edit by hand. Regenerate: node scripts/gen-from-harness.mjs. See DOCS-FORMAT.md. */}
+
+What you can do with **Google Gemini** through the harness, by feature
+family: the capability rows you can rely on (linked to vendor docs) and
+the **parameters** you can set for each. Configure parameters through the
+workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
+— model/turn/budget fields on `agent`, provider knobs under
+`harness_config.sdk_settings.gemini`, and tool/sandbox policy at top level.
+
+## Agent Development Kit
+
+**Capabilities** (46/55 rows usable):
+
+- `gemini.adk.a2a.protocol` (agent.adk_multi) — [vendor docs](https://google.github.io/adk-docs/agents/multi-agents/)
+- `gemini.adk.agent.custom` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/agents/custom-agents/)
+- `gemini.adk.agent.llm` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/agents/llm-agents/)
+- `gemini.adk.agent.loop` (agent.adk_workflow) — [vendor docs](https://google.github.io/adk-docs/agents/workflow-agents/loop-agents/)
+- `gemini.adk.agent.parallel` (agent.adk_workflow) — [vendor docs](https://google.github.io/adk-docs/agents/workflow-agents/parallel-agents/)
+- `gemini.adk.agent.sequential` (agent.adk_workflow) — [vendor docs](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/)
+- `gemini.adk.artifact.in_memory` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/artifacts/)
+- `gemini.adk.callback.after_agent` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.callback.after_model` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.callback.after_tool` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.callback.before_agent` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.callback.before_model` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.callback.before_tool` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.callbacks` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/callbacks/)
+- `gemini.adk.cli.api_server` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/runtime/)
+- `gemini.adk.cli.eval` (eval.adk) — [vendor docs](https://google.github.io/adk-docs/evaluate/)
+- `gemini.adk.cli.run` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/get-started/quickstart/)
+- `gemini.adk.cli.web` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/get-started/quickstart/)
+- `gemini.adk.eval.criteria` (eval.adk) — [vendor docs](https://google.github.io/adk-docs/evaluate/)
+- `gemini.adk.evaluate` (eval.adk) — [vendor docs](https://google.github.io/adk-docs/evaluate/)
+- `gemini.adk.events` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/events/)
+- `gemini.adk.input_schema` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/agents/llm-agents/)
+- `gemini.adk.loop_agent.max_iterations` (agent.adk_workflow) — [vendor docs](https://google.github.io/adk-docs/agents/workflow-agents/loop-agents/)
+- `gemini.adk.memory.in_memory` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/memory/)
+- `gemini.adk.multi_agent` (agent.adk_multi) — [vendor docs](https://google.github.io/adk-docs/agents/multi-agents/)
+- `gemini.adk.output_key` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/agents/llm-agents/)
+- `gemini.adk.output_schema` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/agents/llm-agents/)
+- `gemini.adk.pattern.escalate` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/agents/llm-agents/)
+- `gemini.adk.pattern.sub_agents` (agent.adk_multi) — [vendor docs](https://google.github.io/adk-docs/agents/multi-agents/)
+- `gemini.adk.pattern.transfer` (agent.adk_multi) — [vendor docs](https://google.github.io/adk-docs/agents/multi-agents/)
+- `gemini.adk.run_config.streaming` (agent.adk_streaming) — [vendor docs](https://google.github.io/adk-docs/runtime/)
+- `gemini.adk.runner` (agent.adk_runtime) — [vendor docs](https://google.github.io/adk-docs/runtime/)
+- `gemini.adk.session.database` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/session/)
+- `gemini.adk.session.in_memory` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/session/)
+- `gemini.adk.state.app_scope` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/state/)
+- `gemini.adk.state.shared` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/state/)
+- `gemini.adk.state.temp_scope` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/state/)
+- `gemini.adk.state.user_scope` (agent.event.append) — [vendor docs](https://google.github.io/adk-docs/sessions/state/)
+- `gemini.adk.streaming` (agent.adk_streaming) — [vendor docs](https://google.github.io/adk-docs/streaming/)
+- `gemini.adk.tools.agent_tool` (tool.call) — [vendor docs](https://google.github.io/adk-docs/tools/agent-tools/)
+- `gemini.adk.tools.function_tool` (tool.call) — [vendor docs](https://google.github.io/adk-docs/tools/function-tools/)
+- `gemini.adk.tools.long_running_function_tool` (tool.call) — [vendor docs](https://google.github.io/adk-docs/tools/function-tools/)
+- `gemini.adk.tools.mcp_toolset` (tool.mcp) — [vendor docs](https://google.github.io/adk-docs/tools/mcp-tools/)
+- `gemini.adk.tools.openapi` (tool.call) — [vendor docs](https://google.github.io/adk-docs/tools/openapi-tools/)
+- `gemini.adk.tools.toolbox` (tool.call) — [vendor docs](https://google.github.io/adk-docs/tools/google-cloud-tools/)
+- `gemini.adk.workflow_agents` (agent.adk_workflow) — [vendor docs](https://google.github.io/adk-docs/agents/workflow-agents/)
+
+**Parameters** (46):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/multi-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/custom-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/llm-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/workflow-agents/loop-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/workflow-agents/parallel-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/artifacts/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/callbacks/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/runtime/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/evaluate/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/get-started/quickstart/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/get-started/quickstart/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/evaluate/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/evaluate/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/events/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/llm-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/workflow-agents/loop-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/memory/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/multi-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/llm-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/llm-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/llm-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/multi-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/multi-agents/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/runtime/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/runtime/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/session/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/session/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/state/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/state/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/state/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/sessions/state/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/streaming/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/agent-tools/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/function-tools/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/function-tools/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/mcp-tools/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/openapi-tools/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/google-cloud-tools/) |
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/agents/workflow-agents/) |
 
+## Antigravity Auth
+
+**Capabilities** (4/4 rows usable):
+
+- `gemini.antigravity.auth.gemini_api_key_env` (provider.auth.api_key) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.auth.gemini_config_api_key` (provider.auth.api_key) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.auth.harness_path_env` (provider.binary.override) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.auth.vertex` (provider.auth.vertex) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `env.GEMINI_API_KEY` | string | — | — | high | Secret-bearing env var; operator-only, never a chat-surface knob. |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `vertex` | boolean | `false` | — | medium | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Built-in Tools
+
+**Capabilities** (8/12 rows usable):
+
+- `gemini.antigravity.tool.custom_python` (tool.custom.python) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.edit_file` (tool.fs.edit) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.find_file` (tool.fs.find) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.finish` (agent.finish) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.list_directory` (tool.fs.list) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.search_directory` (tool.fs.grep) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.start_subagent` (agent.subagent.spawn) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.tool.view_file` (tool.fs.read) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (8):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `tools.finish` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity CLI
+
+**Capabilities** (5/13 rows usable):
+
+- `gemini.antigravity.cli.add_dir` (agent.workspace.scope) — [vendor docs](https://antigravity.google/docs/cli-getting-started)
+- `gemini.antigravity.cli.conversation_resume` (agent.session.resume) — [vendor docs](https://antigravity.google/docs/cli-getting-started)
+- `gemini.antigravity.cli.print` (agent.run.print) — [vendor docs](https://antigravity.google/docs/cli-getting-started)
+- `gemini.antigravity.cli.print_timeout` (agent.run.print) — [vendor docs](https://antigravity.google/docs/cli-getting-started)
+- `gemini.antigravity.cli.subcommand.help` (agent.help) — [vendor docs](https://antigravity.google/docs/cli-getting-started)
+
+**Parameters** (8):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `argv.--print` | string | — | — | low | [docs](https://antigravity.google/docs/cli-getting-started) |
+| `` | object | — | — | low | [docs](https://antigravity.google/docs/cli-getting-started) |
+| `argv.--add-dir` | array | — | — | medium | [docs](https://antigravity.google/docs/cli-getting-started) |
+| `argv.--continue` | boolean | — | — | low | [docs](https://antigravity.google/docs/cli-getting-started) |
+| `argv.--conversation` | string | — | — | low | SDK twin: LocalAgentConfig.conversation_id (build_agent_config). |
+| `argv.--log-file` | string | — | — | low | [docs](https://antigravity.google/docs/cli-getting-started) |
+| `argv.--print-timeout` | string | — | — | low | Vendor default (5m0s today) is the binary's, never restated here (T9). |
+| `argv.--sandbox` | boolean | — | — | medium | [docs](https://antigravity.google/docs/cli-getting-started) |
+
+## Antigravity Connections
+
+**Capabilities** (1/2 rows usable):
+
+- `gemini.antigravity.connection.local` (agent.connection.local) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (1):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Distribution
+
+**Capabilities** (2/6 rows usable):
+
+- `gemini.antigravity.distribution.cli_install_script` (provider.distribution.install) — [vendor docs](https://antigravity.google/docs/cli-getting-started)
+- `gemini.antigravity.distribution.sdk_pypi` (provider.distribution.pypi) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (2):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://antigravity.google/docs/cli-getting-started) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Errors
+
+**Capabilities** (3/3 rows usable):
+
+- `gemini.antigravity.error.connection` (agent.error.connection) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.error.execution` (agent.error.execution) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.error.validation` (agent.error.validation) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Hooks
+
+**Capabilities** (7/9 rows usable):
+
+- `gemini.antigravity.hook.on_session_end` (agent.hook.session_end) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.hook.on_session_start` (agent.hook.session_start) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.hook.on_tool_error` (agent.hook.tool_error) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.hook.post_tool_call` (agent.hook.post_tool) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.hook.post_turn` (agent.hook.post_turn) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.hook.pre_tool_call_decide` (agent.hook.pre_tool) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.hook.pre_turn` (agent.hook.pre_turn) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (7):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity MCP
+
+**Capabilities** (3/4 rows usable):
+
+- `gemini.antigravity.mcp.bridge` (provider.mcp.bridge) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.mcp.http` (provider.mcp.client) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.mcp.stdio` (provider.mcp.client) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `mcp_servers` | object | — | — | high | Transport discriminators resolved from the installed SDK union (stdio/http today; the historic sse transport was folded into streamable-http by the vendor). |
+
+## Antigravity Models
+
+**Capabilities** (3/4 rows usable):
+
+- `gemini.antigravity.model.gemini_2_5_pro` (llm.complete) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.model.gemini_3_1_pro_preview` (llm.complete) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.model.gemini_3_5_flash` (llm.complete) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Multimodal
+
+**Capabilities** (5/5 rows usable):
+
+- `gemini.antigravity.input.audio` (media.audio.understand) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.input.document` (media.document.understand) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.input.from_file` (media.from_file) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.input.image` (media.image.understand) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.input.video` (media.video.understand) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Policies
+
+**Capabilities** (7/8 rows usable):
+
+- `gemini.antigravity.policy.allow` (agent.policy.allow) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.policy.ask_user` (agent.policy.ask_user) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.policy.confirm_run_command` (agent.policy.confirm) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.policy.deny` (agent.policy.deny) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.policy.deny_all` (agent.policy.deny) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.policy.safe_defaults` (agent.policy.safe_defaults) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.policy.workspace_only` (agent.policy.workspace_scope) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (7):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `workspaces` | array | — | — | medium | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity SDK
+
+**Capabilities** (12/12 rows usable):
+
+- `gemini.antigravity.sdk.agent_class` (agent.lifecycle) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.agent_config` (agent.config) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.capabilities_config` (agent.capabilities) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.conversation` (agent.conversation.lifecycle) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.gemini_config` (provider.auth) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.generation_config` (llm.complete) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.local_agent_config` (agent.config) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.model_config` (llm.model.select) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.model_entry` (llm.model.select) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.thinking_level` (llm.thinking) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
+- `gemini.antigravity.sdk.tool_context` (tool.context) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.sdk.usage_metadata` (agent.observability.usage) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (16):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `capabilities.compaction_threshold` | number | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `capabilities.disabled_tools` | array | — | — | medium | BuiltinTools denylist; mutually exclusive with enabled_tools (bridge fails loud). Live finding 2026-06-11: the localharness executed an edit_file call despite a disabled_tools=[edit_file] denylist and an enabled_tools allowlist without it - treat filter enforcement as advisory (pc-ag-rows evidence toolswrite.json). |
+| `capabilities.enable_subagents` | boolean | `false` | — | medium | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `capabilities.enabled_tools` | array | — | — | medium | BuiltinTools allowlist; mutually exclusive with disabled_tools (bridge fails loud). Live finding 2026-06-11: the localharness executed an edit_file call despite a disabled_tools=[edit_file] denylist and an enabled_tools allowlist without it - treat filter enforcement as advisory (pc-ag-rows evidence toolswrite.json). |
+| `capabilities.image_model` | string | — | — | low | Default resolved from the installed SDK (DEFAULT_IMAGE_GENERATION_MODEL), never pinned here. |
+| `model` | string | — | — | low | Default resolved from the installed SDK (types.DEFAULT_MODEL), never pinned here. |
+| `gemini_config.models.default.generation.thinking_level` | enum | — | `"minimal"`, `"low"`, `"medium"`, `"high"` | low | [docs](https://ai.google.dev/gemini-api/docs/thinking) |
+| `agent` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `local_agent_config` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Streaming
+
+**Capabilities** (5/5 rows usable):
+
+- `gemini.antigravity.stream.chat_response` (llm.stream) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.stream.structured_output` (llm.structured_output) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.stream.text_deltas` (llm.stream) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.stream.thoughts` (llm.thinking) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.stream.tool_calls` (tool.call) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `capabilities.finish_tool_schema_json` | string | — | — | low | JSON schema for the finish tool — drives ChatResponse.structured_output(). |
+| `stream` | boolean | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity System Instructions
+
+**Capabilities** (2/2 rows usable):
+
+- `gemini.antigravity.system.custom` (agent.system_instructions) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.system.templated` (agent.system_instructions) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (2):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Antigravity Triggers
+
+**Capabilities** (4/5 rows usable):
+
+- `gemini.antigravity.trigger.context` (agent.trigger.context) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.trigger.decorator` (agent.trigger.decorator) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.trigger.every` (agent.trigger.interval) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+- `gemini.antigravity.trigger.on_file_change` (agent.trigger.file_watch) — [vendor docs](https://github.com/google-antigravity/antigravity-sdk-python)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+| `` | object | — | — | low | [docs](https://github.com/google-antigravity/antigravity-sdk-python) |
+
+## Audio generation
+
+**Capabilities** (18/21 rows usable):
+
+- `gemini.chirp.chirp_3` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/chirp3-hd)
+- `gemini.lyria.generate_music` (media.music.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/music-generation)
+- `gemini.lyria.realtime` (realtime.music) — [vendor docs](https://ai.google.dev/api/live_music)
+- `gemini.tts` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.gemini_25_flash` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.gemini_25_pro` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.language_code` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.multispeaker` (media.audio.tts_multispeaker) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.params.audio_encoding.linear16` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.params.audio_encoding.mp3` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig)
+- `gemini.tts.params.audio_encoding.ogg_opus` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig)
+- `gemini.tts.params.effects_profile` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/audio-profiles)
+- `gemini.tts.params.pitch` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig)
+- `gemini.tts.params.sample_rate` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig)
+- `gemini.tts.params.speaking_rate` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig)
+- `gemini.tts.params.volume_gain` (media.audio.tts) — [vendor docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig)
+- `gemini.tts.style_control` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.tts.voice.prebuilt` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+
+**Parameters** (18):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/chirp3-hd) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/music-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live_music) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/audio-profiles) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/text-to-speech/docs/reference/rest/v1/AudioConfig) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+
+## Auth
+
+**Capabilities** (1/4 rows usable):
+
+- `gemini.auth.api_key` (provider.admin.read) — [vendor docs](https://ai.google.dev/gemini-api/docs/api-key)
+
+**Parameters** (1):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/api-key) |
+
+## Batch
+
+**Capabilities** (8/8 rows usable):
+
+- `gemini.batch` (batch.run) — [vendor docs](https://ai.google.dev/gemini-api/docs/batch-mode)
+- `gemini.batches.cancel` (batch.run) — [vendor docs](https://ai.google.dev/api/batches)
+- `gemini.batches.create` (batch.run) — [vendor docs](https://ai.google.dev/gemini-api/docs/batch-mode)
+- `gemini.batches.delete` (batch.run) — [vendor docs](https://ai.google.dev/api/batches)
+- `gemini.batches.file_input` (batch.run) — [vendor docs](https://ai.google.dev/gemini-api/docs/batch-mode)
+- `gemini.batches.get` (batch.run) — [vendor docs](https://ai.google.dev/api/batches)
+- `gemini.batches.inline_input` (batch.run) — [vendor docs](https://ai.google.dev/gemini-api/docs/batch-mode)
+- `gemini.batches.list` (batch.run) — [vendor docs](https://ai.google.dev/api/batches)
+
+**Parameters** (8):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/batch-mode) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/batches) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/batch-mode) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/batches) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/batch-mode) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/batches) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/batch-mode) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/batches) |
+
+## Caching
+
+**Capabilities** (10/10 rows usable):
+
+- `gemini.caches.create` (llm.cache.create) — [vendor docs](https://ai.google.dev/api/caching)
+- `gemini.caches.delete` (llm.cache.delete) — [vendor docs](https://ai.google.dev/api/caching)
+- `gemini.caches.get` (llm.cache.get) — [vendor docs](https://ai.google.dev/api/caching)
+- `gemini.caches.list` (llm.cache.list) — [vendor docs](https://ai.google.dev/api/caching)
+- `gemini.caches.system_instruction` (llm.cache.create) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
+- `gemini.caches.tools` (llm.cache.create) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
+- `gemini.caches.ttl` (llm.cache.update) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
+- `gemini.caches.update` (llm.cache.update) — [vendor docs](https://ai.google.dev/api/caching)
+- `gemini.context_caching` (llm.complete) · *partial-compatible* — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
+- `gemini.context_caching.implicit` (llm.implicit_cache) — [vendor docs](https://ai.google.dev/gemini-api/docs/caching)
+
+**Parameters** (9):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/caching) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/caching) |
+
+## Chats
+
+**Capabilities** (1/1 rows usable):
+
+- `gemini.chats.create` (llm.chats_create) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation)
+
+**Parameters** (1):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/text-generation) |
+
+## Core generation
+
+**Capabilities** (8/8 rows usable):
+
+- `gemini.flex_inference` (llm.flex_inference) — [vendor docs](https://ai.google.dev/gemini-api/docs)
+- `gemini.generate_content` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation)
+- `gemini.generate_content.multi_turn` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation#chat)
+- `gemini.generate_content.stream` (llm.stream) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation#streaming-responses)
+- `gemini.generate_content.system_instruction` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/text-generation#system-instructions)
+- `gemini.interactions` (llm.interactions) — [vendor docs](https://ai.google.dev/api/interactions-api)
+- `gemini.openai_compat` (llm.complete) · *partial-compatible* — [vendor docs](https://ai.google.dev/gemini-api/docs/openai)
+- `gemini.priority_inference` (llm.priority_inference) — [vendor docs](https://ai.google.dev/gemini-api/docs)
+
+**Parameters** (9):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs) |
+| `generationConfig.maxOutputTokens` | number | `1024` | — | medium | [docs](https://ai.google.dev/api/generate-content) |
+| `model` | string | `"gemini-2.5-flash"` | — | low | [docs](https://ai.google.dev/api/generate-content) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/text-generation#chat) |
+| `generationConfig.thinkingConfig.thinkingBudget` | number | `0` | — | medium | Setting >0 means thoughts will consume part of maxOutputTokens before text emission. |
+| `systemInstruction` | string | — | — | low | deeda passes the compiled system channel; REST wraps it as a Content parts object. |
+| `generationConfig.temperature` | number | `1` | — | low | [docs](https://ai.google.dev/api/generate-content) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/interactions-api) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs) |
+
+## Embeddings
+
+**Capabilities** (12/13 rows usable):
+
+- `gemini.embeddings` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings)
+- `gemini.embeddings.batch` (batch.embeddings) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings)
+- `gemini.embeddings.output_dimensionality` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings)
+- `gemini.embeddings.task_type.classification` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.clustering` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.code_retrieval_query` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.fact_verification` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.question_answering` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.retrieval_document` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.retrieval_query` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.task_type.semantic_similarity` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types)
+- `gemini.embeddings.title` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings)
+
+**Parameters** (13):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+| `model` | string | `"gemini-embedding-001"` | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+| `taskType` | enum | `"SEMANTIC_SIMILARITY"` | `"SEMANTIC_SIMILARITY"`, `"CLASSIFICATION"`, `"CLUSTERING"`, `"RETRIEVAL_DOCUMENT"`, `"RETRIEVAL_QUERY"`, `"QUESTION_ANSWERING"`, `"FACT_VERIFICATION"`, `"CODE_RETRIEVAL_QUERY"` | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings#task-types) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+
+## File search
+
+**Capabilities** (8/9 rows usable):
+
+- `gemini.file_search.documents.get` (vector_store.documents.get) — [vendor docs](https://ai.google.dev/api/file-search/documents)
+- `gemini.file_search.documents.list` (vector_store.documents.list) — [vendor docs](https://ai.google.dev/api/file-search/documents)
+- `gemini.file_search.stores.create` (vector_store.create) — [vendor docs](https://ai.google.dev/api/file-search/file-search-stores)
+- `gemini.file_search.stores.delete` (vector_store.delete) — [vendor docs](https://ai.google.dev/api/file-search/file-search-stores)
+- `gemini.file_search.stores.get` (vector_store.get) — [vendor docs](https://ai.google.dev/api/file-search/file-search-stores)
+- `gemini.file_search.stores.import` (vector_store.import) — [vendor docs](https://ai.google.dev/api/file-search/file-search-stores)
+- `gemini.file_search.stores.list` (vector_store.list) — [vendor docs](https://ai.google.dev/api/file-search/file-search-stores)
+- `gemini.file_search.stores.upload` (vector_store.upload) — [vendor docs](https://ai.google.dev/api/file-search/file-search-stores)
+
+**Parameters** (8):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/documents) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/documents) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/file-search-stores) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/file-search-stores) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/file-search-stores) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/file-search-stores) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/file-search-stores) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/file-search/file-search-stores) |
+
+## Files
+
+**Capabilities** (6/6 rows usable):
+
+- `gemini.files.delete` (file.delete) — [vendor docs](https://ai.google.dev/api/files)
+- `gemini.files.get` (file.get) — [vendor docs](https://ai.google.dev/api/files)
+- `gemini.files.list` (file.list) — [vendor docs](https://ai.google.dev/api/files)
+- `gemini.files.media_upload` (file.upload) — [vendor docs](https://ai.google.dev/api/files#method:-media.upload)
+- `gemini.files.upload` (file.upload) — [vendor docs](https://ai.google.dev/gemini-api/docs/files)
+- `gemini.files.uri_reference` (file.get) — [vendor docs](https://ai.google.dev/gemini-api/docs/files)
+
+**Parameters** (6):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/files) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/files) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/files) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/files#method:-media.upload) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/files) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/files) |
+
+## Function calling
+
+**Capabilities** (10/11 rows usable):
+
+- `gemini.function_calling` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling)
+- `gemini.function_calling.allowed_function_names` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes)
+- `gemini.function_calling.compositional` (tool.compositional_calls) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling)
+- `gemini.function_calling.declarations` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling)
+- `gemini.function_calling.mcp` (tool.mcp) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling)
+- `gemini.function_calling.mode.any` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes)
+- `gemini.function_calling.mode.auto` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes)
+- `gemini.function_calling.mode.none` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes)
+- `gemini.function_calling.parallel` (tool.parallel_calls) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling)
+- `gemini.function_calling.response_part` (tool.call) — [vendor docs](https://ai.google.dev/gemini-api/docs/function-calling)
+
+**Parameters** (10):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling#function-calling-modes) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/function-calling) |
+
+## generationConfig
+
+**Capabilities** (16/22 rows usable):
+
+- `gemini.generation_config.candidate_count` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.max_output_tokens` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.media_resolution` (media.image.understand) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.response_mime_type` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/structured-output)
+- `gemini.generation_config.response_modalities.audio` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.generation_config.response_modalities.image` (media.image.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/image-generation)
+- `gemini.generation_config.response_modalities.text` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.response_schema` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/structured-output)
+- `gemini.generation_config.seed` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.speech_config` (media.audio.tts) — [vendor docs](https://ai.google.dev/gemini-api/docs/speech-generation)
+- `gemini.generation_config.stop_sequences` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.temperature` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.thinking_config.include_thoughts` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
+- `gemini.generation_config.thinking_config.thinking_budget` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
+- `gemini.generation_config.top_k` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+- `gemini.generation_config.top_p` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-content#generationconfig)
+
+**Parameters** (16):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `generationConfig.maxOutputTokens` | number | `1024` | — | medium | Hard cap on tokens emitted; medium risk because misconfiguration burns cost. |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/structured-output) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/image-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/structured-output) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/speech-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `generationConfig.temperature` | number | `1` | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `generationConfig.thinkingConfig.includeThoughts` | boolean | `false` | `true`, `false` | low | [docs](https://ai.google.dev/gemini-api/docs/thinking) |
+| `generationConfig.thinkingConfig.thinkingBudget` | number | — | — | medium | Thoughts consume part of maxOutputTokens before text emission on thinking-on models. |
+| `generationConfig.topK` | number | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+| `generationConfig.topP` | number | — | — | low | [docs](https://ai.google.dev/api/generate-content#generationconfig) |
+
+## Grounding
+
+**Capabilities** (6/8 rows usable):
+
+- `gemini.grounding.google_maps` (tool.maps) — [vendor docs](https://ai.google.dev/gemini-api/docs/maps-grounding)
+- `gemini.grounding.google_search` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/grounding)
+- `gemini.grounding.grounding_chunks` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/grounding)
+- `gemini.grounding.grounding_supports` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/grounding)
+- `gemini.grounding.search_entry_point` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/grounding)
+- `gemini.grounding.web_search_queries` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/grounding)
+
+**Parameters** (6):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/maps-grounding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/grounding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/grounding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/grounding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/grounding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/grounding) |
+
+## Image generation
+
+**Capabilities** (13/26 rows usable):
+
+- `gemini.image_generation` (media.image.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/image-generation)
+- `gemini.image_generation.edit` (media.image.edit) — [vendor docs](https://ai.google.dev/gemini-api/docs/image-generation)
+- `gemini.imagen.aspect_ratio` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.imagen_4` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.imagen_4_fast` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.imagen_4_ultra` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.params.compression_quality` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.params.guidance_scale` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.params.output_format` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.params.sample_count` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.person_generation` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.predict` (media.image.predict) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+- `gemini.imagen.safety_filter_level` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/imagen)
+
+**Parameters** (13):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/image-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/image-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/imagen) |
+
+## Live API
+
+**Capabilities** (30/34 rows usable):
+
+- `gemini.live_api` (realtime.session.create) — [vendor docs](https://ai.google.dev/gemini-api/docs/live)
+- `gemini.live.affective_dialog` (realtime.affective_dialog) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.audio_transcription` (realtime.transcription) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.barge_in` (realtime.barge_in) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.context_window_compression` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.ephemeral_tokens` (realtime.ephemeral_token) — [vendor docs](https://ai.google.dev/gemini-api/docs/ephemeral-tokens)
+- `gemini.live.event.bidi_client_content` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontentclientcontent)
+- `gemini.live.event.bidi_realtime_input` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontentrealtimeinput)
+- `gemini.live.event.bidi_server_content` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontentservercontent)
+- `gemini.live.event.bidi_setup` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontentsetup)
+- `gemini.live.event.bidi_setup_complete` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontentsetupcomplete)
+- `gemini.live.event.bidi_tool_call` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontenttoolcall)
+- `gemini.live.event.bidi_tool_response` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#bidigeneratecontenttoolresponse)
+- `gemini.live.event.session_resumption_update` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#sessionresumptionupdate)
+- `gemini.live.event.usage_metadata` (realtime.session) — [vendor docs](https://ai.google.dev/api/live#usagemetadata)
+- `gemini.live.input.audio` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.input.screen` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.input.video` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.interrupted_event` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.language_code` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.modality.audio` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.modality.text` (realtime.session) · *model-dependent* — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.proactive_audio` (realtime.proactive_audio) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.session_management` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-api/session-management)
+- `gemini.live.tools.function_calling` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.turn_complete` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.vad.automatic` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.vad.manual` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.voice_config` (realtime.session) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-guide)
+- `gemini.live.websocket` (realtime.websocket) — [vendor docs](https://ai.google.dev/gemini-api/docs/live-api/get-started-websocket)
+
+**Parameters** (29):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/ephemeral-tokens) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontentclientcontent) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontentrealtimeinput) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontentservercontent) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontentsetupcomplete) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontentsetup) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontenttoolcall) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#bidigeneratecontenttoolresponse) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#sessionresumptionupdate) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/live#usagemetadata) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `config.responseModalities` | array | `["AUDIO"]` | — | medium | [docs](https://ai.google.dev/gemini-api/docs/live) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-guide) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/live-api/get-started-websocket) |
+
+## MCP
+
+**Capabilities** (2/6 rows usable):
+
+- `gemini.mcp.adk_toolset_client` (tool.mcp) — [vendor docs](https://google.github.io/adk-docs/tools/mcp-tools/)
+- `gemini.mcp.toolbox_databases` (tool.mcp) — [vendor docs](https://googleapis.github.io/genai-toolbox/)
+
+**Parameters** (2):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://google.github.io/adk-docs/tools/mcp-tools/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/genai-toolbox/) |
+
+## MCP Toolbox
+
+**Capabilities** (3/14 rows usable):
+
+- `gemini.mcp.toolbox.http` (tool.mcp) — [vendor docs](https://googleapis.github.io/genai-toolbox/resources/sources/http/)
+- `gemini.mcp.toolbox.parameterized_sql` (tool.mcp) — [vendor docs](https://googleapis.github.io/genai-toolbox/resources/tools/)
+- `gemini.mcp.toolbox.sqlite` (tool.mcp) — [vendor docs](https://googleapis.github.io/genai-toolbox/resources/sources/sqlite/)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://googleapis.github.io/genai-toolbox/resources/sources/http/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/genai-toolbox/resources/tools/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/genai-toolbox/resources/sources/sqlite/) |
+
+## MIME types
+
+**Capabilities** (18/18 rows usable):
+
+- `gemini.mime.application.pdf` (media.document.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/document-processing)
+- `gemini.mime.audio.aac` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.mime.audio.aiff` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.mime.audio.flac` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.mime.audio.mp3` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.mime.audio.ogg` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.mime.audio.wav` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.mime.image.heic` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.mime.image.heif` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.mime.image.jpeg` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.mime.image.png` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.mime.image.webp` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.mime.video.avi` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.mime.video.mov` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.mime.video.mp4` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.mime.video.mpeg` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.mime.video.threegpp` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.mime.video.webm` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+
+**Parameters** (18):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/document-processing) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+
+## Models
+
+**Capabilities** (13/43 rows usable):
+
+- `gemini.model.context_window.1m` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/long-context)
+- `gemini.model.gemini_25_flash` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/models)
+- `gemini.model.gemini_25_flash_image` (media.image.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/image-generation)
+- `gemini.model.gemini_25_flash_lite` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/models)
+- `gemini.model.gemini_25_pro` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/models)
+- `gemini.model.gemini_3_flash` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/models)
+- `gemini.model.gemini_3_pro_image` (media.image.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/image-generation)
+- `gemini.model.gemini_embedding_001` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings)
+- `gemini.model.gemini_embedding_2` (llm.embed) — [vendor docs](https://ai.google.dev/gemini-api/docs/embeddings)
+- `gemini.models.get` (provider.models_list) — [vendor docs](https://ai.google.dev/api/models#method:-models.get)
+- `gemini.models.list` (provider.models_list) — [vendor docs](https://ai.google.dev/api/models)
+- `gemini.models.predict` (llm.complete) — [vendor docs](https://ai.google.dev/api/models#method:-models.predict)
+- `gemini.models.predict_long_running` (provider.long_running_operations) — [vendor docs](https://ai.google.dev/api/models#method:-models.predictLongRunning)
+
+**Parameters** (13):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/long-context) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/image-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/models) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/models) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/models) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/models) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/image-generation) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/embeddings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/models#method:-models.get) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/models) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/models#method:-models.predictLongRunning) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/models#method:-models.predict) |
+
+## Multimodal
+
+**Capabilities** (9/9 rows usable):
+
+- `gemini.multimodal.audio_understanding` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.multimodal.audio.timestamp` (media.audio.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/audio)
+- `gemini.multimodal.document_understanding` (media.document.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/document-processing)
+- `gemini.multimodal.image_understanding` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.multimodal.inline_data` (media.image.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/vision)
+- `gemini.multimodal.video_understanding` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.multimodal.video.clip` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.multimodal.video.fps` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+- `gemini.multimodal.video.youtube_url` (media.video.understand) — [vendor docs](https://ai.google.dev/gemini-api/docs/video-understanding)
+
+**Parameters** (9):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/audio) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/document-processing) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/vision) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video-understanding) |
+
+## Observability
+
+**Capabilities** (5/10 rows usable):
+
+- `gemini.observability.audit_logs` (provider.admin.read) — [vendor docs](https://cloud.google.com/vertex-ai/docs/general/audit-logging)
+- `gemini.observability.cloud_logging` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/logging/docs)
+- `gemini.observability.cloud_monitoring` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/monitoring/docs)
+- `gemini.observability.cloud_trace` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/trace/docs)
+- `gemini.observability.quota_metrics` (provider.admin.read) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/quotas)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://cloud.google.com/vertex-ai/docs/general/audit-logging) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/logging/docs) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/monitoring/docs) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/trace/docs) |
+| `` | object | — | — | low | [docs](https://cloud.google.com/vertex-ai/generative-ai/docs/quotas) |
+
+## Operations
+
+**Capabilities** (3/5 rows usable):
+
+- `gemini.operations.get` (provider.long_running_operations) — [vendor docs](https://ai.google.dev/api/operations#method:-operations.get)
+- `gemini.operations.list` (provider.long_running_operations) — [vendor docs](https://ai.google.dev/api/operations#method:-operations.list)
+- `gemini.operations.poll` (provider.long_running_operations) — [vendor docs](https://ai.google.dev/api/operations)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/operations#method:-operations.get) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/operations#method:-operations.list) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/operations) |
+
+## Reasoning/thinking
+
+**Capabilities** (4/5 rows usable):
+
+- `gemini.thinking` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
+- `gemini.thinking.disabled` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
+- `gemini.thinking.dynamic` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/thinking)
+- `gemini.thought_signatures` (llm.thought_signatures) — [vendor docs](https://ai.google.dev/gemini-api/docs/thought-signatures)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/thinking) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/thinking) |
+| `generationConfig.thinkingConfig.thinkingLevel` | enum | `"medium"` | `"off"`, `"low"`, `"medium"`, `"high"` | medium | [docs](https://ai.google.dev/gemini-api/docs/thinking) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/thought-signatures) |
+
+## Runtime config
+
+**Capabilities** (9/18 rows usable):
+
+- `gemini.runtime.dual_mode.developer_api` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.runtime.dual_mode.vertex_ai` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.runtime.global_endpoint` (provider.admin.read) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations#global-endpoint)
+- `gemini.runtime.http.api_version` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.runtime.http.base_url` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.runtime.http.headers` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.runtime.http.timeout` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.runtime.location` (provider.admin.read) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations)
+- `gemini.runtime.project_id` (provider.admin.read) — [vendor docs](https://cloud.google.com/vertex-ai/docs/start/cloud-environment)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+
+## Safety
+
+**Capabilities** (7/9 rows usable):
+
+- `gemini.safety_settings.civic_integrity` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+- `gemini.safety_settings.dangerous_content` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+- `gemini.safety_settings.harassment` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+- `gemini.safety_settings.hate_speech` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+- `gemini.safety_settings.sexually_explicit` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+- `gemini.safety_settings.threshold.block_none` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+- `gemini.safety_settings.threshold.block_only_high` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/safety-settings)
+
+**Parameters** (7):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/safety-settings) |
+
+## SDK JavaScript
+
+**Capabilities** (8/12 rows usable):
+
+- `gemini.sdk.js.batches` (batch.run) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.caches` (llm.cache.create) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.chats` (llm.chats_create) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.files` (file.upload) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.google_genai` (llm.complete) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.live` (realtime.session.create) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.models` (llm.complete) — [vendor docs](https://googleapis.github.io/js-genai/)
+- `gemini.sdk.js.operations` (provider.long_running_operations) — [vendor docs](https://googleapis.github.io/js-genai/)
+
+**Parameters** (8):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/js-genai/) |
+
+## SDK Python
+
+**Capabilities** (15/17 rows usable):
+
+- `gemini.sdk.python.async_chats` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.batches` (batch.run) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.caches` (llm.cache.create) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.chats.create` (llm.chats_create) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.chats.get_history` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.chats.send_message` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.chats.send_message_stream` (llm.stream) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.client` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.client.aio` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.errors` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.files` (file.upload) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.live.connect` (realtime.session.create) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.models` (provider.models_list) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.operations` (provider.long_running_operations) — [vendor docs](https://googleapis.github.io/python-genai/)
+- `gemini.sdk.python.types` (llm.complete) — [vendor docs](https://googleapis.github.io/python-genai/)
+
+**Parameters** (15):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+| `` | object | — | — | low | [docs](https://googleapis.github.io/python-genai/) |
+
+## Semantic Retriever
+
+**Capabilities** (5/24 rows usable):
+
+- `gemini.corpora.create` (vector_store.create) — [vendor docs](https://ai.google.dev/api/semantic-retrieval/corpora)
+- `gemini.corpora.delete` (vector_store.delete) — [vendor docs](https://ai.google.dev/api/semantic-retrieval/corpora)
+- `gemini.corpora.get` (vector_store.get) — [vendor docs](https://ai.google.dev/api/semantic-retrieval/corpora)
+- `gemini.corpora.list` (vector_store.list) — [vendor docs](https://ai.google.dev/api/semantic-retrieval/corpora)
+- `gemini.generate_answer` (llm.complete) — [vendor docs](https://ai.google.dev/api/generate-answer)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/semantic-retrieval/corpora) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/semantic-retrieval/corpora) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/semantic-retrieval/corpora) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/semantic-retrieval/corpora) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/generate-answer) |
+
+## Structured output
+
+**Capabilities** (3/3 rows usable):
+
+- `gemini.structured_output` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/structured-output)
+- `gemini.structured_output.enum` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/structured-output#enum)
+- `gemini.structured_output.property_ordering` (llm.complete) — [vendor docs](https://ai.google.dev/gemini-api/docs/structured-output)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/structured-output#enum) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/structured-output) |
+| `generationConfig.responseMimeType` | enum | `"application/json"` | `"application/json"`, `"text/x.enum"` | low | [docs](https://ai.google.dev/gemini-api/docs/structured-output) |
+
+## Token counting
+
+**Capabilities** (4/4 rows usable):
+
+- `gemini.tokens.compute_cached` (llm.count_tokens) — [vendor docs](https://ai.google.dev/api/tokens)
+- `gemini.tokens.count` (llm.count_tokens) — [vendor docs](https://ai.google.dev/gemini-api/docs/tokens)
+- `gemini.tokens.count_message` (llm.count_tokens) — [vendor docs](https://ai.google.dev/api/tokens)
+- `gemini.tokens.usage_metadata` (llm.count_tokens) — [vendor docs](https://ai.google.dev/gemini-api/docs/tokens)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/tokens) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/tokens) |
+| `model` | string | `"gemini-2.5-flash"` | — | low | [docs](https://ai.google.dev/api/tokens) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/tokens) |
+
+## Tools
+
+**Capabilities** (6/9 rows usable):
+
+- `gemini.tools.code_execution` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/code-execution)
+- `gemini.tools.computer_use` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/computer-use)
+- `gemini.tools.file_search` (tool.file_search) — [vendor docs](https://ai.google.dev/gemini-api/docs/file-search)
+- `gemini.tools.google_maps` (tool.maps) — [vendor docs](https://ai.google.dev/gemini-api/docs/maps-grounding)
+- `gemini.tools.google_search` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/grounding)
+- `gemini.tools.url_context` (provider.tool.server) — [vendor docs](https://ai.google.dev/gemini-api/docs/url-context)
+
+**Parameters** (6):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/code-execution) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/computer-use) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/file-search) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/maps-grounding) |
+| `tools[].googleSearch` | object | `&#123;&#125;` | `&#123;&#125;` | low | Empty object enables grounding; PUP-E probe asserts groundingMetadata on response. |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/url-context) |
+
+## Vertex Agent Engine
+
+**Capabilities** (16/22 rows usable):
+
+- `gemini.vertex.agent_engine.create` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/deploy)
+- `gemini.vertex.agent_engine.delete` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1beta1/projects.locations.reasoningEngines/delete)
+- `gemini.vertex.agent_engine.get` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1beta1/projects.locations.reasoningEngines/get)
+- `gemini.vertex.agent_engine.list` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1beta1/projects.locations.reasoningEngines/list)
+- `gemini.vertex.agent_engine.memories.create` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/memory-bank/overview)
+- `gemini.vertex.agent_engine.memories.delete` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/memory-bank/overview)
+- `gemini.vertex.agent_engine.memories.generate` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/memory-bank/overview)
+- `gemini.vertex.agent_engine.memories.list` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/memory-bank/overview)
+- `gemini.vertex.agent_engine.memories.retrieve` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/memory-bank/overview)
+- `gemini.vertex.agent_engine.patch` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1beta1/projects.locations.reasoningEngines/patch)
+- `gemini.vertex.agent_engine.sessions.append_event` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/sessions/manage-sessions)
+- `gemini.vertex.agent_engine.sessions.create` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/sessions/manage-sessions)
+- `gemini.vertex.agent_engine.sessions.delete` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/sessions/manage-sessions)
+- `gemini.vertex.agent_engine.sessions.get` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/sessions/manage-sessions)
+- `gemini.vertex.agent_engine.sessions.list` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/sessions/manage-sessions)
+- `gemini.vertex.agent_engine.sessions.list_events` (agent.event.append) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/sessions/manage-sessions)
+
+## Vertex AI
+
+**Capabilities** (6/10 rows usable):
+
+- `gemini.vertex` (llm.complete) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/overview)
+- `gemini.vertex.agent_builder` (agent.agent_builder) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/agent-builder/overview)
+- `gemini.vertex.batch_prediction` (batch.vertex) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/multimodal/batch-prediction-gemini)
+- `gemini.vertex.grounding_search` (tool.vertex_search) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/grounding/grounding-with-vertex-ai-search)
+- `gemini.vertex.model_garden` (provider.model_garden) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/model-garden/explore-models)
+- `gemini.vertex.safety_filters` (provider.safety_filters) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters)
+
+## Vertex Discovery Engine
+
+**Capabilities** (11/12 rows usable):
+
+- `gemini.vertex.discovery.answer` (llm.complete) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.engines.servingConfigs/answer)
+- `gemini.vertex.discovery.data_stores.create` (vector_store.create) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.dataStores/create)
+- `gemini.vertex.discovery.data_stores.delete` (vector_store.delete) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.dataStores/delete)
+- `gemini.vertex.discovery.data_stores.get` (vector_store.get) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.dataStores/get)
+- `gemini.vertex.discovery.data_stores.list` (vector_store.list) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.dataStores/list)
+- `gemini.vertex.discovery.documents.import` (vector_store.import) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.dataStores.branches.documents/import)
+- `gemini.vertex.discovery.engines.create` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.engines/create)
+- `gemini.vertex.discovery.engines.delete` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.engines/delete)
+- `gemini.vertex.discovery.engines.get` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.engines/get)
+- `gemini.vertex.discovery.engines.list` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.engines/list)
+- `gemini.vertex.discovery.search` (vector_store.search) — [vendor docs](https://cloud.google.com/discovery-engine/docs/reference/rest/v1/projects.locations.collections.engines.servingConfigs/search)
+
+## Vertex Evaluation
+
+**Capabilities** (12/12 rows usable):
+
+- `gemini.vertex.eval.computation` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/online-pipeline-services)
+- `gemini.vertex.eval.metric.bleu` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.coherence` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.exact_match` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.fluency` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.groundedness` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.helpfulness` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.rouge` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.metric.safety` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.pairwise` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.eval.pointwise` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/models/determine-eval)
+- `gemini.vertex.evaluation` (eval.vertex) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview)
+
+## Vertex Model Garden
+
+**Capabilities** (3/10 rows usable):
+
+- `gemini.vertex.partner.deepseek` (llm.complete) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models)
+- `gemini.vertex.partner.openai_gpt_oss` (llm.complete) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models)
+- `gemini.vertex.partner.qwen` (llm.complete) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models)
+
+## Vertex Platform
+
+**Capabilities** (5/25 rows usable):
+
+- `gemini.vertex.batch_prediction.create` (batch.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/docs/predictions/get-batch-predictions)
+- `gemini.vertex.datasets` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/docs/datasets/datasets)
+- `gemini.vertex.endpoints.create` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/docs/predictions/use-private-endpoints)
+- `gemini.vertex.experiments.create` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/docs/experiments/intro-vertex-ai-experiments)
+- `gemini.vertex.metadata` (agent.adk_runtime) — [vendor docs](https://cloud.google.com/vertex-ai/docs/ml-metadata/introduction)
+
+## Vertex RAG Engine
+
+**Capabilities** (17/24 rows usable):
+
+- `gemini.vertex.rag_engine` (vector_store.rag_engine) — [vendor docs](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/rag-overview)
+- `gemini.vertex.rag.augment_prompt` (vector_store.search) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/retrieval)
+- `gemini.vertex.rag.chunking_config` (vector_store.import) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/parse-and-chunk)
+- `gemini.vertex.rag.corpora.create` (vector_store.create) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora/create)
+- `gemini.vertex.rag.corpora.get` (vector_store.get) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora/get)
+- `gemini.vertex.rag.corpora.list` (vector_store.list) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora/list)
+- `gemini.vertex.rag.corpora.patch` (vector_store.create) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora/patch)
+- `gemini.vertex.rag.embedding_model_config` (vector_store.create) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/manage-your-rag-corpus)
+- `gemini.vertex.rag.evaluation` (eval.vertex) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/rag-evaluation)
+- `gemini.vertex.rag.files.delete` (vector_store.documents.delete) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora.ragFiles/delete)
+- `gemini.vertex.rag.files.get` (vector_store.documents.get) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora.ragFiles/get)
+- `gemini.vertex.rag.files.import` (vector_store.import) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora.ragFiles/import)
+- `gemini.vertex.rag.files.list` (vector_store.documents.list) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora.ragFiles/list)
+- `gemini.vertex.rag.files.upload` (vector_store.upload) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest/v1/projects.locations.ragCorpora.ragFiles/upload)
+- `gemini.vertex.rag.retrieve_contexts` (vector_store.search) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/retrieval)
+- `gemini.vertex.rag.transformations` (vector_store.import) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/parse-and-chunk)
+- `gemini.vertex.rag.vector_db.ragmanaged_db` (vector_store.create) — [vendor docs](https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/manage-your-rag-corpus)
+
+## Vertex Vector Search
+
+**Capabilities** (5/7 rows usable):
+
+- `gemini.vertex.vector_search.endpoints.create` (vector_store.create) — [vendor docs](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.indexEndpoints/create)
+- `gemini.vertex.vector_search.indexes.create` (vector_store.create) — [vendor docs](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.indexes/create)
+- `gemini.vertex.vector_search.indexes.delete` (vector_store.delete) — [vendor docs](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.indexes/delete)
+- `gemini.vertex.vector_search.indexes.get` (vector_store.get) — [vendor docs](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.indexes/get)
+- `gemini.vertex.vector_search.indexes.list` (vector_store.list) — [vendor docs](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.indexes/list)
+
+## Video generation
+
+**Capabilities** (13/18 rows usable):
+
+- `gemini.veo.aspect_ratio` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.audio_generation` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.duration` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.generate_videos` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.image_to_video` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.params.number_of_videos` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.params.person_generation` (provider.safety_filters) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.params.resolution` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.params.seed` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.predict_long_running` (media.video.predict_lro) — [vendor docs](https://ai.google.dev/api/models)
+- `gemini.veo.veo_2` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.veo_3` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+- `gemini.veo.veo_3_fast` (media.video.generate) — [vendor docs](https://ai.google.dev/gemini-api/docs/video)
+
+**Parameters** (13):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/api/models) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |
+| `` | object | — | — | low | [docs](https://ai.google.dev/gemini-api/docs/video) |

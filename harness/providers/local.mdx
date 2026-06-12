@@ -1,319 +1,653 @@
 ---
 title: "Local (on-device)"
-description: "185 of 386 catalog rows usable today."
+description: "185 usable capability rows, 135 documented parameters."
 ---
 
-{/* GENERATED (providers/local) — do not edit by hand. Regenerate with: node scripts/gen-from-harness.mjs */}
-
-Everything you can do with **Local (on-device)** through the deeda harness,
-grouped by feature family. Caveats are inline; rows without a caveat are
-implemented end-to-end and probed.
-
-### Core generation (4/4 usable)
-
-- `local.llamacpp.openai_compat` (llm.complete)
-- `local.llamacpp.server` (llm.complete)
-- `local.ollama.generate` (llm.complete)
-- `local.ollama.openai_compat` (llm.complete)
-
-### llama-cpp-python (13/13 usable)
-
-- `local.llamacpp.python.create_chat_completion` (llm.chat)
-- `local.llamacpp.python.create_completion` (llm.complete)
-- `local.llamacpp.python.create_embedding` (llm.embed)
-- `local.llamacpp.python.eval_sample_generate` (llm.streaming)
-- `local.llamacpp.python.from_pretrained` (provider.models)
-- `local.llamacpp.python.llama_cache_state` (provider.slots)
-- `local.llamacpp.python.llama_class` (provider.models)
-- `local.llamacpp.python.llama_grammar` (llm.structured_output)
-- `local.llamacpp.python.logits_processor` (llm.sampling)
-- `local.llamacpp.python.save_load_state` (provider.slots)
-- `local.llamacpp.python.server_module` (provider.lifecycle)
-- `local.llamacpp.python.stopping_criteria` (llm.sampling)
-- `local.llamacpp.python.tokenize_detokenize` (llm.tokenize)
-
-### llama.cpp CLI (4/4 usable)
-
-- `local.llamacpp.bench` (eval.benchmark)
-- `local.llamacpp.cli` (provider.cli)
-- `local.llamacpp.model_acquisition_cache` (provider.models)
-- `local.llamacpp.perplexity` (eval.perplexity)
-
-### llama.cpp CLI Tools (15/20 usable)
-
-- `local.llamacpp.cli.batched` (eval.benchmark)
-- `local.llamacpp.cli.batched_bench` (eval.benchmark)
-- `local.llamacpp.cli.embedding` (llm.embed)
-- `local.llamacpp.cli.gguf_inspect` (provider.diagnostics)
-- `local.llamacpp.cli.gguf_split` (file.split_merge)
-- `local.llamacpp.cli.imatrix` (provider.quantization)
-- `local.llamacpp.cli.lookahead` (llm.speculative_decoding)
-- `local.llamacpp.cli.mtmd_cli` (media.multimodal)
-- `local.llamacpp.cli.parallel` (eval.benchmark)
-- `local.llamacpp.cli.passkey` (eval.benchmark)
-- `local.llamacpp.cli.quantize` (provider.quantization)
-- `local.llamacpp.cli.retrieval` (llm.rag)
-- `local.llamacpp.cli.simple` (llm.complete)
-- `local.llamacpp.cli.simple_chat` (llm.chat)
-- `local.llamacpp.cli.tokenize` (llm.tokenize)
+{/* GENERATED (providers/local) — do not edit by hand. Regenerate: node scripts/gen-from-harness.mjs. See DOCS-FORMAT.md. */}
+
+What you can do with **Local (on-device)** through the harness, by feature
+family: the capability rows you can rely on (linked to vendor docs) and
+the **parameters** you can set for each. Configure parameters through the
+workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
+— model/turn/budget fields on `agent`, provider knobs under
+`harness_config.sdk_settings.local`, and tool/sandbox policy at top level.
+
+## Core generation
+
+**Capabilities** (4/4 rows usable):
+
+- `local.llamacpp.openai_compat` (llm.complete) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md#api-endpoints)
+- `local.llamacpp.server` (llm.complete) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.ollama.generate` (llm.complete) — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.openai_compat` (llm.complete) — [vendor docs](https://ollama.com/blog/openai-compatibility)
+
+**Parameters** (7):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `base_url` | string | `"http://127.0.0.1:8080/v1"` | — | medium | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `model` | string | `"gemma-4-e2b-it"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `base_url` | string | `"http://127.0.0.1:11434"` | — | medium | [docs](https://docs.ollama.com/api) |
+| `model` | string | — | — | low | Discovered via local.ollama.tags. |
+| `options.num_ctx` | number | `2048` | — | low | Context length window — model-dependent maximum. |
+| `base_url` | string | `"http://127.0.0.1:11434/v1"` | — | medium | [docs](https://ollama.com/blog/openai-compatibility) |
+
+## llama-cpp-python
+
+**Capabilities** (13/13 rows usable):
+
+- `local.llamacpp.python.create_chat_completion` (llm.chat) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.create_completion` (llm.complete) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.create_embedding` (llm.embed) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.eval_sample_generate` (llm.streaming) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.from_pretrained` (provider.models) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.llama_cache_state` (provider.slots) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.llama_class` (provider.models) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.llama_grammar` (llm.structured_output) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.logits_processor` (llm.sampling) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.save_load_state` (provider.slots) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.server_module` (provider.lifecycle) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/server/)
+- `local.llamacpp.python.stopping_criteria` (llm.sampling) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+- `local.llamacpp.python.tokenize_detokenize` (llm.tokenize) — [vendor docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/)
+
+**Parameters** (13):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `create_chat_completion.messages` | array | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `create_completion.prompt` | string | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `create_embedding.input` | string | — | — | low | Requires an embedding GGUF (embedding=True). |
+| `eval.tokens` | array | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `from_pretrained.repo_id` | string | — | — | medium | Live-probed with ggml-org/models tinyllamas/stories260K.gguf. |
+| `set_cache` | object | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `Llama.model_path` | string | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `create_completion.grammar` | object | — | — | low | GBNF; live-probed constraining output to yes\|no. |
+| `create_completion.logits_processor` | array | — | — | medium | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `save_state` | object | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `args.port` | number | — | — | medium | python -m llama_cpp.server; OpenAI-compatible completions live-probed. |
+| `create_completion.stopping_criteria` | array | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+| `tokenize.text` | string | — | — | low | [docs](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/) |
+
+## llama.cpp CLI
+
+**Capabilities** (4/4 rows usable):
+
+- `local.llamacpp.bench` (eval.benchmark) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.cli` (provider.cli) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.model_acquisition_cache` (provider.models) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.perplexity` (eval.perplexity) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `args.output_format` | string | `"json"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md) |
+| `args.prompt` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md) |
+| `args.hf_repo` | string | — | — | medium | -hf fetch + --cache-list; live-probed with ggml-org/SmolVLM-256M-Instruct-GGUF. |
+| `args.file` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md) |
+
+## llama.cpp CLI Tools
+
+**Capabilities** (15/20 rows usable):
+
+- `local.llamacpp.cli.batched` (eval.benchmark) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/batched)
+- `local.llamacpp.cli.batched_bench` (eval.benchmark) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/batched-bench)
+- `local.llamacpp.cli.embedding` (llm.embed) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/embedding)
+- `local.llamacpp.cli.gguf_inspect` (provider.diagnostics) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/gguf)
+- `local.llamacpp.cli.gguf_split` (file.split_merge) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/gguf-split)
+- `local.llamacpp.cli.imatrix` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/imatrix/README.md)
+- `local.llamacpp.cli.lookahead` (llm.speculative_decoding) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/lookahead)
+- `local.llamacpp.cli.mtmd_cli` (media.multimodal) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/mtmd)
+- `local.llamacpp.cli.parallel` (eval.benchmark) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/parallel)
+- `local.llamacpp.cli.passkey` (eval.benchmark) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/passkey)
+- `local.llamacpp.cli.quantize` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.cli.retrieval` (llm.rag) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/retrieval)
+- `local.llamacpp.cli.simple` (llm.complete) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/simple)
+- `local.llamacpp.cli.simple_chat` (llm.chat) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/simple-chat)
+- `local.llamacpp.cli.tokenize` (llm.tokenize) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/tokenize)
+
+**Parameters** (15):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `args.npl` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/batched-bench) |
+| `args.n_parallel` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/batched) |
+| `args.embd_output_format` | string | `"json"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/embedding) |
+| `args.mode` | string | `"r"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/gguf) |
+| `args.split_max_size` | string | `"50M"` | — | low | Split + merge round trip live-probed. |
+| `args.train_file` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/imatrix/README.md) |
+| `args.n_predict` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/lookahead) |
+| `args.image` | string | — | — | low | Vision CLI with -hf SmolVLM; live image description. |
+| `args.n_sequences` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/parallel) |
+| `args.junk` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/passkey) |
+| `args.ftype` | string | — | — | medium | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize) |
+| `args.top_k` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/retrieval) |
+| `args.ctx_size` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/simple-chat) |
+| `args.n_predict` | number | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/simple) |
+| `args.prompt` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/tokenize) |
+
+## llama.cpp Evaluation
+
+**Capabilities** (1/1 rows usable):
+
+- `local.llamacpp.eval.choice_logit_tasks` (eval.benchmark) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+
+## llama.cpp Quant Types
+
+**Capabilities** (7/7 rows usable):
+
+- `local.llamacpp.quant.bf16_f16_f32` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.quant.iq_extreme` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.quant.iq2` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.quant.iq3` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.quant.iq4` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.quant.k_quants` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+- `local.llamacpp.quant.legacy_q` (provider.quantization) — [vendor docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize)
+
+**Parameters** (7):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `args.ftype` | string | `"f32"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize) |
+| `args.ftype` | string | `"iq1_s"` | — | medium | Requires --imatrix; live-probed with a probe-built imatrix. |
+| `args.ftype` | string | `"iq2_xs"` | — | medium | Requires --imatrix; live-probed with a probe-built imatrix. |
+| `args.ftype` | string | `"iq3_xxs"` | — | medium | Requires --imatrix; live-probed with a probe-built imatrix. |
+| `args.ftype` | string | `"iq4_xs"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize) |
+| `args.ftype` | string | `"q4_K_M"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize) |
+| `args.ftype` | string | `"q4_0"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/tree/master/tools/quantize) |
+
+## llama.cpp Runtime
+
+**Capabilities** (4/7 rows usable):
+
+- `local.llamacpp.runtime.cpu_memory` (provider.runtime) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.runtime.kv_cache_context` (provider.context) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.runtime.threads_batch` (provider.runtime) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+- `local.llamacpp.sampling_controls` (llm.sampling) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/README.md)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `args.threads` | number | — | — | low | -t/--no-mmap/--mlock live boot + completion. |
+| `args.ctx_size` | number | `2048` | — | low | -c with -ctk/-ctv q8_0; props echoes n_ctx. |
+| `args.threads_batch` | number | — | — | low | system_info echoes n_threads_batch. |
+| `sampling` | object | — | — | low | top_k/top_p/min_p/temperature/penalties echoed in generation_settings. |
+
+## llama.cpp Server Anthropic Format
+
+**Capabilities** (2/2 rows usable):
+
+- `local.llamacpp.server.anthropic_count_tokens` (anthropic.messages.count_tokens) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.anthropic_messages` (anthropic.messages) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+
+**Parameters** (2):
 
-### llama.cpp Evaluation (1/1 usable)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `messages` | array | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `max_tokens` | number | `1024` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
 
-- `local.llamacpp.eval.choice_logit_tasks` (eval.benchmark) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ggml-org/llama.cpp/blob/master/README.md (checked 2026-06-12). Previous evidence: llama-perplexity --multiple-choice expects the serialized binary task format; bounded text-format attempt failed ("failed to read task positions", 2026-06-11); needs the prepared eval datasets.
+## llama.cpp Server Native
 
-### llama.cpp Quant Types (7/7 usable)
+**Capabilities** (21/26 rows usable):
 
-- `local.llamacpp.quant.bf16_f16_f32` (provider.quantization)
-- `local.llamacpp.quant.iq_extreme` (provider.quantization)
-- `local.llamacpp.quant.iq2` (provider.quantization)
-- `local.llamacpp.quant.iq3` (provider.quantization)
-- `local.llamacpp.quant.iq4` (provider.quantization)
-- `local.llamacpp.quant.k_quants` (provider.quantization)
-- `local.llamacpp.quant.legacy_q` (provider.quantization)
+- `local.llamacpp.server.apply_template` (llm.chat_template) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.auth_tls` (provider.auth) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.completion_native` (llm.completion) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.detokenize` (llm.tokenize) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.embeddings_native` (llm.embedding) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.gpu_backend` (provider.gpu_offload) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.grammar` (llm.structured_output) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.health` (provider.health) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.infill` (llm.fim) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.lora_adapters` (tuning.lora_runtime) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.metrics` (provider.metrics) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.parallel_batching` (provider.parallel_decoding) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.props` (provider.runtime_config) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.props_post` (provider.runtime_config) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.reasoning` (llm.reasoning) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.reranking` (llm.rerank) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.slots` (provider.slots) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.slots_save_restore` (provider.slots) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.speculative` (llm.speculative_decoding) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.tokenize` (llm.tokenize) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.webui` (docs.webui) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 
-### llama.cpp Runtime (4/7 usable)
+**Parameters** (20):
 
-- `local.llamacpp.runtime.cpu_memory` (provider.runtime)
-- `local.llamacpp.runtime.kv_cache_context` (provider.context)
-- `local.llamacpp.runtime.threads_batch` (provider.runtime)
-- `local.llamacpp.sampling_controls` (llm.sampling)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `messages` | array | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `args.api_key` | string | — | — | high | 401 keyless / 200 bearer; HTTPS via --ssl-key-file/--ssl-cert-file live-probed. |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | medium | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `n_predict` | number | `128` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `tokens` | array | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `content` | string | — | — | low | Requires llama-server --embeddings. |
+| `args.n_gpu_layers` | number | — | — | low | Metal backend on Apple Silicon; -ngl 99 live boot + completion. |
+| `json_schema` | object | — | — | low | GBNF --grammar twin; schema-constrained decoding live-probed. |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | low | Requires llama-server --metrics. |
+| `messages.image_url` | object | — | — | low | Vision via mmproj; needs explicit --mmproj wiring on this build. |
+| `args.n_parallel` | number | `1` | — | low | props total_slots reflects -np; concurrent completions live-probed. |
+| `` | object | — | — | medium | Mutates global server properties; requires llama-server --props. |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `query` | string | — | — | low | Requires llama-server --reranking with an embedding/rerank model. |
+| `filename` | string | — | — | medium | Requires llama-server --slot-save-path; writes slot KV cache to disk. |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | low | Requires llama-server --slots. |
+| `args.model_draft` | string | — | — | medium | timings.draft_n present in completions. |
+| `content` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
+| `base_url` | string | `"http://127.0.0.1:8080"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
 
-### llama.cpp Server Anthropic Format (2/2 usable)
+## llama.cpp Server OpenAI Format
 
-- `local.llamacpp.server.anthropic_count_tokens` (anthropic.messages.count_tokens)
-- `local.llamacpp.server.anthropic_messages` (anthropic.messages)
+**Capabilities** (2/2 rows usable):
 
-### llama.cpp Server Native (21/26 usable)
+- `local.llamacpp.server.responses` (llm.responses) — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- `local.llamacpp.server.tools` (tool.function_calling) · *model-dependent* — [vendor docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 
-- `local.llamacpp.server.apply_template` (llm.chat_template)
-- `local.llamacpp.server.auth_tls` (provider.auth)
-- `local.llamacpp.server.completion_native` (llm.completion)
-- `local.llamacpp.server.detokenize` (llm.tokenize)
-- `local.llamacpp.server.embeddings_native` (llm.embedding)
-- `local.llamacpp.server.gpu_backend` (provider.gpu_offload)
-- `local.llamacpp.server.grammar` (llm.structured_output)
-- `local.llamacpp.server.health` (provider.health)
-- `local.llamacpp.server.infill` (llm.fim) — *model-dependent*: POST /infill requires FIM special tokens in the GGUF (fim_pre/fim_suf/fim_mid); live-proven on qwen2.5-0.5b-instruct (llama.cpp 8680, 2026-06-11).
-- `local.llamacpp.server.lora_adapters` (tuning.lora_runtime) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md (checked 2026-06-12). Previous evidence: needs a LoRA adapter GGUF to exercise /lora-adapters; none on the machine within the &lt;500MB lane budget (checked 2026-06-11).
-- `local.llamacpp.server.metrics` (provider.metrics)
-- `local.llamacpp.server.parallel_batching` (provider.parallel_decoding)
-- `local.llamacpp.server.props` (provider.runtime_config)
-- `local.llamacpp.server.props_post` (provider.runtime_config)
-- `local.llamacpp.server.reasoning` (llm.reasoning) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md (checked 2026-06-12). Previous evidence: --reasoning-format parsing needs a reasoning-emitting model; none fits the &lt;500MB lane budget and a non-thinking model cannot exercise the parse (live attempt 2026-06-11).
-- `local.llamacpp.server.reranking` (llm.rerank)
-- `local.llamacpp.server.slots` (provider.slots)
-- `local.llamacpp.server.slots_save_restore` (provider.slots)
-- `local.llamacpp.server.speculative` (llm.speculative_decoding)
-- `local.llamacpp.server.tokenize` (llm.tokenize)
-- `local.llamacpp.server.webui` (docs.webui)
+**Parameters** (1):
 
-### llama.cpp Server OpenAI Format (2/2 usable)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `input` | string | — | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
 
-- `local.llamacpp.server.responses` (llm.responses)
-- `local.llamacpp.server.tools` (tool.function_calling) — *model-dependent*: OpenAI-style tool calling requires llama-server --jinja and a tool-capable chat template; live tool_calls proven on qwen2.5-0.5b-instruct (llama.cpp 8680, 2026-06-11).
+## LocalAI Anthropic Format
 
-### LocalAI Anthropic Format (1/1 usable)
+**Capabilities** (1/1 rows usable):
 
-- `local.localai.anthropic_messages` (anthropic.messages)
+- `local.localai.anthropic_messages` (anthropic.messages) — [vendor docs](https://localai.io/features/text-generation/)
 
-### LocalAI Backends (1/23 usable)
+## LocalAI Backends
 
-- `local.localai.backend.llamacpp` (provider.backend)
+**Capabilities** (1/23 rows usable):
 
-### LocalAI Galleries (2/6 usable)
+- `local.localai.backend.llamacpp` (provider.backend) — [vendor docs](https://github.com/mudler/LocalAI/blob/master/README.md)
 
-- `local.localai.gallery_available` (provider.gallery)
-- `local.localai.gallery_jobs` (provider.gallery)
+## LocalAI Galleries
 
-### LocalAI Ollama Format (1/1 usable)
+**Capabilities** (2/6 rows usable):
 
-- `local.localai.ollama_compat` (llm.complete)
+- `local.localai.gallery_available` (provider.gallery) — [vendor docs](https://localai.io/docs/models/)
+- `local.localai.gallery_jobs` (provider.gallery) — [vendor docs](https://localai.io/docs/models/)
 
-### LocalAI OpenAI Format (3/16 usable)
+## LocalAI Ollama Format
 
-- `local.localai.openai_chat` (llm.chat)
-- `local.localai.openai_completions` (llm.completion)
-- `local.localai.openai_models` (provider.models)
+**Capabilities** (1/1 rows usable):
 
-### MLX Apple Platform (2/2 usable)
+- `local.localai.ollama_compat` (llm.complete) — [vendor docs](https://github.com/mudler/LocalAI/blob/master/README.md)
 
-- `local.mlx.platform.lazy_eval` (provider.runtime)
-- `local.mlx.platform.macos_unified_memory` (provider.gpu_offload)
+## LocalAI OpenAI Format
 
-### MLX Distributed (2/2 usable)
+**Capabilities** (3/16 rows usable):
 
-- `local.mlx.distributed.launch` (provider.distributed_inference)
-- `local.mlx.distributed.primitives` (provider.distributed_inference)
+- `local.localai.openai_chat` (llm.chat) — [vendor docs](https://localai.io/features/openai-functions/)
+- `local.localai.openai_completions` (llm.completion) — [vendor docs](https://localai.io/features/text-generation/)
+- `local.localai.openai_models` (provider.models) — [vendor docs](https://localai.io/features/text-generation/)
 
-### MLX Examples (2/12 usable)
+## MLX Apple Platform
 
-- `local.mlx.ex.bert` (llm.embed) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ml-explore/mlx-examples/tree/main/bert (checked 2026-06-12). Previous evidence: mlx-examples bert BERT encoder inference + sentence embeddings (model-dependent) pending PUP-F.
-- `local.mlx.ex.t5` (llm.complete) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ml-explore/mlx-examples/tree/main/t5 (checked 2026-06-12). Previous evidence: mlx-examples t5 sequence-to-sequence inference (model-dependent) pending PUP-F.
+**Capabilities** (2/2 rows usable):
 
-### MLX Fast Kernels (5/5 usable)
+- `local.mlx.platform.lazy_eval` (provider.runtime) — [vendor docs](https://ml-explore.github.io/mlx/build/html/usage/lazy_evaluation.html)
+- `local.mlx.platform.macos_unified_memory` (provider.gpu_offload) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/metal.html)
 
-- `local.mlx.fast.metal_kernel` (provider.runtime)
-- `local.mlx.fast.quantized_matmul` (provider.quantization)
-- `local.mlx.fast.rms_norm` (provider.runtime)
-- `local.mlx.fast.rope` (provider.runtime)
-- `local.mlx.fast.scaled_dot_product_attention` (provider.attention_backend)
+## MLX Distributed
 
-### MLX Optimizers (1/1 usable)
+**Capabilities** (2/2 rows usable):
 
-- `local.mlx.optimizers` (tuning.training_reference)
+- `local.mlx.distributed.launch` (provider.distributed_inference) — [vendor docs](https://ml-explore.github.io/mlx/build/html/usage/distributed.html)
+- `local.mlx.distributed.primitives` (provider.distributed_inference) — [vendor docs](https://ml-explore.github.io/mlx/build/html/usage/distributed.html)
 
-### MLX Profiling (3/3 usable)
+## MLX Examples
 
-- `local.mlx.metal.cache_limit` (provider.gpu_offload)
-- `local.mlx.metal.capture` (provider.observability)
-- `local.mlx.utils.tree` (provider.runtime)
+**Capabilities** (2/12 rows usable):
 
-### MLX-LM CLI (10/17 usable)
+- `local.mlx.ex.bert` (llm.embed) · *model-dependent* — [vendor docs](https://github.com/ml-explore/mlx-examples/tree/main/bert)
+- `local.mlx.ex.t5` (llm.complete) · *model-dependent* — [vendor docs](https://github.com/ml-explore/mlx-examples/tree/main/t5)
 
-- `local.mlx.lm.cli_benchmark` (eval.benchmark)
-- `local.mlx.lm.cli_cache_prompt` (provider.slots)
-- `local.mlx.lm.cli_chat` (llm.chat)
-- `local.mlx.lm.cli_convert` (provider.models)
-- `local.mlx.lm.cli_fuse` (tuning.lora_runtime)
-- `local.mlx.lm.cli_generate` (llm.complete)
-- `local.mlx.lm.cli_lora` (tuning.lora_runtime)
-- `local.mlx.lm.cli_manage` (provider.models)
-- `local.mlx.lm.cli_perplexity` (eval.perplexity) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/perplexity.py (checked 2026-06-12). Previous evidence: mlx_lm.perplexity CLI computes perplexity over a dataset (runtime-native) pending PUP-F.
-- `local.mlx.lm.cli_server` (llm.chat)
+## MLX Fast Kernels
 
-### MLX-LM Python SDK (7/9 usable)
+**Capabilities** (5/5 rows usable):
 
-- `local.mlx.lm.kv_cache_quantized` (provider.kv_cache)
-- `local.mlx.lm.kv_cache_rotating` (provider.kv_cache)
-- `local.mlx.lm.py_generate` (llm.complete)
-- `local.mlx.lm.py_load` (provider.models)
-- `local.mlx.lm.py_prompt_cache` (provider.slots)
-- `local.mlx.lm.py_sample_utils` (llm.sampling)
-- `local.mlx.lm.py_stream_generate` (llm.streaming)
+- `local.mlx.fast.metal_kernel` (provider.runtime) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/fast.html)
+- `local.mlx.fast.quantized_matmul` (provider.quantization) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/fast.html)
+- `local.mlx.fast.rms_norm` (provider.runtime) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/fast.html)
+- `local.mlx.fast.rope` (provider.runtime) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/fast.html)
+- `local.mlx.fast.scaled_dot_product_attention` (provider.attention_backend) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/fast.html)
 
-### MLX-LM Server (1/1 usable)
+## MLX Optimizers
 
-- `local.mlx.lm.speculative` (llm.speculative_decoding)
+**Capabilities** (1/1 rows usable):
 
-### Ollama Anthropic Format (1/3 usable)
+- `local.mlx.optimizers` (tuning.training_reference) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/optimizers.html)
 
-- `local.ollama.anthropic_messages` (anthropic.messages)
+## MLX Profiling
 
-### Ollama Blobs (2/2 usable)
+**Capabilities** (3/3 rows usable):
 
-- `local.ollama.api_blobs_head` (file.exists)
-- `local.ollama.api_blobs_post` (file.upload)
+- `local.mlx.metal.cache_limit` (provider.gpu_offload) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/metal.html)
+- `local.mlx.metal.capture` (provider.observability) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/metal.html)
+- `local.mlx.utils.tree` (provider.runtime) — [vendor docs](https://ml-explore.github.io/mlx/build/html/python/tree_utils.html)
 
-### Ollama CLI (6/7 usable)
+## MLX-LM CLI
 
-- `local.ollama.cli_cp` (provider.models)
-- `local.ollama.cli_pull_rm_ls` (provider.models)
-- `local.ollama.cli_run` (llm.chat)
-- `local.ollama.cli_serve` (provider.lifecycle)
-- `local.ollama.cli_show` (provider.admin.read)
-- `local.ollama.cli_stop` (provider.lifecycle)
+**Capabilities** (10/17 rows usable):
 
-### Ollama Environment (13/15 usable)
+- `local.mlx.lm.cli_benchmark` (eval.benchmark) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/benchmark.py)
+- `local.mlx.lm.cli_cache_prompt` (provider.slots) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.cli_chat` (llm.chat) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.cli_convert` (provider.models) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.cli_fuse` (tuning.lora_runtime) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/LORA.md)
+- `local.mlx.lm.cli_generate` (llm.complete) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.cli_lora` (tuning.lora_runtime) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/LORA.md)
+- `local.mlx.lm.cli_manage` (provider.models) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/MANAGE.md)
+- `local.mlx.lm.cli_perplexity` (eval.perplexity) · *model-dependent* — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/perplexity.py)
+- `local.mlx.lm.cli_server` (llm.chat) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/SERVER.md)
 
-- `local.ollama.env.context_length` (provider.context)
-- `local.ollama.env.debug` (provider.observability)
-- `local.ollama.env.flash_attention` (provider.attention_backend)
-- `local.ollama.env.gpu_overhead` (provider.gpu_offload)
-- `local.ollama.env.host` (provider.connectivity)
-- `local.ollama.env.keep_alive` (provider.lifecycle)
-- `local.ollama.env.kv_cache_type` (provider.kv_cache)
-- `local.ollama.env.max_loaded` (provider.lifecycle)
-- `local.ollama.env.max_queue` (provider.parallel_decoding)
-- `local.ollama.env.models_dir` (file.manage)
-- `local.ollama.env.num_parallel` (provider.parallel_decoding)
-- `local.ollama.env.origins` (provider.connectivity)
-- `local.ollama.env.sched_spread` (provider.gpu_offload)
+## MLX-LM Python SDK
 
-### Ollama Generate (6/6 usable)
+**Capabilities** (7/9 rows usable):
 
-- `local.ollama.chat` (llm.chat)
-- `local.ollama.generate_context` (llm.state.continue)
-- `local.ollama.generate_keep_alive` (provider.lifecycle)
-- `local.ollama.generate_options_full` (llm.sampling)
-- `local.ollama.generate_raw` (llm.complete)
-- `local.ollama.generate_suffix` (llm.fim) — *model-dependent*: Ollama /api/generate suffix (FIM insert) requires a model template with suffix support; live daemon 0.30.6 returns "does not support insert" for non-FIM models (probed 2026-06-11). Endpoint contract is model-gated, not absent.
+- `local.mlx.lm.kv_cache_quantized` (provider.kv_cache) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.kv_cache_rotating` (provider.kv_cache) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.py_generate` (llm.complete) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.py_load` (provider.models) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.py_prompt_cache` (provider.slots) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
+- `local.mlx.lm.py_sample_utils` (llm.sampling) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/sample_utils.py)
+- `local.mlx.lm.py_stream_generate` (llm.streaming) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/README.md)
 
-### Ollama Model Management (11/11 usable)
+## MLX-LM Server
 
-- `local.ollama.api_create_adapters` (tuning.lora_runtime) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://docs.ollama.com/api/create (checked 2026-06-12). Previous evidence: /api/create adapters map needs a LoRA adapter artifact; none on the machine within the &lt;500MB lane budget (checked 2026-06-11).
-- `local.ollama.api_create_quantize` (provider.quantization)
-- `local.ollama.api_create_safetensors` (provider.models) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://docs.ollama.com/api/create (checked 2026-06-12). Previous evidence: /api/create from safetensors shards needs a safetensors model on disk; none on the machine within the &lt;500MB lane budget (checked 2026-06-11).
-- `local.ollama.api_show` (provider.admin.read)
-- `local.ollama.copy` (provider.models)
-- `local.ollama.create` (provider.models)
-- `local.ollama.delete` (provider.models)
-- `local.ollama.ps` (provider.lifecycle)
-- `local.ollama.pull` (provider.models)
-- `local.ollama.push` (provider.models) — *model-dependent*: Closed 2026-06-12 as terminal model-dependent: requires a row-specific local model, adapter, dataset, or runtime artifact not present in the approved small-Qwen-only harness. Source: https://docs.ollama.com/api/push (checked 2026-06-12). Previous evidence: POST /api/push publishes to ollama.com and requires an authenticated account; no key in env on the dogfood machine (checked 2026-06-11).
-- `local.ollama.tags` (provider.models)
+**Capabilities** (1/1 rows usable):
 
-### Ollama Modelfile (2/2 usable)
+- `local.mlx.lm.speculative` (llm.speculative_decoding) — [vendor docs](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/SERVER.md)
 
-- `local.ollama.context_length` (provider.context)
-- `local.ollama.modelfile` (provider.modelfile)
+## Ollama Anthropic Format
 
-### Ollama OpenAI Format (6/6 usable)
+**Capabilities** (1/3 rows usable):
 
-- `local.ollama.openai_chat` (llm.chat)
-- `local.ollama.openai_completions` (llm.completions)
-- `local.ollama.openai_embeddings` (llm.embeddings)
-- `local.ollama.openai_images` (media.image_generation) — *model-dependent*: Experimental /v1/images/generations routes on live daemon 0.30.6 (HTTP 200, x-ndjson stream, probed 2026-06-11) but generation needs an image-capable model; none fits the &lt;500MB lane budget.
-- `local.ollama.openai_models` (provider.models)
-- `local.ollama.openai_responses` (llm.responses)
+- `local.ollama.anthropic_messages` (anthropic.messages) — [vendor docs](https://docs.ollama.com/api/anthropic-compatibility)
 
-### Ollama Server (1/1 usable)
+**Parameters** (1):
 
-- `local.ollama.api_version` (provider.health)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `max_tokens` | number | `1024` | — | low | [docs](https://docs.ollama.com/api/anthropic-compatibility) |
 
-### Ollama Streaming (1/1 usable)
+## Ollama Blobs
 
-- `local.ollama.streaming` (llm.streaming)
+**Capabilities** (2/2 rows usable):
 
-### Ollama Structured Output (1/1 usable)
+- `local.ollama.api_blobs_head` (file.exists) — [vendor docs](https://docs.ollama.com/api/blobs)
+- `local.ollama.api_blobs_post` (file.upload) — [vendor docs](https://docs.ollama.com/api/blobs)
 
-- `local.ollama.structured_outputs` (llm.structured_output)
+**Parameters** (2):
 
-### Ollama Thinking (1/1 usable)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `digest` | string | — | — | low | [docs](https://docs.ollama.com/api/blobs) |
+| `digest` | string | — | — | medium | Uploads content-addressed blobs (GGUF/adapter) to the local daemon. |
 
-- `local.ollama.thinking` (llm.thinking) — *model-dependent*: Ollama think parameter is model-gated: live daemon 0.30.6 returns ""qwen2.5:0.5b" does not support thinking" for non-thinking models (probed 2026-06-11); no thinking-capable model fits the &lt;500MB lane budget. The wire contract is model-gated, not absent.
+## Ollama CLI
 
-### Ollama Vision (2/2 usable)
+**Capabilities** (6/7 rows usable):
 
-- `local.ollama.generate_image_input` (media.image_input) — *model-dependent*: Ollama /api/generate images array is model-gated: live daemon 0.30.6 rejects multimodal input for non-vision models (probed 2026-06-11, same gate as local.ollama.vision); no vision model fits the &lt;500MB lane budget.
-- `local.ollama.vision` (media.image_input) — *model-dependent*: Ollama images array is model-gated: live daemon 0.30.6 returns "Multimodal data provided, but model does not support multimodal requests" (HTTP 400, probed 2026-06-11); no vision model fits the &lt;500MB lane budget. The wire contract is model-gated, not absent.
+- `local.ollama.cli_cp` (provider.models) — [vendor docs](https://docs.ollama.com/cli)
+- `local.ollama.cli_pull_rm_ls` (provider.models) — [vendor docs](https://docs.ollama.com/cli)
+- `local.ollama.cli_run` (llm.chat) — [vendor docs](https://docs.ollama.com/cli)
+- `local.ollama.cli_serve` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/cli)
+- `local.ollama.cli_show` (provider.admin.read) — [vendor docs](https://docs.ollama.com/cli)
+- `local.ollama.cli_stop` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/cli)
 
-### ollama-js SDK (3/5 usable)
+**Parameters** (6):
 
-- `local.ollama.js_abort_method` (llm.cancel)
-- `local.ollama.js_async_iterator` (llm.streaming)
-- `local.ollama.js_client_class` (provider.admin.read)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `args.source_dest` | string | — | — | low | [docs](https://docs.ollama.com/cli) |
+| `args.model` | string | — | — | medium | pull/rm/ls/create/cp management set. |
+| `args.prompt` | string | — | — | low | [docs](https://docs.ollama.com/cli) |
+| `env.OLLAMA_HOST` | string | `"127.0.0.1:11434"` | — | medium | [docs](https://docs.ollama.com/cli) |
+| `args.inspect_flag` | string | — | — | low | --modelfile/--parameters/--template/--system/--license. |
+| `args.model` | string | — | — | low | [docs](https://docs.ollama.com/cli) |
 
-### ollama-python SDK (10/11 usable)
+## Ollama Environment
 
-- `local.ollama.python_async_client` (provider.admin.read)
-- `local.ollama.python_chat_method` (llm.chat)
-- `local.ollama.python_client_class` (provider.admin.read)
-- `local.ollama.python_copy_delete` (provider.models)
-- `local.ollama.python_create_modelfile` (provider.models)
-- `local.ollama.python_embed_method` (llm.embed)
-- `local.ollama.python_generate_method` (llm.complete)
-- `local.ollama.python_list_method` (provider.models)
-- `local.ollama.python_ps_method` (provider.lifecycle)
-- `local.ollama.python_show_method` (provider.admin.read)
+**Capabilities** (13/15 rows usable):
 
-### Retrieval/files/embeddings (4/4 usable)
+- `local.ollama.env.context_length` (provider.context) — [vendor docs](https://docs.ollama.com/context-length)
+- `local.ollama.env.debug` (provider.observability) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.flash_attention` (provider.attention_backend) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.gpu_overhead` (provider.gpu_offload) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.host` (provider.connectivity) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.keep_alive` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.env.kv_cache_type` (provider.kv_cache) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.max_loaded` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.max_queue` (provider.parallel_decoding) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.models_dir` (file.manage) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.num_parallel` (provider.parallel_decoding) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.origins` (provider.connectivity) — [vendor docs](https://docs.ollama.com/faq)
+- `local.ollama.env.sched_spread` (provider.gpu_offload) — [vendor docs](https://docs.ollama.com/faq)
 
-- `local.ollama.embed_dimensions` (llm.embed)
-- `local.ollama.embed_truncate` (llm.embed)
-- `local.ollama.embeddings` (llm.embed)
-- `local.ollama.embeddings_legacy` (llm.embed)
+**Parameters** (13):
 
-### Tools (1/1 usable)
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `env.OLLAMA_CONTEXT_LENGTH` | number | — | — | low | Live-probed: /api/ps reports the env-set context_length. |
+| `env.OLLAMA_DEBUG` | boolean | — | — | low | Live-probed: DEBUG-level log lines under OLLAMA_DEBUG=1. |
+| `env.OLLAMA_FLASH_ATTENTION` | boolean | — | — | low | Config echo + live generation under the flag. |
+| `env.OLLAMA_GPU_OVERHEAD` | number | — | — | medium | Applied into scheduler config (startup config echo). |
+| `env.OLLAMA_HOST` | string | `"127.0.0.1:11434"` | — | medium | [docs](https://docs.ollama.com/faq) |
+| `env.OLLAMA_KEEP_ALIVE` | string | `"5m"` | — | low | Live-probed: model evicted from /api/ps after expiry. |
+| `env.OLLAMA_KV_CACHE_TYPE` | string | — | — | medium | Config echo + live generation under q8_0. |
+| `env.OLLAMA_MAX_LOADED_MODELS` | number | — | — | low | Applied into scheduler config (startup config echo). |
+| `env.OLLAMA_MAX_QUEUE` | number | — | — | low | Applied into scheduler config (startup config echo). |
+| `env.OLLAMA_MODELS` | string | — | — | medium | [docs](https://docs.ollama.com/faq) |
+| `env.OLLAMA_NUM_PARALLEL` | number | — | — | low | Applied into scheduler config (startup config echo). |
+| `env.OLLAMA_ORIGINS` | string | — | — | medium | CORS allowlist; live-probed 403 deny / 200 allow. |
+| `env.OLLAMA_SCHED_SPREAD` | boolean | — | — | low | Applied into scheduler config (startup config echo). |
 
-- `local.ollama.tools` (tool.call) — *model-dependent*: Ollama tool calling depends on the selected local model and is pending PUP-F runtime-profile probes.
+## Ollama Generate
 
+**Capabilities** (6/6 rows usable):
+
+- `local.ollama.chat` (llm.chat) — [vendor docs](https://docs.ollama.com/api/chat)
+- `local.ollama.generate_context` (llm.state.continue) — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.generate_keep_alive` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.generate_options_full` (llm.sampling) — [vendor docs](https://docs.ollama.com/modelfile)
+- `local.ollama.generate_raw` (llm.complete) — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.generate_suffix` (llm.fim) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/generate)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `messages` | array | — | — | low | [docs](https://docs.ollama.com/api/chat) |
+| `context` | array | — | — | low | [docs](https://docs.ollama.com/api/generate) |
+| `keep_alive` | string | `"5m"` | — | low | [docs](https://docs.ollama.com/api/generate) |
+| `options` | object | — | — | low | Full sampler dict: temperature/top_p/top_k/repeat_penalty/seed/num_ctx/num_predict (live-probed). |
+| `raw` | boolean | `false` | — | medium | Bypasses the model prompt template. |
+
+## Ollama Model Management
+
+**Capabilities** (11/11 rows usable):
+
+- `local.ollama.api_create_adapters` (tuning.lora_runtime) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/create)
+- `local.ollama.api_create_quantize` (provider.quantization) — [vendor docs](https://docs.ollama.com/api/create)
+- `local.ollama.api_create_safetensors` (provider.models) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/create)
+- `local.ollama.api_show` (provider.admin.read) — [vendor docs](https://docs.ollama.com/api/show)
+- `local.ollama.copy` (provider.models) — [vendor docs](https://docs.ollama.com/api/copy)
+- `local.ollama.create` (provider.models) — [vendor docs](https://docs.ollama.com/api/create)
+- `local.ollama.delete` (provider.models) — [vendor docs](https://docs.ollama.com/api/delete)
+- `local.ollama.ps` (provider.lifecycle) — [vendor docs](https://docs.ollama.com/api/ps)
+- `local.ollama.pull` (provider.models) — [vendor docs](https://docs.ollama.com/api/pull)
+- `local.ollama.push` (provider.models) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/push)
+- `local.ollama.tags` (provider.models) — [vendor docs](https://docs.ollama.com/api/tags)
+
+**Parameters** (8):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `quantize` | string | `"q4_K_M"` | — | medium | Requires an F16/F32 source tag; live-probed from smollm:135m-instruct-v0.2-fp16. |
+| `model` | string | — | — | low | [docs](https://docs.ollama.com/api/show) |
+| `destination` | string | — | — | medium | [docs](https://docs.ollama.com/api/copy) |
+| `from` | string | — | — | medium | Medium risk: writes a new model manifest to the local store. |
+| `model` | string | — | — | high | High risk: destructive — removes a model from the local store. |
+| `base_url` | string | `"http://127.0.0.1:11434"` | — | low | [docs](https://docs.ollama.com/api/ps) |
+| `model` | string | — | — | medium | Medium risk: downloads model layers to local disk. |
+| `base_url` | string | `"http://127.0.0.1:11434"` | — | low | [docs](https://docs.ollama.com/api/tags) |
+
+## Ollama Modelfile
+
+**Capabilities** (2/2 rows usable):
+
+- `local.ollama.context_length` (provider.context) — [vendor docs](https://docs.ollama.com/context-length)
+- `local.ollama.modelfile` (provider.modelfile) — [vendor docs](https://docs.ollama.com/modelfile)
+
+**Parameters** (2):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `options.num_ctx` | number | `4096` | — | low | [docs](https://docs.ollama.com/context-length) |
+| `modelfile` | object | — | — | medium | from/system/parameters/template create fields; live-probed via /api/create + /api/show. |
+
+## Ollama OpenAI Format
+
+**Capabilities** (6/6 rows usable):
+
+- `local.ollama.openai_chat` (llm.chat) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+- `local.ollama.openai_completions` (llm.completions) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+- `local.ollama.openai_embeddings` (llm.embeddings) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+- `local.ollama.openai_images` (media.image_generation) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+- `local.ollama.openai_models` (provider.models) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+- `local.ollama.openai_responses` (llm.responses) — [vendor docs](https://docs.ollama.com/api/openai-compatibility)
+
+**Parameters** (5):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `messages` | array | — | — | low | [docs](https://docs.ollama.com/api/openai-compatibility) |
+| `prompt` | string | — | — | low | [docs](https://docs.ollama.com/api/openai-compatibility) |
+| `input` | string | — | — | low | Requires an embedding model (e.g. nomic-embed-text). |
+| `base_url` | string | `"http://127.0.0.1:11434/v1"` | — | low | [docs](https://docs.ollama.com/api/openai-compatibility) |
+| `input` | string | — | — | low | [docs](https://docs.ollama.com/api/openai-compatibility) |
+
+## Ollama Server
+
+**Capabilities** (1/1 rows usable):
+
+- `local.ollama.api_version` (provider.health) — [vendor docs](https://docs.ollama.com/api/version)
+
+**Parameters** (1):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `base_url` | string | `"http://127.0.0.1:11434"` | — | low | [docs](https://docs.ollama.com/api/version) |
+
+## Ollama Streaming
+
+**Capabilities** (1/1 rows usable):
+
+- `local.ollama.streaming` (llm.streaming) — [vendor docs](https://docs.ollama.com/api/streaming)
+
+**Parameters** (1):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `stream` | boolean | `true` | — | low | [docs](https://docs.ollama.com/api/streaming) |
+
+## Ollama Structured Output
+
+**Capabilities** (1/1 rows usable):
+
+- `local.ollama.structured_outputs` (llm.structured_output) — [vendor docs](https://docs.ollama.com/capabilities/structured-outputs)
+
+**Parameters** (1):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `format` | object | — | — | low | JSON-schema constrained decoding; live-probed with a required-name object schema. |
+
+## Ollama Thinking
+
+**Capabilities** (1/1 rows usable):
+
+- `local.ollama.thinking` (llm.thinking) · *model-dependent* — [vendor docs](https://docs.ollama.com/capabilities/thinking)
+
+## Ollama Vision
+
+**Capabilities** (2/2 rows usable):
+
+- `local.ollama.generate_image_input` (media.image_input) · *model-dependent* — [vendor docs](https://docs.ollama.com/api/generate)
+- `local.ollama.vision` (media.image_input) · *model-dependent* — [vendor docs](https://docs.ollama.com/capabilities/vision)
+
+## ollama-js SDK
+
+**Capabilities** (3/5 rows usable):
+
+- `local.ollama.js_abort_method` (llm.cancel) — [vendor docs](https://github.com/ollama/ollama-js)
+- `local.ollama.js_async_iterator` (llm.streaming) — [vendor docs](https://github.com/ollama/ollama-js)
+- `local.ollama.js_client_class` (provider.admin.read) — [vendor docs](https://github.com/ollama/ollama-js)
+
+**Parameters** (3):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `abort` | object | — | — | low | AbortError interrupts in-flight streamed generation (live-probed). |
+| `chat.stream` | boolean | `true` | — | low | [docs](https://github.com/ollama/ollama-js) |
+| `Ollama.host` | string | — | — | low | [docs](https://github.com/ollama/ollama-js) |
+
+## ollama-python SDK
+
+**Capabilities** (10/11 rows usable):
+
+- `local.ollama.python_async_client` (provider.admin.read) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_chat_method` (llm.chat) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_client_class` (provider.admin.read) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_copy_delete` (provider.models) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_create_modelfile` (provider.models) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_embed_method` (llm.embed) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_generate_method` (llm.complete) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_list_method` (provider.models) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_ps_method` (provider.lifecycle) — [vendor docs](https://github.com/ollama/ollama-python)
+- `local.ollama.python_show_method` (provider.admin.read) — [vendor docs](https://github.com/ollama/ollama-python)
+
+**Parameters** (10):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `AsyncClient.host` | string | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `chat.messages` | array | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `Client.host` | string | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `copy.source_dest` | string | — | — | medium | [docs](https://github.com/ollama/ollama-python) |
+| `create.from_` | string | — | — | medium | [docs](https://github.com/ollama/ollama-python) |
+| `embed.input` | string | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `generate.prompt` | string | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `list` | object | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `ps` | object | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+| `show.model` | string | — | — | low | [docs](https://github.com/ollama/ollama-python) |
+
+## Retrieval/files/embeddings
+
+**Capabilities** (4/4 rows usable):
+
+- `local.ollama.embed_dimensions` (llm.embed) — [vendor docs](https://docs.ollama.com/api/embed)
+- `local.ollama.embed_truncate` (llm.embed) — [vendor docs](https://docs.ollama.com/api/embed)
+- `local.ollama.embeddings` (llm.embed) — [vendor docs](https://docs.ollama.com/api/embed)
+- `local.ollama.embeddings_legacy` (llm.embed) — [vendor docs](https://docs.ollama.com/api/embeddings)
+
+**Parameters** (4):
+
+| Parameter | Type | Default | Allowed | Risk | Notes |
+|---|---|---|---|---|---|
+| `dimensions` | number | — | — | low | Matryoshka truncation; honored by nomic-embed-text (live-probed at 64). |
+| `truncate` | boolean | `true` | — | low | [docs](https://docs.ollama.com/api/embed) |
+| `prompt` | string | — | — | low | [docs](https://docs.ollama.com/api/embeddings) |
+| `input` | array | — | — | low | Requires an embedding model (e.g. nomic-embed-text); generation runners refuse embedding requests. |
+
+## Tools
+
+**Capabilities** (1/1 rows usable):
+
+- `local.ollama.tools` (tool.call) · *model-dependent* — [vendor docs](https://docs.ollama.com/capabilities/tool-calling)
