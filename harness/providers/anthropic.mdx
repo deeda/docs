@@ -36,7 +36,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `limit` | number | `20` | — | medium | [docs](https://docs.claude.com/en/api/admin-api/apikeys/list-api-keys) |
 | `invite_id` | string | — | — | medium | [docs](https://docs.claude.com/en/api/admin-api/invites/get-invite) |
 | `limit` | number | `20` | — | medium | [docs](https://docs.claude.com/en/api/admin-api/invites/list-invites) |
-| `` | null | — | — | medium | Read-only; requires the org admin key (ANTHROPIC_ADMIN_KEY). |
+| `read` | null | — | — | medium | Read-only; requires the org admin key (ANTHROPIC_ADMIN_KEY). |
 | `user_id` | string | — | — | medium | [docs](https://docs.claude.com/en/api/admin-api/users/get-user) |
 | `limit` | number | `20` | — | medium | [docs](https://docs.claude.com/en/api/admin-api/users/list-users) |
 | `user_id` | string | — | — | medium | [docs](https://docs.claude.com/en/api/admin-api/workspace_members/get-workspace-member) |
@@ -400,7 +400,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | Parameter | Type | Default | Allowed | Risk | Notes |
 |---|---|---|---|---|---|
 | `header.anthropic-beta` | array | — | — | medium | Comma-joined anthropic-beta values; the accepted set is live-pinged by pc-cat.anthropic.betas-transport. |
-| `` | null | — | — | low | Discovery endpoint — invoked by Thinker, not surfaced as a user knob. |
+| `posture` | null | — | — | low | Discovery endpoint — invoked by Thinker, not surfaced as a user knob. |
 
 ## Plugin discovery
 

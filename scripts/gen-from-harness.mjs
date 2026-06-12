@@ -413,7 +413,10 @@ description: "${u.length} usable capability rows, ${ledger.length} documented pa
         const allowed = o.allowed_values ? o.allowed_values.map((v) => `\`${esc(JSON.stringify(v))}\``).join(', ') : '—';
         const dflt = o.default !== undefined ? `\`${esc(JSON.stringify(o.default))}\`` : '—';
         const note = safeNote(o.notes) || (o.docs_url ? `[docs](${o.docs_url})` : '—');
-        out.push(`| \`${esc(o.parameter_path)}\` | ${o.value_kind} | ${dflt} | ${allowed} | ${o.risk} | ${note} |`);
+        // Some ledger rows configure a whole surface rather than one path;
+        // fall back to the row id's suffix so the name column is never empty.
+        const name = o.parameter_path || o.id.replace(`${o.catalog_row_id}.`, '') || o.id;
+        out.push(`| \`${esc(name)}\` | ${o.value_kind} | ${dflt} | ${allowed} | ${o.risk} | ${note} |`);
       }
       out.push('');
     }

@@ -231,7 +231,7 @@ workflow surfaces described in the [Workflow Schema](/harness/workflow-schema)
 | `base_url` | string | `"http://127.0.0.1:8080"` | — | low | Requires llama-server --metrics. |
 | `messages.image_url` | object | — | — | low | Vision via mmproj; needs explicit --mmproj wiring on this build. |
 | `args.n_parallel` | number | `1` | — | low | props total_slots reflects -np; concurrent completions live-probed. |
-| `` | object | — | — | medium | Mutates global server properties; requires llama-server --props. |
+| `body` | object | — | — | medium | Mutates global server properties; requires llama-server --props. |
 | `base_url` | string | `"http://127.0.0.1:8080"` | — | low | [docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) |
 | `query` | string | — | — | low | Requires llama-server --reranking with an embedding/rerank model. |
 | `filename` | string | — | — | medium | Requires llama-server --slot-save-path; writes slot KV cache to disk. |
