@@ -1,0 +1,78 @@
+---
+title: "Template Variables"
+description: "What {{workflow_id}}, {{issue_ref}}, and {{your_arg}} are, who fills them, and how to trace them in analytics."
+icon: "brackets-curly"
+---
+
+Anything wrapped in `{{ }}` inside a workflow string (like `task_template`)
+is a **template variable**. You do not invent their values at write time —
+Cadence fills them at dispatch. This page is the complete contract.
+
+## Resolution order (exactly four steps)
+
+When Cadence renders a template string it resolves each `{{name}}` in this
+order — first match wins:
+
+| Priority | Source | Examples | Who provides the value |
+|---|---|---|---|
+| 1 | **Fixed slots** | `{{workflow_id}}`, `{{issue_ref}}`, `{{ticket.id}}` | Cadence, always. Never you. |
+| 2 | **Declared `arguments`** | `{{topic}}`, `{{experts}}` | The caller at dispatch; coerced to your declared type |
+| 3 | **Dispatch payload lookup** | `{{project_id}}`, `{{reason}}`, `{{input.<field>}}`, any `{{path.to.value}}` | The ticket/event that triggered the run |
+| 4 | **Unresolved** | — | Renders as empty string — declare an argument with a `default` if that's not acceptable |
+
+Variable names match `[a-zA-Z0-9_.-]+`. Scalar fields also support an inline
+fallback: `{{model | default: 'claude-opus-4-7'}}`.
+
+## The fixed slots, demystified
+
+**`{{workflow_id}}`** — the `id:` from your own frontmatter (e.g.
+`my-first-workflow`). Format: the kebab-case string you wrote. You "get" it
+by writing it; Cadence echoes it back so the agent always knows which policy
+file governs it.
+
+**`{{issue_ref}}`** — the reference of the ticket/issue that triggered this
+run (e.g. a Beam issue like `BEAM-42`). Comes from the dispatch event; empty
+when a run isn't ticket-driven.
+
+**`{{ticket.id}}`** — the underlying ticket identifier from the dispatch
+payload.
+
+**Where they go afterwards (analytics):** these same values are stamped on
+every harness event in the session ledger (run ids, workflow id, lane slug,
+usage, cost). That means the `{{workflow_id}}` you chose is your join key
+across runs, costs, and evidence — pick meaningful ids.
+
+## Declaring your own variables
+
+Add typed `arguments` at the top level; callers supply values at dispatch,
+Cadence coerces and validates:
+
+```yaml
+arguments:
+  topic:
+    type: string
+    required: true
+  experts:
+    type: int
+    default: 3
+agent:
+  task_template: "Research {{topic}} with {{experts}} experts for {{issue_ref}}."
+```
+
+Types: `string`, `int`, `number`/`float`, `bool`/`boolean`. A missing
+`required` argument **fails dispatch loudly** — it will never silently render
+as empty. A declared argument always beats a same-named payload field.
+
+## Rules of thumb
+
+| Want | Do |
+|---|---|
+| Pass a user choice into the prompt | Declare it in `arguments` (typed, defaulted) |
+| Reference the triggering ticket | Use `{{issue_ref}}` / `{{ticket.id}}` — never hardcode |
+| Survive missing payload fields | `{{field \| default: 'fallback'}}` or an argument default |
+| Trace a run in the ledger | Filter by your `workflow_id` |
+
+## See also
+
+- [Workflow Schema → arguments](/harness/workflow-schema#arguments) — exact shape
+- [Snippets](/harness/snippets) — blocks these variables drop into

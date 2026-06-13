@@ -19,6 +19,10 @@ version: 1.0.0
 
 ## Agent (always required)
 
+Strings may contain `{{variables}}` — `{{workflow_id}}`/`{{issue_ref}}` are
+injected by Cadence; your own come from typed `arguments`
+([full contract](/harness/template-variables)).
+
 ```yaml
 agent:
   runtime_key: anthropic-agent-sdk   # see /harness/runtimes
@@ -45,6 +49,21 @@ agent:
         dispatch_path: local
     fallback_on_credit_exhausted: true
 ```
+
+## Arguments (your own template variables)
+
+```yaml
+arguments:
+  topic:
+    type: string
+    required: true
+  experts:
+    type: int
+    default: 3
+```
+
+Reference as `{{topic}}` / `{{experts}}` in any template string
+([how resolution works](/harness/template-variables)).
 
 ## Budget
 

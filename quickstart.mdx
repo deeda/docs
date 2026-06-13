@@ -44,6 +44,13 @@ tools:
 Plan, implement, verify, and record evidence before finishing.
 ```
 
+<Note>
+The `{{workflow_id}}` and `{{issue_ref}}` placeholders are **filled by
+Cadence at dispatch** — you never supply them. See
+[Template Variables](/harness/template-variables) for the full contract,
+including how to declare your own typed `arguments`.
+</Note>
+
 ## 3. Validate
 
 Validate the workflow before dispatch — Cadence rejects invalid policy before
